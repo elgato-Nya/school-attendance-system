@@ -47,15 +47,7 @@ import type { Holiday, HolidayFormData } from '@/types';
 import { HolidayFormDialog } from '@/components/admin/HolidayFormDialog';
 import { LoadingSpinner } from '@/components/admin/LoadingSpinner';
 import { toast, parseError } from '@/utils/toast';
-import {
-  Plus,
-  Search,
-  Edit,
-  Trash2,
-  MoreVertical,
-  Upload,
-  CalendarDays,
-} from 'lucide-react';
+import { Plus, Search, Edit, Trash2, MoreVertical, Upload, CalendarDays } from 'lucide-react';
 import { format } from 'date-fns';
 
 export function HolidayManagement() {
