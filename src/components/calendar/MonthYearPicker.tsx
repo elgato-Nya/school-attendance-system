@@ -58,7 +58,7 @@ export function MonthYearPicker({
 
   return (
     <div className="flex items-center gap-2 bg-foreground/5 px-3 py-2 rounded-lg border border-border shadow-sm">
-      <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" aria-hidden="true" />
+      <Calendar className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden="true" />
 
       {/* Month Selector */}
       <Select value={currentMonth.toString()} onValueChange={handleMonthChange}>
