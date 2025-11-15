@@ -1,0 +1,646 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Font families */
+  --font-family-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* Colors mapped to Tailwind utilities */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-info: hsl(var(--info));
+  --color-info-foreground: hsl(var(--info-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+}
+
+@layer base {
+  :root {
+    /* === LIGHT THEME === */
+    /* Modern educational platform color palette - Professional & Accessible */
+
+    /* Base colors - Clean and bright */
+    --background: 0 0% 98%;
+    --foreground: 222 47% 11%;
+
+    /* Card surfaces - Crisp white with subtle shadows */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    /* Popovers and dialogs */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Primary: Professional deep blue - Trust & Authority */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Soft purple-blue - Supporting elements */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    /* Muted: Subtle backgrounds and disabled states */
+    --muted: 220 13% 95%;
+    --muted-foreground: 220 9% 46%;
+
+    /* Accent/Brand: Vibrant Teal - Modern & Energetic */
+    --accent: 174 72% 46%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Success: Fresh green - Positive feedback */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning: Vibrant amber - Caution */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Info: Sky blue - Information */
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+
+    /* Destructive: Bold red - Errors and danger */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs - Clear definition */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 217 91% 60%;
+
+    /* Calendar-specific colors */
+    --holiday-public: 348 83% 58%; /* Vibrant coral red for public holidays */
+    --holiday-school: 217 91% 60%; /* Blue for school holidays */
+    --holiday-event: 271 81% 66%; /* Vibrant purple for school events */
+    --poor-attendance: 14 91% 55%; /* Warm orange-red for poor attendance */
+    --poor-attendance-foreground: 0 0% 100%;
+    --good-attendance: 142 76% 45%; /* Fresh green for good attendance */
+    --excellent-attendance: 158 64% 52%; /* Teal for excellent attendance */
+    --weekend: 215 14% 34%; /* Muted blue-gray for weekends */
+
+    --radius: 0.5rem;
+
+    /* Shadow colors for elevation */
+    --shadow-sm: 220 43% 11% / 0.05;
+    --shadow-md: 220 43% 11% / 0.1;
+    --shadow-lg: 220 43% 11% / 0.15;
+    --shadow-xl: 220 43% 11% / 0.25;
+  }
+
+  .dark {
+    /* === DARK THEME === */
+    /* Modern dark palette with deep charcoal instead of blue tones */
+
+    /* Base colors - Deep charcoal almost black */
+    --background: 0 0% 8%;
+    --foreground: 0 0% 98%;
+
+    /* Card surfaces - Elevated dark surfaces */
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+
+    /* Popovers and dialogs - Highest elevation */
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Primary: Bright blue - Clear visibility in dark */
+    --primary: 217 91% 65%;
+    --primary-foreground: 0 0% 8%;
+
+    /* Secondary: Subtle elevation */
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Muted: Subtle dark backgrounds */
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 65%;
+
+    /* Accent/Brand: Vibrant Teal - Pops against dark */
+    --accent: 174 72% 56%;
+    --accent-foreground: 0 0% 8%;
+
+    /* Success: Softer green for dark mode */
+    --success: 142 70% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning: Warm amber - More visible */
+    --warning: 38 92% 55%;
+    --warning-foreground: 0 0% 8%;
+
+    /* Info: Bright sky blue */
+    --info: 199 89% 55%;
+    --info-foreground: 0 0% 8%;
+
+    /* Destructive: Softer red for dark mode */
+    --destructive: 0 63% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Border with better visibility */
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 217 91% 65%;
+
+    /* Calendar-specific colors for dark mode */
+    --holiday-public: 348 83% 65%; /* Brighter coral red for dark mode */
+    --holiday-school: 217 91% 70%; /* Brighter blue for dark mode */
+    --holiday-event: 271 81% 73%; /* Brighter purple for dark mode */
+    --poor-attendance: 14 91% 63%; /* Brighter warm orange for dark mode */
+    --poor-attendance-foreground: 0 0% 100%;
+    --good-attendance: 142 70% 50%; /* Brighter green for dark mode */
+    --excellent-attendance: 158 64% 58%; /* Brighter teal for dark mode */
+    --weekend: 0 0% 30%; /* Neutral gray for weekends */
+
+    /* Shadow colors for elevation - lighter for dark mode */
+    --shadow-sm: 0 0% 0% / 0.3;
+    --shadow-md: 0 0% 0% / 0.4;
+    --shadow-lg: 0 0% 0% / 0.5;
+    --shadow-xl: 0 0% 0% / 0.6;
+  }
+
+  .high-contrast {
+    /* === HIGH CONTRAST MODE === */
+    --foreground: 0 0% 0%;
+    --background: 0 0% 100%;
+    --border: 0 0% 0%;
+    --primary: 240 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --destructive: 0 100% 50%;
+  }
+
+  .high-contrast.dark {
+    --foreground: 0 0% 100%;
+    --background: 0 0% 0%;
+    --border: 0 0% 100%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --destructive: 0 100% 70%;
+  }
+
+  /* Font size variants */
+  .font-size-small {
+    font-size: 0.875rem;
+  } /* 14px */
+  .font-size-medium {
+    font-size: 1rem;
+  } /* 16px - default */
+  .font-size-large {
+    font-size: 1.125rem;
+  } /* 18px */
+  .font-size-xlarge {
+    font-size: 1.25rem;
+  } /* 20px */
+
+  /* Base styles */
+  body {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-family-sans);
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+  }
+
+  /* Cursor pointer for all interactive elements */
+  button,
+  a,
+  [role='button'],
+  [role='link'],
+  [type='button'],
+  [type='submit'],
+  label[for],
+  select {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [disabled] {
+    cursor: not-allowed;
+  }
+
+  /* Focus styles for accessibility */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Reduced motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Custom Scrollbar - Theme Responsive & Modern */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  }
+
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 5px;
+    border: 2px solid hsl(var(--background));
+    transition: background 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background: hsl(var(--muted-foreground) / 0.7);
+  }
+
+  /* Thin scrollbar for compact areas */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* Hidden scrollbar but still scrollable */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Colored scrollbar for primary areas */
+  .scrollbar-primary {
+    scrollbar-color: hsl(var(--primary) / 0.5) transparent;
+  }
+
+  .scrollbar-primary::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.5);
+  }
+
+  .scrollbar-primary::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.7);
+  }
+
+  /* Ensure scrollbars update with theme */
+  html.dark ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  html.dark ::-webkit-scrollbar-thumb {
+    border-color: hsl(var(--background));
+  }
+
+  /* Elevation shadows - Material Design inspired */
+  .shadow-elevation-sm {
+    box-shadow:
+      0 1px 2px 0 hsl(var(--shadow-sm)),
+      0 1px 3px 0 hsl(var(--shadow-sm));
+  }
+
+  .shadow-elevation-md {
+    box-shadow:
+      0 4px 6px -1px hsl(var(--shadow-md)),
+      0 2px 4px -1px hsl(var(--shadow-sm));
+  }
+
+  .shadow-elevation-lg {
+    box-shadow:
+      0 10px 15px -3px hsl(var(--shadow-lg)),
+      0 4px 6px -2px hsl(var(--shadow-md));
+  }
+
+  .shadow-elevation-xl {
+    box-shadow:
+      0 20px 25px -5px hsl(var(--shadow-xl)),
+      0 10px 10px -5px hsl(var(--shadow-lg));
+  }
+
+  /* Hover elevation effects */
+  .hover-elevation-sm:hover {
+    box-shadow:
+      0 1px 2px 0 hsl(var(--shadow-sm)),
+      0 1px 3px 0 hsl(var(--shadow-sm));
+    transform: translateY(-1px);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .hover-elevation-md:hover {
+    box-shadow:
+      0 4px 6px -1px hsl(var(--shadow-md)),
+      0 2px 4px -1px hsl(var(--shadow-sm));
+    transform: translateY(-2px);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .hover-elevation-lg:hover {
+    box-shadow:
+      0 10px 15px -3px hsl(var(--shadow-lg)),
+      0 4px 6px -2px hsl(var(--shadow-md));
+    transform: translateY(-3px);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+/* FullCalendar Theme Customization */
+@layer base {
+  /* Calendar container */
+  .fc {
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+  }
+
+  /* Calendar header toolbar */
+  .fc .fc-toolbar {
+    color: hsl(var(--foreground));
+  }
+
+  .fc .fc-toolbar-title {
+    color: hsl(var(--foreground));
+    font-size: 1.25rem;
+    font-weight: 700;
+    transition: color 0.2s ease;
+  }
+
+  /* Calendar buttons with enhanced theme responsiveness */
+  .fc .fc-button {
+    background: hsl(var(--secondary));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--secondary-foreground));
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px hsl(var(--shadow-sm));
+  }
+
+  .fc .fc-button:hover:not(:disabled) {
+    background: hsl(var(--accent) / 0.15);
+    border-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    box-shadow: 0 2px 6px hsl(var(--shadow-md));
+    transform: translateY(-1px);
+  }
+
+  .fc .fc-button:active:not(:disabled) {
+    background: hsl(var(--accent) / 0.2);
+    transform: translateY(0);
+    box-shadow: 0 1px 2px hsl(var(--shadow-sm));
+  }
+
+  .fc .fc-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Remove active state styling - buttons shouldn't stay active */
+  .fc .fc-button-active {
+    background: hsl(var(--secondary));
+    border: 1px solid hsl(var(--border));
+    box-shadow: none;
+  }
+
+  .fc .fc-button-active:hover:not(:disabled) {
+    background: hsl(var(--accent) / 0.15);
+    border-color: hsl(var(--accent));
+  }
+
+  /* Day header (day names) */
+  .fc .fc-col-header-cell {
+    background: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.75rem 0.5rem;
+    border-color: hsl(var(--border));
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  /* Day cells */
+  .fc .fc-daygrid-day {
+    border-color: hsl(var(--border));
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .fc .fc-daygrid-day:hover {
+    background: hsl(var(--accent) / 0.05);
+    cursor: pointer;
+  }
+
+  /* Day numbers */
+  .fc .fc-daygrid-day-number {
+    color: inherit;
+    padding: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 0.375rem;
+  }
+
+  .fc .fc-daygrid-day:hover .fc-daygrid-day-number {
+    background: hsl(var(--accent) / 0.1);
+    color: hsl(var(--accent));
+    transform: scale(1.05);
+  }
+
+  /* Today's date highlight with accent color */
+  .fc .fc-day-today {
+    background: hsl(var(--accent) / 0.08) !important;
+  }
+
+  .fc .fc-day-today .fc-daygrid-day-number {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    font-weight: 700;
+    box-shadow: 0 2px 8px hsl(var(--accent) / 0.3);
+  }
+
+  .fc .fc-day-today:hover .fc-daygrid-day-number {
+    transform: scale(1.05);
+    box-shadow: 0 3px 12px hsl(var(--accent) / 0.4);
+  }
+
+  /* Other month dates (grayed out) */
+  .fc .fc-day-other {
+    opacity: 0.3;
+  }
+
+  .fc .fc-day-other .fc-daygrid-day-number {
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* FullCalendar Buttons - Theme-responsive & Modern */
+  .fc .fc-button {
+    background: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+    border: 1px solid hsl(var(--primary)) !important;
+    border-radius: 0.375rem !important;
+    padding: 0.5rem 1rem !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 1px 2px 0 hsl(var(--shadow-sm)) !important;
+  }
+
+  .fc .fc-button:hover {
+    background: hsl(var(--primary) / 0.9) !important;
+    box-shadow: 0 2px 4px 0 hsl(var(--shadow-md)) !important;
+    transform: translateY(-1px);
+  }
+
+  .fc .fc-button:active,
+  .fc .fc-button-active {
+    background: hsl(var(--primary) / 0.95) !important;
+    box-shadow: 0 1px 2px 0 hsl(var(--shadow-sm)) inset !important;
+    transform: translateY(0);
+  }
+
+  .fc .fc-button:disabled {
+    background: hsl(var(--muted)) !important;
+    color: hsl(var(--muted-foreground)) !important;
+    border-color: hsl(var(--border)) !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+  }
+
+  .fc .fc-button:focus {
+    outline: 2px solid hsl(var(--ring)) !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Today button - Accent color */
+  .fc .fc-today-button {
+    background: hsl(var(--accent)) !important;
+    border-color: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+  }
+
+  .fc .fc-today-button:hover {
+    background: hsl(var(--accent) / 0.9) !important;
+  }
+
+  .fc .fc-today-button:disabled {
+    background: hsl(var(--muted)) !important;
+    color: hsl(var(--muted-foreground)) !important;
+    border-color: hsl(var(--border)) !important;
+  }
+
+  /* Toolbar styling */
+  .fc .fc-toolbar {
+    gap: 0.75rem;
+    margin-bottom: 1rem !important;
+    padding: 0.5rem;
+    background: hsl(var(--muted) / 0.3);
+    border-radius: 0.5rem;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .fc .fc-button-group {
+    gap: 0.25rem;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .fc .fc-toolbar {
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.5rem;
+    }
+
+    .fc .fc-toolbar-chunk {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .fc .fc-toolbar-title {
+      font-size: 1rem !important;
+      order: -1;
+      text-align: center;
+    }
+
+    .fc .fc-button {
+      padding: 0.375rem 0.75rem !important;
+      font-size: 0.75rem !important;
+    }
+
+    .fc .fc-col-header-cell {
+      padding: 0.5rem 0.25rem;
+      font-size: 0.75rem;
+    }
+
+    .fc .fc-daygrid-day-number {
+      padding: 0.25rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  /* High contrast mode support */
+  .high-contrast .fc .fc-daygrid-day {
+    border-color: hsl(var(--border));
+    border-width: 2px;
+  }
+
+  /* Ensure good contrast for all text */
+  .fc .fc-daygrid-day-events {
+    margin: 0;
+  }
+
+  /* Remove FullCalendar's default styles that conflict */
+  .fc-theme-standard td,
+  .fc-theme-standard th {
+    border-color: hsl(var(--border));
+  }
+
+  .fc-theme-standard .fc-scrollgrid {
+    border-color: hsl(var(--border));
+  }
+}
+
+/* Remove all @layer components and @layer utilities - use Tailwind directly */
