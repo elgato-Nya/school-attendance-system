@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react';
-import { collection, getDocs, doc, deleteDoc, updateDoc, writeBatch } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, writeBatch } from 'firebase/firestore';
 import { db } from '@/services/firebase.config';
 import type { Attendance } from '@/types';
 import { Button } from '@/components/ui/button';

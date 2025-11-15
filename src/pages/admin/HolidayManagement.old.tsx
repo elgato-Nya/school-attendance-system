@@ -355,10 +355,10 @@ export function HolidayManagement() {
         open={formOpen}
         onOpenChange={setFormOpen}
         formData={formData}
-        onFormChange={setFormData}
+        onChange={setFormData}
         onSubmit={handleSubmit}
         isEditing={isEditing}
-        errors={formErrors}
+        formErrors={formErrors}
       />
 
       {/* Delete Confirmation */}

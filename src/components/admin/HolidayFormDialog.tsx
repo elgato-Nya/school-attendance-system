@@ -26,7 +26,7 @@ interface HolidayFormDialogProps {
   isEditing: boolean;
   onSubmit: () => void;
   onChange: (data: HolidayFormData) => void;
-  onReset: () => void;
+  onReset?: () => void;
 }
 
 export function HolidayFormDialog({
@@ -37,7 +37,6 @@ export function HolidayFormDialog({
   isEditing,
   onSubmit,
   onChange,
-  onReset,
 }: HolidayFormDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

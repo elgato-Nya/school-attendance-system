@@ -48,7 +48,6 @@ import { HolidayFormDialog } from '@/components/admin/HolidayFormDialog';
 import { LoadingSpinner } from '@/components/admin/LoadingSpinner';
 import { toast, parseError } from '@/utils/toast';
 import {
-  Calendar,
   Plus,
   Search,
   Edit,

@@ -15,6 +15,7 @@ import { getSummaryChanges } from '@/utils/attendance/audit';
 interface EditHistoryDisplayProps {
   editHistory: EditHistory[];
   currentSummary: {
+    total: number;
     present: number;
     late: number;
     absent: number;
