@@ -5,11 +5,11 @@ runConfig:
   # CPU and memory configuration
   cpu: 1
   memoryMiB: 512
-  
+
   # Maximum number of instances
   maxInstances: 100
   minInstances: 0
-  
+
   # Concurrency (requests per instance)
   concurrency: 80
 
