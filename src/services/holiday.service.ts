@@ -15,6 +15,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { db } from './firebase.config';
+import { format } from 'date-fns';
 import type { Holiday, HolidayFormData } from '@/types';
 
 const HOLIDAYS_COLLECTION = 'holidays';
@@ -148,7 +149,7 @@ export async function deleteHoliday(holidayId: string): Promise<void> {
  */
 export async function getUpcomingHolidays(limit?: number): Promise<Holiday[]> {
   try {
-    const today = new Date().toISOString().split('T')[0];
+    const today = format(new Date(), 'yyyy-MM-dd');
 
     let q = query(
       collection(db, HOLIDAYS_COLLECTION),
@@ -217,7 +218,7 @@ export function getWeekendsInRange(startDate: string, endDate: string): string[]
     const day = date.getDay();
     if (day === 0 || day === 6) {
       // Sunday or Saturday
-      weekends.push(date.toISOString().split('T')[0]);
+      weekends.push(format(new Date(date), 'yyyy-MM-dd'));
     }
   }
 

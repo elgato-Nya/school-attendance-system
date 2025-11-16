@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase.config';
 import type { Attendance, AttendanceRecord, AttendanceSummary } from '@/types';
+import { format } from 'date-fns';
 import { ATTENDANCE_STATUS } from '@/utils/constants';
 import { getTodayString, isToday } from '@/utils/dateFormatter';
 import { calculateMinutesLate } from '@/utils/dateFormatter';
@@ -237,8 +238,8 @@ export async function getAttendanceByDateRange(
   endDate: Date
 ): Promise<Attendance[]> {
   try {
-    const startDateStr = startDate.toISOString().split('T')[0];
-    const endDateStr = endDate.toISOString().split('T')[0];
+    const startDateStr = format(startDate, 'yyyy-MM-dd');
+    const endDateStr = format(endDate, 'yyyy-MM-dd');
 
     const q = query(
       collection(db, ATTENDANCE_COLLECTION),

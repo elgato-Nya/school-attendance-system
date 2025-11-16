@@ -42,7 +42,7 @@ import {
 import { Pagination } from '@/components/ui/pagination';
 import { Button } from '@/components/ui/button';
 import type { Student, Class, Attendance } from '@/types';
-import { subDays } from 'date-fns';
+import { subDays, format } from 'date-fns';
 
 interface StudentWithStats extends Student {
   totalDays: number;
@@ -144,7 +144,7 @@ export default function StudentList() {
       const attendanceQuery = query(
         attendanceRef,
         where('classId', 'in', classIds),
-        where('date', '>=', thirtyDaysAgo.toISOString().split('T')[0])
+        where('date', '>=', format(thirtyDaysAgo, 'yyyy-MM-dd'))
       );
       const attendanceSnapshot = await getDocs(attendanceQuery);
       const attendanceRecords = attendanceSnapshot.docs.map((doc) => {

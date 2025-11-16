@@ -17,6 +17,7 @@ import {
 import { getAllClasses } from '@/services/class/class.service';
 import { getAttendanceByClassAndDate } from '@/services/attendance.service';
 import type { Class } from '@/types';
+import { format } from 'date-fns';
 import { toast } from 'sonner';
 
 export default function ClassSelection() {
@@ -28,7 +29,7 @@ export default function ClassSelection() {
   const [isLoading, setIsLoading] = useState(true);
   const [todaySubmissions, setTodaySubmissions] = useState<Set<string>>(new Set());
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = format(new Date(), 'yyyy-MM-dd');
 
   useEffect(() => {
     const loadClasses = async () => {

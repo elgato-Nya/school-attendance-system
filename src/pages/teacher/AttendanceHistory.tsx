@@ -11,6 +11,7 @@ import { AttendanceStatCard } from '@/components/attendance/AttendanceStatCard';
 import { EmptyState } from '@/components/attendance/EmptyState';
 import { LoadingState } from '@/components/attendance/LoadingState';
 import { exportAttendanceToCSV } from '@/utils/exportCSV';
+import { getLatestVersions } from '@/utils/attendance/filters';
 import { AttendanceDetailDialog } from '@/components/attendance/AttendanceDetailDialog';
 import { AttendanceHistoryFilters } from '@/components/attendance/AttendanceHistoryFilters';
 import { AttendanceHistoryTable } from '@/components/attendance/AttendanceHistoryTable';
@@ -26,6 +27,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import type { Class, Attendance } from '@/types';
+import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { Download, Calendar, Filter, TrendingUp, FileText } from 'lucide-react';
 
@@ -113,18 +115,19 @@ export default function AttendanceHistory() {
     let queryEndDate: string;
 
     if (viewMode === 'single' && singleDate) {
-      queryStartDate = singleDate.toISOString().split('T')[0];
-      queryEndDate = singleDate.toISOString().split('T')[0];
+      // Use local date formatting to avoid timezone shifts when converting to YYYY-MM-DD
+      queryStartDate = format(singleDate, 'yyyy-MM-dd');
+      queryEndDate = format(singleDate, 'yyyy-MM-dd');
     } else if (viewMode === 'range' && startDate && endDate) {
-      queryStartDate = startDate.toISOString().split('T')[0];
-      queryEndDate = endDate.toISOString().split('T')[0];
+      queryStartDate = format(startDate, 'yyyy-MM-dd');
+      queryEndDate = format(endDate, 'yyyy-MM-dd');
     } else {
       // For 'all' mode, get last 365 days
       const end = new Date();
       const start = new Date();
       start.setDate(start.getDate() - 365);
-      queryStartDate = start.toISOString().split('T')[0];
-      queryEndDate = end.toISOString().split('T')[0];
+      queryStartDate = format(start, 'yyyy-MM-dd');
+      queryEndDate = format(end, 'yyyy-MM-dd');
     }
 
     setLoading(true);
@@ -204,9 +207,15 @@ export default function AttendanceHistory() {
     }
   };
 
+  const latestRecords = useMemo(() => getLatestVersions(records), [records]);
+
   // Filter and sort records
   const filteredAndSortedRecords = useMemo(() => {
-    let filtered = records.filter(
+    // Use deduplicated latestRecords as the canonical source (latest submission per class+date).
+    // User preference: always calculate using latest data only.
+    const source = latestRecords;
+
+    let filtered = source.filter(
       (record) =>
         record.className.toLowerCase().includes(searchQuery.toLowerCase()) ||
         record.date.includes(searchQuery) ||
@@ -238,7 +247,7 @@ export default function AttendanceHistory() {
     });
 
     return filtered;
-  }, [records, searchQuery, sortField, sortOrder]);
+  }, [records, latestRecords, searchQuery, sortField, sortOrder]);
 
   // Paginate records
   const paginatedRecords = useMemo(() => {
@@ -251,10 +260,23 @@ export default function AttendanceHistory() {
   const endIndex = Math.min(currentPage * itemsPerPage, filteredAndSortedRecords.length);
 
   const calculateAverageRate = (): number => {
+    // Calculate weighted overall attendance rate to match Reports page:
+    // (total present across classes) / (total students across classes) * 100
     if (filteredAndSortedRecords.length === 0) return 0;
 
-    const sum = filteredAndSortedRecords.reduce((acc, record) => acc + record.summary.rate, 0);
-    return Math.round((sum / filteredAndSortedRecords.length) * 100) / 100;
+    const totalPresent = filteredAndSortedRecords.reduce(
+      (acc, record) => acc + (record.summary.present || 0),
+      0
+    );
+    const totalStudents = filteredAndSortedRecords.reduce(
+      (acc, record) => acc + (record.summary.total || 0),
+      0
+    );
+
+    if (totalStudents === 0) return 0;
+
+    // Round to 2 decimal places
+    return Math.round((totalPresent / totalStudents) * 10000) / 100;
   };
 
   const handleSort = (field: SortField) => {
@@ -274,9 +296,9 @@ export default function AttendanceHistory() {
   const handleExport = () => {
     const dateRangeText =
       viewMode === 'single' && singleDate
-        ? singleDate.toISOString().split('T')[0]
+        ? format(singleDate, 'yyyy-MM-dd')
         : viewMode === 'range' && startDate && endDate
-          ? `${startDate.toISOString().split('T')[0]}_to_${endDate.toISOString().split('T')[0]}`
+          ? `${format(startDate, 'yyyy-MM-dd')}_to_${format(endDate, 'yyyy-MM-dd')}`
           : 'AllTime';
 
     if (selectedClass === 'all') {
@@ -294,15 +316,15 @@ export default function AttendanceHistory() {
       }
       const exportStart =
         viewMode === 'single' && singleDate
-          ? singleDate.toISOString().split('T')[0]
+          ? format(singleDate, 'yyyy-MM-dd')
           : viewMode === 'range' && startDate
-            ? startDate.toISOString().split('T')[0]
+            ? format(startDate, 'yyyy-MM-dd')
             : 'AllTime';
       const exportEnd =
         viewMode === 'single' && singleDate
-          ? singleDate.toISOString().split('T')[0]
+          ? format(singleDate, 'yyyy-MM-dd')
           : viewMode === 'range' && endDate
-            ? endDate.toISOString().split('T')[0]
+            ? format(endDate, 'yyyy-MM-dd')
             : 'AllTime';
       exportAttendanceToCSV(filteredAndSortedRecords, selectedClassData, exportStart, exportEnd);
     }
