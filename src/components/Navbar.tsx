@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import {
@@ -97,8 +97,10 @@ export function Navbar({
                       setMobileMenuOpen(false);
                     }}
                   >
-                    <Icon className="h-4 w-4 mr-3 flex-shrink-0" />
-                    <span className="truncate">{item.label}</span>
+                    <Link to={item.path}>
+                      <Icon className="h-4 w-4 mr-3 shrink-0" />
+                      <span className="truncate">{item.label}</span>
+                    </Link>
                   </Button>
                 );
               })}
@@ -152,8 +154,10 @@ export function Navbar({
                     const Icon = item.icon;
                     return (
                       <DropdownMenuItem key={item.path} onClick={() => navigate(item.path)}>
-                        <Icon className="mr-2 h-4 w-4" />
-                        {item.label}
+                        <Link to={item.path}>
+                          <Icon className="mr-2 h-4 w-4" />
+                          {item.label}
+                        </Link>
                       </DropdownMenuItem>
                     );
                   })}
@@ -174,8 +178,10 @@ export function Navbar({
                 onClick={() => navigate(item.path)}
                 className="gap-1.5"
               >
-                <Icon className="h-4 w-4" />
-                <span className="hidden lg:inline">{item.label}</span>
+                <Link to={item.path}>
+                  <Icon className="h-4 w-4" />
+                  <span className="hidden lg:inline">{item.label}</span>
+                </Link>
               </Button>
             );
           });
@@ -188,11 +194,11 @@ export function Navbar({
       <div className="w-full">
         <div className="flex items-center justify-between h-14 px-4 max-w-[100vw]">
           {/* Left: Mobile Menu + Logo */}
-          <div className="flex items-center gap-2 min-w-0 flex-shrink">
+          <div className="flex items-center gap-2 min-w-0 shrink">
             {/* Mobile Menu */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden flex-shrink-0">
+                <Button variant="ghost" size="icon" className="md:hidden shrink-0">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
@@ -215,7 +221,7 @@ export function Navbar({
                 {/* User info footer */}
                 <div className="p-4 border-t bg-muted/30">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                       <User className="h-4 w-4 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -228,13 +234,10 @@ export function Navbar({
             </Sheet>
 
             {/* Logo */}
-            <div
-              className="flex items-center gap-2 cursor-pointer group min-w-0"
-              onClick={() => navigate(homePath)}
-            >
+            <Link to={homePath} className="flex items-center gap-2 cursor-pointer group min-w-0">
               {logoIcon}
               <h1 className="text-base sm:text-lg font-bold truncate">{logoText}</h1>
-            </div>
+            </Link>
           </div>
 
           {/* Center: Desktop Navigation */}
@@ -243,7 +246,7 @@ export function Navbar({
           </nav>
 
           {/* Right: User Menu */}
-          <div className="flex items-center flex-shrink-0">
+          <div className="flex items-center shrink-0">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-1.5">
@@ -260,8 +263,10 @@ export function Navbar({
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => navigate(profilePath)}>
-                  <User className="mr-2 h-4 w-4" />
-                  Profile
+                  <Link to={profilePath}>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate(settingsPath)}>
                   <Settings className="mr-2 h-4 w-4" />
