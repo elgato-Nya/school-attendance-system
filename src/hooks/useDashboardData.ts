@@ -4,6 +4,7 @@ import { db } from '@/services/firebase.config';
 import { getAllClasses } from '@/services/class/class.service';
 import { getLatestVersions } from '@/utils/attendance/filters';
 import type { Attendance } from '@/types';
+import { format } from 'date-fns';
 import { toast } from 'sonner';
 
 interface DashboardStats {
@@ -63,19 +64,19 @@ export function useDashboardData(dateFilter?: DateFilter) {
     setLoading(true);
     try {
       // Fetch data efficiently with minimal queries
-      const today = new Date().toISOString().split('T')[0];
+      const today = format(new Date(), 'yyyy-MM-dd');
 
       // Use dateFilter if provided, otherwise default to last 7 days
       let startDate: string;
       let endDate: string;
 
       if (dateFilter) {
-        startDate = dateFilter.from.toISOString().split('T')[0];
-        endDate = dateFilter.to.toISOString().split('T')[0];
+        startDate = format(dateFilter.from, 'yyyy-MM-dd');
+        endDate = format(dateFilter.to, 'yyyy-MM-dd');
       } else {
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
-        startDate = sevenDaysAgo.toISOString().split('T')[0];
+        startDate = format(sevenDaysAgo, 'yyyy-MM-dd');
         endDate = today;
       }
 
@@ -163,7 +164,7 @@ export function useDashboardData(dateFilter?: DateFilter) {
     for (let i = 0; i < daysDiff; i++) {
       const date = new Date(start);
       date.setDate(date.getDate() + i);
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = format(date, 'yyyy-MM-dd');
 
       const dayRecords = recordsByDate.get(dateStr) || [];
       const latestRecords = getLatestVersions(dayRecords);

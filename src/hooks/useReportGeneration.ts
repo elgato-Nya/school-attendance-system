@@ -8,6 +8,7 @@ import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '@/services/firebase.config';
 import type { Attendance, Class, Student } from '@/types';
 import { format } from 'date-fns';
+import { getLatestVersions } from '@/utils/attendance/filters';
 
 export interface ReportData {
   type: 'daily' | 'class' | 'student' | 'cumulative';
@@ -43,8 +44,8 @@ export async function generateDailyReport(selectedDate: Date): Promise<ReportDat
     ...doc.data(),
   })) as Attendance[];
 
-  // Direct use - no filtering needed
-  const records = allRecords;
+  // Use latest versions to avoid duplicate submissions per class+date
+  const records = getLatestVersions(allRecords);
 
   const summary = {
     totalStudents: records.reduce((sum, r) => sum + r.summary.total, 0),
@@ -88,8 +89,8 @@ export async function generateClassReport(
     ...doc.data(),
   })) as Attendance[];
 
-  // Direct use - no filtering needed
-  const records = allRecords;
+  // Deduplicate records (keep latest per class+date) to avoid double-counting
+  const records = getLatestVersions(allRecords);
 
   const classData = classes.find((c) => c.id === selectedClass);
 
@@ -140,8 +141,8 @@ export async function generateStudentReport(
     ...doc.data(),
   })) as Attendance[];
 
-  // Direct use - no filtering needed
-  const records = allRecords;
+  // Deduplicate to latest per class+date before calculating student stats
+  const records = getLatestVersions(allRecords);
 
   // Filter records for this specific student using IC number
   const studentData = students.find((s) => s.icNumber === selectedStudentIC);
@@ -200,8 +201,8 @@ export async function generateCumulativeReport(
     ...doc.data(),
   })) as Attendance[];
 
-  // Direct use - no filtering needed
-  const records = allRecords;
+  // Deduplicate records to avoid counting multiple submissions for same class+date
+  const records = getLatestVersions(allRecords);
 
   // Get unique dates
   const uniqueDates = Array.from(new Set(records.map((r) => r.date)));

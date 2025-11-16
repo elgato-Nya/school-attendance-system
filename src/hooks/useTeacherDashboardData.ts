@@ -9,6 +9,7 @@ import { db } from '@/services/firebase.config';
 import { useAuth } from '@/hooks/useAuth';
 import { getLatestVersions } from '@/utils/attendance/filters';
 import type { Attendance, Class } from '@/types';
+import { format } from 'date-fns';
 import { toast } from 'sonner';
 
 interface TeacherDashboardStats {
@@ -75,8 +76,8 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
   const getDateRange = (): { from: string; to: string } => {
     if (dateFilter) {
       return {
-        from: dateFilter.from.toISOString().split('T')[0],
-        to: dateFilter.to.toISOString().split('T')[0],
+        from: format(dateFilter.from, 'yyyy-MM-dd'),
+        to: format(dateFilter.to, 'yyyy-MM-dd'),
       };
     }
     // Default: last 7 days
@@ -84,8 +85,8 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
     const from = new Date();
     from.setDate(from.getDate() - 6);
     return {
-      from: from.toISOString().split('T')[0],
-      to: to.toISOString().split('T')[0],
+      from: format(from, 'yyyy-MM-dd'),
+      to: format(to, 'yyyy-MM-dd'),
     };
   };
 
@@ -198,7 +199,7 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
     for (let i = 0; i < daysDiff; i++) {
       const date = new Date(startDate);
       date.setDate(date.getDate() + i);
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = format(date, 'yyyy-MM-dd');
 
       const dayRecords = recordsByDate.get(dateStr) || [];
       const latestRecords = getLatestVersions(dayRecords);
