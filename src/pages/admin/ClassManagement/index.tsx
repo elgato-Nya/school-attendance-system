@@ -7,37 +7,46 @@ import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   getAllClasses,
   createClass,
   deleteClass,
-  addStudentToClass,
-  removeStudentFromClass,
+  getArchivedClasses,
 } from '@/services/class/class.service';
 import {
   updateClassWithCascade,
   getAttendanceRecordCount,
 } from '@/services/class/class-update-cascade.service';
+import {
+  archiveClass,
+  restoreClass,
+  permanentlyDeleteClass,
+} from '@/services/class/class-archive.service';
 import { getAllTeachers } from '@/services/user/user.service';
-import type { Class, User, ClassFormData, StudentFormData } from '@/types';
-import { validateClassForm, validateStudentForm } from '@/utils/validators';
+import { useAuth } from '@/hooks/useAuth';
+import type { Class, User, ClassFormData } from '@/types';
+import { validateClassForm } from '@/utils/validators';
 import { ClassFormDialog } from '@/components/admin/ClassFormDialog';
 import { EditClassDialog } from '@/components/admin/EditClassDialog';
-import { StudentFormDialog } from '@/components/admin/StudentFormDialog';
 import { StudentListDialog } from '@/components/admin/StudentListDialog';
 import { LoadingSpinner } from '@/components/admin/LoadingSpinner';
 import { toast, parseError, ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/utils/toast';
 import { SearchAndFilters } from './SearchAndFilters';
-import { ClassesTable } from './ClassesTable';
+import { ClassesGrid } from './ClassesGrid';
 import { DeleteConfirmDialog } from './DeleteConfirmDialog';
+import { ArchiveClassDialog } from './ArchiveClassDialog';
 
 export function ClassManagement() {
   const navigate = useNavigate();
-  const [classes, setClasses] = useState<Class[]>([]);
+  const { user } = useAuth();
+  const [activeClasses, setActiveClasses] = useState<Class[]>([]);
+  const [archivedClasses, setArchivedClasses] = useState<Class[]>([]);
   const [teachers, setTeachers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [gradeFilter, setGradeFilter] = useState<string>('all');
+  const [currentTab, setCurrentTab] = useState<'active' | 'archived'>('active');
 
   const [classFormOpen, setClassFormOpen] = useState(false);
   const [classForm, setClassForm] = useState<ClassFormData>({
@@ -58,29 +67,14 @@ export function ClassManagement() {
   const [editClassFormErrors, setEditClassFormErrors] = useState<Record<string, string>>({});
   const [attendanceRecordCount, setAttendanceRecordCount] = useState(0);
 
-  const [studentFormOpen, setStudentFormOpen] = useState(false);
-  const [studentForm, setStudentForm] = useState<StudentFormData>({
-    name: '',
-    icNumber: '',
-    dob: '',
-    guardianName: '',
-    guardianContact: '',
-    address: '',
-  });
-  const [studentFormErrors, setStudentFormErrors] = useState<Record<string, string>>({});
-  const [selectedClassForStudent, setSelectedClassForStudent] = useState<string | null>(null);
-
   const [studentListOpen, setStudentListOpen] = useState(false);
   const [selectedClass, setSelectedClass] = useState<Class | null>(null);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [classToDelete, setClassToDelete] = useState<string | null>(null);
 
-  const [removeStudentDialogOpen, setRemoveStudentDialogOpen] = useState(false);
-  const [studentToRemove, setStudentToRemove] = useState<{
-    classId: string;
-    studentIndex: number;
-  } | null>(null);
+  const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
+  const [classToArchive, setClassToArchive] = useState<Class | null>(null);
 
   useEffect(() => {
     loadData();
@@ -89,8 +83,13 @@ export function ClassManagement() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [classesData, teachersData] = await Promise.all([getAllClasses(), getAllTeachers()]);
-      setClasses(classesData);
+      const [allClassesData, archivedClassesData, teachersData] = await Promise.all([
+        getAllClasses(),
+        getArchivedClasses(),
+        getAllTeachers(),
+      ]);
+      setActiveClasses(allClassesData);
+      setArchivedClasses(archivedClassesData);
       setTeachers(teachersData);
 
       if (teachersData.length === 0) {
@@ -201,29 +200,49 @@ export function ClassManagement() {
     }
   };
 
-  const handleDeleteClass = async (classId: string) => {
-    // Check if class can be safely deleted
-    const checkingToast = toast.loading('Checking class dependencies...');
+  const handleArchiveClass = async (classItem: Class) => {
+    setClassToArchive(classItem);
+    setArchiveDialogOpen(true);
+  };
+
+  const confirmArchiveClass = async (reason: string) => {
+    if (!classToArchive || !user) return;
+
+    const loadingToast = toast.loading('Archiving class...');
 
     try {
-      const { canDeleteClass } = await import('@/services/data-integrity.service');
-      const checkResult = await canDeleteClass(classId);
-
-      toast.dismiss(checkingToast);
-
-      if (!checkResult.canDelete) {
-        toast.error(checkResult.reason || 'Cannot delete this class');
-        return;
-      }
-
-      // If safe to delete, show confirmation dialog
-      setClassToDelete(classId);
-      setDeleteDialogOpen(true);
+      await archiveClass(classToArchive.id, user.id!, reason);
+      toast.dismiss(loadingToast);
+      toast.success('Class archived successfully!');
+      setArchiveDialogOpen(false);
+      setClassToArchive(null);
+      loadData();
     } catch (error) {
-      toast.dismiss(checkingToast);
-      console.error('Delete class check error:', error);
-      toast.error('Failed to check class dependencies');
+      toast.dismiss(loadingToast);
+      console.error('Archive class error:', error);
+      toast.error(parseError(error));
     }
+  };
+
+  const handleRestoreClass = async (classId: string) => {
+    const loadingToast = toast.loading('Restoring class...');
+
+    try {
+      await restoreClass(classId);
+      toast.dismiss(loadingToast);
+      toast.success('Class restored successfully!');
+      loadData();
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      console.error('Restore class error:', error);
+      toast.error(parseError(error));
+    }
+  };
+
+  const handleDeleteClass = async (classId: string) => {
+    // Show confirmation dialog
+    setClassToDelete(classId);
+    setDeleteDialogOpen(true);
   };
 
   const confirmDeleteClass = async () => {
@@ -232,9 +251,17 @@ export function ClassManagement() {
     const loadingToast = toast.loading('Deleting class...');
 
     try {
-      await deleteClass(classToDelete);
-      toast.dismiss(loadingToast);
-      toast.success(SUCCESS_MESSAGES.CLASS_DELETED);
+      // For archived classes, permanently delete
+      if (currentTab === 'archived') {
+        await permanentlyDeleteClass(classToDelete);
+        toast.dismiss(loadingToast);
+        toast.success('Class permanently deleted!');
+      } else {
+        // For active classes, normal delete (will fail if attendance exists)
+        await deleteClass(classToDelete);
+        toast.dismiss(loadingToast);
+        toast.success(SUCCESS_MESSAGES.CLASS_DELETED);
+      }
       setDeleteDialogOpen(false);
       setClassToDelete(null);
       loadData();
@@ -245,75 +272,9 @@ export function ClassManagement() {
     }
   };
 
-  const handleAddStudentClick = (classId: string) => {
-    setSelectedClassForStudent(classId);
-    setStudentFormOpen(true);
-  };
-
-  const handleAddStudent = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!selectedClassForStudent) return;
-
-    const validation = validateStudentForm(studentForm);
-    if (!validation.isValid) {
-      setStudentFormErrors(validation.errors);
-      toast.error(ERROR_MESSAGES.VALIDATION_ERROR);
-      return;
-    }
-
-    const loadingToast = toast.loading('Adding student...');
-
-    try {
-      await addStudentToClass(selectedClassForStudent, studentForm);
-      toast.dismiss(loadingToast);
-      toast.success(SUCCESS_MESSAGES.STUDENT_ADDED);
-      setStudentFormOpen(false);
-      resetStudentForm();
-      setSelectedClassForStudent(null);
-      loadData();
-    } catch (error) {
-      toast.dismiss(loadingToast);
-      console.error('Add student error:', error);
-      toast.error(parseError(error));
-    }
-  };
-
   const handleViewStudents = (classItem: Class) => {
     setSelectedClass(classItem);
     setStudentListOpen(true);
-  };
-
-  const handleRemoveStudentClick = (classId: string, studentIndex: number) => {
-    setStudentToRemove({ classId, studentIndex });
-    setRemoveStudentDialogOpen(true);
-  };
-
-  const confirmRemoveStudent = async () => {
-    if (!studentToRemove) return;
-
-    const loadingToast = toast.loading('Removing student...');
-
-    try {
-      await removeStudentFromClass(studentToRemove.classId, studentToRemove.studentIndex);
-      toast.dismiss(loadingToast);
-      toast.success('Student removed from class successfully!');
-      setRemoveStudentDialogOpen(false);
-      setStudentToRemove(null);
-      loadData();
-
-      // Update selected class if student list is open
-      if (selectedClass && selectedClass.id === studentToRemove.classId) {
-        const updatedClass = classes.find((c) => c.id === studentToRemove.classId);
-        if (updatedClass) {
-          setSelectedClass(updatedClass);
-        }
-      }
-    } catch (error) {
-      toast.dismiss(loadingToast);
-      console.error('Remove student error:', error);
-      toast.error(parseError(error));
-    }
   };
 
   const resetClassForm = () => {
@@ -325,23 +286,16 @@ export function ClassManagement() {
     setClassFormErrors({});
   };
 
-  const resetStudentForm = () => {
-    setStudentForm({
-      name: '',
-      icNumber: '',
-      dob: '',
-      guardianName: '',
-      guardianContact: '',
-      address: '',
-    });
-    setStudentFormErrors({});
-  };
+  // Get current classes based on tab
+  const currentClasses = currentTab === 'active' ? activeClasses : archivedClasses;
 
-  // Get available grades from classes
-  const availableGrades = Array.from(new Set(classes.map((c) => c.grade))).sort((a, b) => a - b);
+  // Get available grades from current classes
+  const availableGrades = Array.from(new Set(currentClasses.map((c) => c.grade))).sort(
+    (a, b) => a - b
+  );
 
   // Filter classes
-  const filteredClasses = classes.filter((classItem) => {
+  const filteredClasses = currentClasses.filter((classItem) => {
     const matchesGrade = gradeFilter === 'all' || classItem.grade === parseInt(gradeFilter);
     const teacher = teachers.find((t) => t.id === classItem.teacherRep);
     const matchesSearch =
@@ -376,32 +330,77 @@ export function ClassManagement() {
         </Button>
       </div>
 
-      {/* Search and Filters */}
-      <SearchAndFilters
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        gradeFilter={gradeFilter}
-        onGradeFilterChange={setGradeFilter}
-        availableGrades={availableGrades}
-      />
+      {/* Tabs for Active/Archived */}
+      <Tabs
+        value={currentTab}
+        onValueChange={(value) => setCurrentTab(value as 'active' | 'archived')}
+      >
+        <TabsList className="w-full sm:w-auto">
+          <TabsTrigger value="active" className="flex-1 sm:flex-none">
+            Active Classes ({activeClasses.length})
+          </TabsTrigger>
+          <TabsTrigger value="archived" className="flex-1 sm:flex-none">
+            Archived Classes ({archivedClasses.length})
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Classes Table */}
-      <ClassesTable
-        classes={filteredClasses}
-        allClasses={classes}
-        teachers={teachers}
-        onViewStudents={handleViewStudents}
-        onAddStudent={handleAddStudentClick}
-        onEditClass={handleEditClass}
-        onDeleteClass={handleDeleteClass}
-        onClassClick={(classId: string) => navigate(`/teacher/mark-attendance/${classId}`)}
-        searchQuery={searchQuery}
-        gradeFilter={gradeFilter}
-        onCreateFirstClass={() => {
-          resetClassForm();
-          setClassFormOpen(true);
-        }}
-      />
+        <TabsContent value="active" className="space-y-4 mt-4">
+          {/* Search and Filters */}
+          <SearchAndFilters
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            gradeFilter={gradeFilter}
+            onGradeFilterChange={setGradeFilter}
+            availableGrades={availableGrades}
+          />
+
+          {/* Classes Grid - Mobile-first design */}
+          <ClassesGrid
+            classes={filteredClasses}
+            teachers={teachers}
+            onViewStudents={handleViewStudents}
+            onEditClass={handleEditClass}
+            onDeleteClass={handleDeleteClass}
+            onArchiveClass={handleArchiveClass}
+            onClassClick={(classId: string) => navigate(`/teacher/mark-attendance/${classId}`)}
+            searchQuery={searchQuery}
+            gradeFilter={gradeFilter}
+            onCreateFirstClass={() => {
+              resetClassForm();
+              setClassFormOpen(true);
+            }}
+            isArchived={false}
+          />
+        </TabsContent>
+
+        <TabsContent value="archived" className="space-y-4 mt-4">
+          {/* Search and Filters */}
+          <SearchAndFilters
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            gradeFilter={gradeFilter}
+            onGradeFilterChange={setGradeFilter}
+            availableGrades={availableGrades}
+          />
+
+          {/* Archived Classes Grid */}
+          <ClassesGrid
+            classes={filteredClasses}
+            teachers={teachers}
+            onViewStudents={handleViewStudents}
+            onDeleteClass={handleDeleteClass}
+            onRestoreClass={handleRestoreClass}
+            onClassClick={(classId: string) => navigate(`/teacher/mark-attendance/${classId}`)}
+            searchQuery={searchQuery}
+            gradeFilter={gradeFilter}
+            onCreateFirstClass={() => {
+              resetClassForm();
+              setClassFormOpen(true);
+            }}
+            isArchived={true}
+          />
+        </TabsContent>
+      </Tabs>
 
       {/* Class Form Dialog */}
       <ClassFormDialog
@@ -428,53 +427,41 @@ export function ClassManagement() {
         onSubmit={handleUpdateClass}
       />
 
-      {/* Student Form Dialog */}
-      <StudentFormDialog
-        open={studentFormOpen}
-        onOpenChange={setStudentFormOpen}
-        className={
-          selectedClassForStudent
-            ? classes.find((c) => c.id === selectedClassForStudent)?.name || ''
-            : ''
-        }
-        formData={studentForm}
-        onChange={setStudentForm}
-        formErrors={studentFormErrors}
-        onSubmit={handleAddStudent}
-      />
-
-      {/* Student List Dialog */}
+      {/* Student List Dialog (Read-Only) */}
       <Dialog open={studentListOpen} onOpenChange={setStudentListOpen}>
-        <StudentListDialog
-          classItem={selectedClass}
-          onAddStudent={() => {
-            if (selectedClass) {
-              handleAddStudentClick(selectedClass.id!);
-              setStudentListOpen(false);
-            }
-          }}
-          onRemoveStudent={handleRemoveStudentClick}
-        />
+        <StudentListDialog classItem={selectedClass} />
       </Dialog>
+
+      {/* Archive Class Dialog */}
+      <ArchiveClassDialog
+        open={archiveDialogOpen}
+        onOpenChange={setArchiveDialogOpen}
+        classData={classToArchive}
+        onConfirm={confirmArchiveClass}
+        onCancel={() => {
+          setArchiveDialogOpen(false);
+          setClassToArchive(null);
+        }}
+      />
 
       {/* Delete Class Confirmation Dialog */}
       <DeleteConfirmDialog
         open={deleteDialogOpen}
-        onOpenChange={setDeleteDialogOpen}
+        onOpenChange={(open) => {
+          setDeleteDialogOpen(open);
+          if (!open) setClassToDelete(null);
+        }}
         onConfirm={confirmDeleteClass}
-        onCancel={() => setClassToDelete(null)}
-        title="Delete Class"
-        description="Are you sure you want to delete this class? This action cannot be undone. All student assignments will be removed."
-      />
-
-      {/* Remove Student Confirmation Dialog */}
-      <DeleteConfirmDialog
-        open={removeStudentDialogOpen}
-        onOpenChange={setRemoveStudentDialogOpen}
-        onConfirm={confirmRemoveStudent}
-        onCancel={() => setStudentToRemove(null)}
-        title="Remove Student"
-        description="Are you sure you want to remove this student from the class? This action cannot be undone."
+        onCancel={() => {
+          setDeleteDialogOpen(false);
+          setClassToDelete(null);
+        }}
+        title={currentTab === 'archived' ? 'Permanently Delete Class' : 'Delete Class'}
+        description={
+          currentTab === 'archived'
+            ? 'Are you sure you want to permanently delete this archived class? This action cannot be undone and all data will be lost forever.'
+            : 'Are you sure you want to delete this class? This action cannot be undone. All student assignments and attendance records will be removed permanently. Consider archiving instead to preserve historical data.'
+        }
       />
     </div>
   );

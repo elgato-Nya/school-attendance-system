@@ -131,28 +131,9 @@ export function UserManagement() {
   };
 
   const handleDeleteUser = async (userId: string) => {
-    // Check if user can be safely deleted
-    const checkingToast = toast.loading('Checking user dependencies...');
-
-    try {
-      const { canDeleteUser } = await import('@/services/data-integrity.service');
-      const checkResult = await canDeleteUser(userId);
-
-      toast.dismiss(checkingToast);
-
-      if (!checkResult.canDelete) {
-        toast.error(checkResult.reason || 'Cannot delete this user');
-        return;
-      }
-
-      // If safe to delete, show confirmation dialog
-      setUserToDelete(userId);
-      setDeleteDialogOpen(true);
-    } catch (error) {
-      toast.dismiss(checkingToast);
-      console.error('Delete user check error:', error);
-      toast.error('Failed to check user dependencies');
-    }
+    // Show confirmation dialog
+    setUserToDelete(userId);
+    setDeleteDialogOpen(true);
   };
 
   const confirmDeleteUser = async () => {
@@ -287,16 +268,28 @@ export function UserManagement() {
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">
                       <div>
-                        <p className="truncate">{user.name}</p>
-                        <p className="text-xs text-muted-foreground sm:hidden truncate">
+                        <p className="break-words">{user.name}</p>
+                        <p className="text-xs text-muted-foreground sm:hidden mt-1 break-all">
                           {user.email}
                         </p>
+                        <div className="sm:hidden mt-1">
+                          <Badge
+                            variant={user.role === ROLES.ADMIN ? 'default' : 'secondary'}
+                            className="text-xs"
+                          >
+                            {user.role === ROLES.ADMIN ? 'Super Admin' : 'Teacher'}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground ml-2">
+                            {user.assignedClasses?.length || 0}{' '}
+                            {user.assignedClasses?.length === 1 ? 'class' : 'classes'}
+                          </span>
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
-                      <span className="truncate block max-w-[200px]">{user.email}</span>
+                      <span className="break-all text-sm">{user.email}</span>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden sm:table-cell">
                       <Badge
                         variant={user.role === ROLES.ADMIN ? 'default' : 'secondary'}
                         className="text-xs"
