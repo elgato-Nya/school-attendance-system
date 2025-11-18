@@ -93,11 +93,12 @@ export function AttendanceChart({
       </CardHeader>
       <CardContent>
         <div
-          className="h-[300px] min-h-[300px] w-full min-w-0"
+          className="w-full h-[300px]"
           role="img"
           aria-label={`${title} chart`}
+          style={{ minHeight: '300px', minWidth: '300px' }}
         >
-          <ResponsiveContainer width="100%" height="100%" minWidth={300} minHeight={300}>
+          <ResponsiveContainer width="100%" height="100%">
             {type === 'area' ? (
               <AreaChart data={data}>
                 <defs>
