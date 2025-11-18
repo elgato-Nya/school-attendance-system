@@ -8,6 +8,7 @@ import { collection, getDocs, query, where, orderBy, limit } from 'firebase/fire
 import { db } from '@/services/firebase.config';
 import { useAuth } from '@/hooks/useAuth';
 import { getLatestVersions } from '@/utils/attendance/filters';
+import { CLASS_STATUS } from '@/constants/user';
 import type { Attendance, Class } from '@/types';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
@@ -43,7 +44,7 @@ interface DateFilter {
   to: Date;
 }
 
-export function useTeacherDashboardData(dateFilter?: DateFilter) {
+export function useTeacherDashboardData(dateFilter?: DateFilter, overrideTeacherId?: string) {
   const { user } = useAuth();
   const [stats, setStats] = useState<TeacherDashboardStats>({
     totalAssignedClasses: 0,
@@ -58,6 +59,14 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
   const [classSummaries, setClassSummaries] = useState<ClassSummary[]>([]);
   const [recentActivity, setRecentActivity] = useState<Attendance[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedTeacher, setSelectedTeacher] = useState<{
+    id: string;
+    name: string;
+    assignedClasses: string[];
+  } | null>(null);
+
+  // Determine which teacher's data to load
+  const effectiveTeacherId = overrideTeacherId || user?.id;
 
   // Create stable date strings to prevent infinite loops
   const dateFilterKey = dateFilter
@@ -65,13 +74,13 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
     : 'undefined';
 
   useEffect(() => {
-    if (user?.assignedClasses && user.assignedClasses.length > 0) {
+    if (effectiveTeacherId) {
       loadDashboardData();
     } else {
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id, dateFilterKey]); // Use stable string key instead of object
+  }, [effectiveTeacherId, dateFilterKey]); // Use stable string key instead of object
 
   const getDateRange = (): { from: string; to: string } => {
     if (dateFilter) {
@@ -96,14 +105,44 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
       // Fetch all data in parallel and share common queries
       const dateRange = getDateRange();
 
-      // Check if user has assigned classes
-      if (!user?.assignedClasses || user.assignedClasses.length === 0) {
-        setLoading(false);
-        return;
+      // Get teacher data (either current user or selected teacher)
+      let teacherClassIds: string[] = [];
+
+      if (overrideTeacherId) {
+        // Fetch teacher's data from Firestore
+        const { getUserById } = await import('@/services/user/user.service');
+        const teacherData = await getUserById(overrideTeacherId);
+        if (
+          !teacherData ||
+          !teacherData.assignedClasses ||
+          teacherData.assignedClasses.length === 0
+        ) {
+          setSelectedTeacher(
+            teacherData
+              ? { id: teacherData.id!, name: teacherData.name, assignedClasses: [] }
+              : null
+          );
+          setLoading(false);
+          return;
+        }
+        teacherClassIds = teacherData.assignedClasses;
+        setSelectedTeacher({
+          id: teacherData.id!,
+          name: teacherData.name,
+          assignedClasses: teacherData.assignedClasses,
+        });
+      } else {
+        // Use current user's classes
+        if (!user?.assignedClasses || user.assignedClasses.length === 0) {
+          setLoading(false);
+          return;
+        }
+        teacherClassIds = user.assignedClasses;
+        setSelectedTeacher(null);
       }
 
       // Firestore 'in' query has a limit of 10 items
-      const classIds = user.assignedClasses.slice(0, 10);
+      const classIds = teacherClassIds.slice(0, 10);
 
       // Fetch classes and attendance data once
       const [classesSnapshot, attendanceSnapshot] = await Promise.all([
@@ -118,10 +157,14 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
         ),
       ]);
 
-      // Parse classes data
+      // Parse classes data and filter out archived classes
       const assignedClasses: Class[] = [];
       classesSnapshot.forEach((doc) => {
-        assignedClasses.push({ id: doc.id, ...doc.data() } as Class);
+        const classData = { id: doc.id, ...doc.data() } as Class;
+        // Only include active classes in dashboard
+        if (classData.status === CLASS_STATUS.ACTIVE) {
+          assignedClasses.push(classData);
+        }
       });
 
       // Parse all attendance records
@@ -130,10 +173,13 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
         allRecords.push({ id: doc.id, ...doc.data() } as Attendance);
       });
 
+      // Get the active class IDs for filtering
+      const activeClassIds = new Set(assignedClasses.map((cls) => cls.id));
+
       // Process all data using the shared queries
       processStats(assignedClasses, allRecords);
-      processChartData(allRecords, dateRange);
-      processClassSummaries(assignedClasses, allRecords);
+      processChartData(allRecords, dateRange, activeClassIds);
+      processClassSummaries(assignedClasses, allRecords, activeClassIds);
       await loadRecentActivity(); // This one needs ordering, so keep separate
     } catch (error) {
       console.error('Error loading teacher dashboard data:', error);
@@ -144,14 +190,29 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
   };
 
   const processStats = (assignedClasses: Class[], allRecords: Attendance[]) => {
+    // Only count ACTIVE classes (already filtered before calling this function)
     const totalAssignedClasses = assignedClasses.length;
     const totalStudents = assignedClasses.reduce(
       (sum, cls) => sum + (cls.students?.length || 0),
       0
     );
 
-    const latestRecords = getLatestVersions(allRecords);
-    const todaySubmissions = latestRecords.length;
+    // Get the active class IDs
+    const activeClassIds = new Set(assignedClasses.map((cls) => cls.id));
+
+    // Filter records to only include those from active classes
+    const activeClassRecords = allRecords.filter((r) => activeClassIds.has(r.classId));
+
+    // Get today's records for submission count
+    const today = format(new Date(), 'yyyy-MM-dd');
+    const todayRecords = activeClassRecords.filter((r) => r.date === today);
+    const latestTodayRecords = getLatestVersions(todayRecords);
+
+    // Count unique classes that have submitted today
+    const todaySubmissions = latestTodayRecords.length;
+
+    // Calculate stats for the ENTIRE date range (not just today)
+    const latestRecords = getLatestVersions(activeClassRecords);
 
     let totalPresent = 0;
     let totalAbsent = 0;
@@ -165,7 +226,8 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
       totalRate += record.summary.rate || 0;
     });
 
-    const averageAttendance = todaySubmissions > 0 ? Math.round(totalRate / todaySubmissions) : 0;
+    const averageAttendance =
+      latestRecords.length > 0 ? Math.round(totalRate / latestRecords.length) : 0;
 
     setStats({
       totalAssignedClasses,
@@ -178,15 +240,22 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
     });
   };
 
-  const processChartData = (allRecords: Attendance[], dateRange: { from: string; to: string }) => {
+  const processChartData = (
+    allRecords: Attendance[],
+    dateRange: { from: string; to: string },
+    activeClassIds: Set<string>
+  ) => {
     const startDate = new Date(dateRange.from);
     const endDate = new Date(dateRange.to);
     const daysDiff =
       Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
+    // Filter records to only include those from active classes
+    const activeRecords = allRecords.filter((r) => activeClassIds.has(r.classId));
+
     // Group records by date
     const recordsByDate = new Map<string, Attendance[]>();
-    allRecords.forEach((record) => {
+    activeRecords.forEach((record) => {
       const dateStr = record.date;
       if (!recordsByDate.has(dateStr)) {
         recordsByDate.set(dateStr, []);
@@ -230,12 +299,19 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
     setChartData(data);
   };
 
-  const processClassSummaries = (assignedClasses: Class[], allRecords: Attendance[]) => {
+  const processClassSummaries = (
+    assignedClasses: Class[],
+    allRecords: Attendance[],
+    activeClassIds: Set<string>
+  ) => {
     const summaries: ClassSummary[] = [];
 
+    // Only process active classes (already filtered)
     assignedClasses.forEach((classData) => {
-      // Filter records for this class
-      const classRecords = allRecords.filter((r) => r.classId === classData.id);
+      // Filter records for this class (double-check it's an active class)
+      const classRecords = allRecords.filter(
+        (r) => r.classId === classData.id && activeClassIds.has(r.classId)
+      );
       const latestRecords = getLatestVersions(classRecords);
 
       let totalRate = 0;
@@ -325,5 +401,6 @@ export function useTeacherDashboardData(dateFilter?: DateFilter) {
     recentActivity,
     loading,
     refetch: loadDashboardData,
+    selectedTeacher,
   };
 }

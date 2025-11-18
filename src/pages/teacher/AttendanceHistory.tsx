@@ -31,7 +31,6 @@ import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { Download, Calendar, Filter, TrendingUp, FileText } from 'lucide-react';
 
-type ViewMode = 'all' | 'range' | 'single';
 type SortField = 'date' | 'class' | 'rate' | 'status';
 type SortOrder = 'asc' | 'desc';
 
@@ -49,27 +48,22 @@ export default function AttendanceHistory() {
   const [selectedClass, setSelectedClass] = useState<string>('all');
   const [selectedGrade, setSelectedGrade] = useState<string>('all');
 
-  // View mode state - always defaults to 'all' on mount (not persisted)
-  const [viewMode, setViewMode] = useState<ViewMode>('all');
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-  const [singleDate, setSingleDate] = useState<Date | undefined>(undefined);
+  // Date filter state using DateFilter component - Default to All Time
+  const defaultDateRange = useMemo(() => {
+    const today = new Date();
+    const threeYearsAgo = new Date(today);
+    threeYearsAgo.setFullYear(today.getFullYear() - 3);
+    return { from: threeYearsAgo, to: today };
+  }, []);
 
-  // Handle view mode change with default dates
-  const handleViewModeChange = (mode: ViewMode) => {
-    setViewMode(mode);
+  const [dateFilter, setDateFilter] = useState(defaultDateRange);
 
-    if (mode === 'single') {
-      // Default to today's date
-      setSingleDate(new Date());
-    } else if (mode === 'range') {
-      // Default to last week to today
-      const today = new Date();
-      const lastWeek = new Date();
-      lastWeek.setDate(today.getDate() - 7);
-      setStartDate(lastWeek);
-      setEndDate(today);
-    }
+  const handleDateChange = (range: { from: Date; to: Date }) => {
+    setDateFilter(range);
+  };
+
+  const handleDateReset = () => {
+    setDateFilter(defaultDateRange);
   };
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -97,7 +91,7 @@ export default function AttendanceHistory() {
     if (classes.length > 0) {
       loadRecords();
     }
-  }, [classes.length, selectedClass, selectedGrade, viewMode, startDate, endDate, singleDate]);
+  }, [classes.length, selectedClass, selectedGrade, dateFilter]);
 
   const loadClasses = async () => {
     try {
@@ -110,25 +104,9 @@ export default function AttendanceHistory() {
   };
 
   const loadRecords = async () => {
-    // Determine date range based on view mode
-    let queryStartDate: string;
-    let queryEndDate: string;
-
-    if (viewMode === 'single' && singleDate) {
-      // Use local date formatting to avoid timezone shifts when converting to YYYY-MM-DD
-      queryStartDate = format(singleDate, 'yyyy-MM-dd');
-      queryEndDate = format(singleDate, 'yyyy-MM-dd');
-    } else if (viewMode === 'range' && startDate && endDate) {
-      queryStartDate = format(startDate, 'yyyy-MM-dd');
-      queryEndDate = format(endDate, 'yyyy-MM-dd');
-    } else {
-      // For 'all' mode, get last 365 days
-      const end = new Date();
-      const start = new Date();
-      start.setDate(start.getDate() - 365);
-      queryStartDate = format(start, 'yyyy-MM-dd');
-      queryEndDate = format(end, 'yyyy-MM-dd');
-    }
+    // Use date filter range
+    const queryStartDate = format(dateFilter.from, 'yyyy-MM-dd');
+    const queryEndDate = format(dateFilter.to, 'yyyy-MM-dd');
 
     setLoading(true);
     try {
@@ -294,12 +272,10 @@ export default function AttendanceHistory() {
   };
 
   const handleExport = () => {
+    const startDateStr = format(dateFilter.from, 'yyyy-MM-dd');
+    const endDateStr = format(dateFilter.to, 'yyyy-MM-dd');
     const dateRangeText =
-      viewMode === 'single' && singleDate
-        ? format(singleDate, 'yyyy-MM-dd')
-        : viewMode === 'range' && startDate && endDate
-          ? `${format(startDate, 'yyyy-MM-dd')}_to_${format(endDate, 'yyyy-MM-dd')}`
-          : 'AllTime';
+      startDateStr === endDateStr ? startDateStr : `${startDateStr}_to_${endDateStr}`;
 
     if (selectedClass === 'all') {
       const fileName =
@@ -314,19 +290,7 @@ export default function AttendanceHistory() {
         toast.error('Please select a class first');
         return;
       }
-      const exportStart =
-        viewMode === 'single' && singleDate
-          ? format(singleDate, 'yyyy-MM-dd')
-          : viewMode === 'range' && startDate
-            ? format(startDate, 'yyyy-MM-dd')
-            : 'AllTime';
-      const exportEnd =
-        viewMode === 'single' && singleDate
-          ? format(singleDate, 'yyyy-MM-dd')
-          : viewMode === 'range' && endDate
-            ? format(endDate, 'yyyy-MM-dd')
-            : 'AllTime';
-      exportAttendanceToCSV(filteredAndSortedRecords, selectedClassData, exportStart, exportEnd);
+      exportAttendanceToCSV(filteredAndSortedRecords, selectedClassData, startDateStr, endDateStr);
     }
   };
 
@@ -371,38 +335,35 @@ export default function AttendanceHistory() {
     toast.success('CSV exported successfully!');
   };
 
-  const getAverageRateVariant = (rate: number): 'default' | 'success' | 'warning' | 'danger' => {
-    if (rate >= 90) return 'success';
-    if (rate >= 75) return 'warning';
-    return 'danger';
-  };
-
   const getDateRangeDisplay = () => {
-    if (viewMode === 'single' && singleDate) {
-      return singleDate.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      });
-    } else if (viewMode === 'range' && startDate && endDate) {
-      return `${startDate.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      })} - ${endDate.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      })}`;
+    const isSameDay = format(dateFilter.from, 'yyyy-MM-dd') === format(dateFilter.to, 'yyyy-MM-dd');
+    const daysDiff = Math.ceil(
+      (dateFilter.to.getTime() - dateFilter.from.getTime()) / (1000 * 60 * 60 * 24)
+    );
+
+    if (isSameDay) {
+      return format(dateFilter.from, 'MMM d, yyyy');
     }
-    return 'All Time';
+
+    // Check if it's the default "All Time" range (3 years)
+    if (daysDiff > 365) {
+      return 'All Time';
+    }
+
+    return `${format(dateFilter.from, 'MMM d')} - ${format(dateFilter.to, 'MMM d, yyyy')}`;
   };
 
   const getDaysTracked = () => {
-    if (viewMode === 'single') return '1 day';
-    if (viewMode === 'range' && startDate && endDate) {
-      const days = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-      return `${days} days tracked`;
+    const days =
+      Math.ceil((dateFilter.to.getTime() - dateFilter.from.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+    // For "All Time", show actual record count
+    if (days > 365) {
+      const uniqueDates = Array.from(new Set(filteredAndSortedRecords.map((r) => r.date))).length;
+      return `${uniqueDates} days with data`;
     }
-    return `${filteredAndSortedRecords.length} records`;
+
+    return `${days} ${days === 1 ? 'day' : 'days'} tracked`;
   };
 
   return (
@@ -432,14 +393,9 @@ export default function AttendanceHistory() {
         selectedClass={selectedClass}
         setSelectedClass={setSelectedClass}
         classes={classes}
-        viewMode={viewMode}
-        setViewMode={handleViewModeChange}
-        singleDate={singleDate}
-        setSingleDate={setSingleDate}
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
+        dateFilter={dateFilter}
+        onDateChange={handleDateChange}
+        onDateReset={handleDateReset}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
@@ -455,7 +411,6 @@ export default function AttendanceHistory() {
           <AttendanceStatCard
             title="Average Attendance"
             value={`${calculateAverageRate()}%`}
-            variant={getAverageRateVariant(calculateAverageRate())}
             icon={TrendingUp}
           />
           <AttendanceStatCard

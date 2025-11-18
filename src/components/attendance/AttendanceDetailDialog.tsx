@@ -46,21 +46,6 @@ export function AttendanceDetailDialog({
 
   if (!attendance) return null;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'present':
-        return 'text-green-600 dark:text-green-400';
-      case 'late':
-        return 'text-yellow-600 dark:text-yellow-400';
-      case 'absent':
-        return 'text-red-600 dark:text-red-400';
-      case 'excused':
-        return 'text-blue-600 dark:text-blue-400';
-      default:
-        return 'text-muted-foreground';
-    }
-  };
-
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'present':
@@ -257,7 +242,7 @@ export function AttendanceDetailDialog({
                                     ? 'default'
                                     : 'destructive'
                             }
-                            className={`capitalize flex items-center gap-1 ${getStatusColor(record.status)}`}
+                            className="capitalize flex items-center gap-1 text-black dark:text-white"
                           >
                             {getStatusIcon(record.status)}
                             {record.status}
