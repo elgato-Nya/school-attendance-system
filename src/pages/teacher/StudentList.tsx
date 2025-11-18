@@ -41,8 +41,9 @@ import {
 } from '@/components/ui/dialog';
 import { Pagination } from '@/components/ui/pagination';
 import { Button } from '@/components/ui/button';
+import { DateFilter } from '@/components/dashboard/DateFilter';
 import type { Student, Class, Attendance } from '@/types';
-import { subDays, format } from 'date-fns';
+import { format } from 'date-fns';
 
 interface StudentWithStats extends Student {
   totalDays: number;
@@ -66,6 +67,24 @@ export default function StudentList() {
   const [selectedStudent, setSelectedStudent] = useState<StudentWithStats | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Date filter state using DateFilter component - Default to All Time
+  const defaultDateRange = useMemo(() => {
+    const today = new Date();
+    const threeYearsAgo = new Date(today);
+    threeYearsAgo.setFullYear(today.getFullYear() - 3);
+    return { from: threeYearsAgo, to: today };
+  }, []);
+
+  const [dateFilter, setDateFilter] = useState(defaultDateRange);
+
+  const handleDateChange = (range: { from: Date; to: Date }) => {
+    setDateFilter(range);
+  };
+
+  const handleDateReset = () => {
+    setDateFilter(defaultDateRange);
+  };
+
   useEffect(() => {
     // Wait for auth to finish loading
     if (authLoading) return;
@@ -81,53 +100,36 @@ export default function StudentList() {
   // Reset pagination when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedClass, selectedGrade, sortBy]);
+  }, [searchQuery, selectedClass, selectedGrade, sortBy, dateFilter]);
+
+  // Reload data when date filters change
+  useEffect(() => {
+    if (user && !authLoading) {
+      loadData();
+    }
+  }, [dateFilter]);
 
   const loadData = async () => {
-    // Check if user has assigned classes (teachers) or is admin
-    if (user?.role === 'teacher' && !user?.assignedClasses?.length) {
-      setDataLoading(false);
-      toast.info('No classes assigned to you yet.');
-      return;
-    }
-
     setDataLoading(true);
     try {
-      let classIds: string[] = [];
+      // Load ALL classes (not restricted by teacher assignment)
+      const classesRef = collection(db, 'classes');
+      const classesSnapshot = await getDocs(classesRef);
+      const classesData = classesSnapshot.docs.map(
+        (doc) => ({ id: doc.id, ...doc.data() }) as Class
+      );
+      setClasses(classesData);
 
-      // For teachers, use assigned classes; for admins, get all classes
-      if (user?.role === 'teacher' && user.assignedClasses) {
-        classIds = user.assignedClasses;
-        console.log('Teacher assigned classes:', classIds);
-      } else if (user?.role === 'admin') {
-        // Load all classes for admin
-        const classesRef = collection(db, 'classes');
-        const allClassesSnapshot = await getDocs(classesRef);
-        classIds = allClassesSnapshot.docs.map((doc) => doc.id);
-        console.log('Admin - all classes:', classIds);
-      }
-
-      if (classIds.length === 0) {
+      if (classesData.length === 0) {
         setDataLoading(false);
         toast.info('No classes available.');
         return;
       }
 
-      // Load all classes
-      const classesRef = collection(db, 'classes');
-      const classQuery = query(classesRef, where('__name__', 'in', classIds));
-      const classesSnapshot = await getDocs(classQuery);
-      const classesData = classesSnapshot.docs.map(
-        (doc) => ({ id: doc.id, ...doc.data() }) as Class
-      );
-      setClasses(classesData);
-      console.log('Loaded classes:', classesData.length);
-
-      // Extract ALL students from the classes (students are stored inside class documents)
+      // Extract ALL students from ALL classes
       const studentsData: Student[] = [];
       classesData.forEach((classDoc) => {
         if (classDoc.students && Array.isArray(classDoc.students)) {
-          // Add classId to each student if not already present
           const classStudents = classDoc.students.map((student) => ({
             ...student,
             classId: student.classId || classDoc.id,
@@ -135,17 +137,19 @@ export default function StudentList() {
           studentsData.push(...classStudents);
         }
       });
-      console.log('Extracted students from classes:', studentsData.length);
-      console.log('Sample student:', studentsData[0]);
 
-      // Load attendance records (last 30 days) for all classes
-      const thirtyDaysAgo = subDays(new Date(), 30);
+      // Use date filter range
+      const dateRangeStart = format(dateFilter.from, 'yyyy-MM-dd');
+      const dateRangeEnd = format(dateFilter.to, 'yyyy-MM-dd');
+
+      // Load attendance records based on date filter
       const attendanceRef = collection(db, 'attendance');
       const attendanceQuery = query(
         attendanceRef,
-        where('classId', 'in', classIds),
-        where('date', '>=', format(thirtyDaysAgo, 'yyyy-MM-dd'))
+        where('date', '>=', dateRangeStart),
+        where('date', '<=', dateRangeEnd)
       );
+
       const attendanceSnapshot = await getDocs(attendanceQuery);
       const attendanceRecords = attendanceSnapshot.docs.map((doc) => {
         const data = doc.data();
@@ -174,6 +178,7 @@ export default function StudentList() {
 
       // Calculate stats for each student
       const studentsWithStats = studentsData.map((student) => {
+        // Count total days for this student's class
         const totalDays = attendanceRecords.filter(
           (record) => record.classId === student.classId
         ).length;
@@ -181,7 +186,10 @@ export default function StudentList() {
         let presentDays = 0;
         let lateDays = 0;
 
+        // Count attendance for this student
         attendanceRecords.forEach((record) => {
+          if (record.classId !== student.classId) return;
+
           const studentRecord = record.records.find((r) => r.icNumber === student.icNumber);
           if (studentRecord) {
             if (studentRecord.status === 'present') presentDays++;
@@ -289,6 +297,16 @@ export default function StudentList() {
     toast.success('Data refreshed');
   };
 
+  const getDateRangeText = () => {
+    const isSameDay = format(dateFilter.from, 'yyyy-MM-dd') === format(dateFilter.to, 'yyyy-MM-dd');
+
+    if (isSameDay) {
+      return format(dateFilter.from, 'MMMM dd, yyyy');
+    }
+
+    return `${format(dateFilter.from, 'MMM dd, yyyy')} - ${format(dateFilter.to, 'MMM dd, yyyy')}`;
+  };
+
   return (
     <div className="p-4 sm:p-6 space-y-6">
       {/* Header */}
@@ -296,7 +314,7 @@ export default function StudentList() {
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold">Student List</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            View student attendance statistics for the last 30 days
+            View student attendance statistics for {getDateRangeText()}
           </p>
         </div>
         <Button
@@ -317,10 +335,18 @@ export default function StudentList() {
           <CardTitle className="text-lg">Filters</CardTitle>
           <CardDescription>Search and filter students</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* Search */}
-            <div className="space-y-2">
+        <CardContent className="space-y-4">
+          {/* Row 1: Date Filter and Search */}
+          <div className="flex flex-col md:flex-row gap-4 md:items-end">
+            <div className="flex-1 space-y-2 ">
+              <Label>Date Range</Label>
+              <DateFilter
+                value={dateFilter}
+                onChange={handleDateChange}
+                onReset={handleDateReset}
+              />
+            </div>
+            <div className="flex-1 space-y-2">
               <Label htmlFor="student-search">Search Students</Label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -335,7 +361,10 @@ export default function StudentList() {
                 />
               </div>
             </div>
+          </div>
 
+          {/* Row 2: Other Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Grade Filter */}
             <div className="space-y-2">
               <Label htmlFor="grade-filter">Filter by Grade</Label>
@@ -345,7 +374,13 @@ export default function StudentList() {
                   value={selectedGrade}
                   onValueChange={(value) => {
                     setSelectedGrade(value);
-                    if (value !== 'all') setSelectedClass('all'); // Reset class filter
+                    // If a specific grade is selected and current class doesn't match, reset class filter
+                    if (value !== 'all') {
+                      const selectedClassData = classes.find((c) => c.id === selectedClass);
+                      if (selectedClassData && String(selectedClassData.grade) !== value) {
+                        setSelectedClass('all');
+                      }
+                    }
                   }}
                 >
                   <SelectTrigger
@@ -359,7 +394,7 @@ export default function StudentList() {
                     <SelectItem value="all">All Grades</SelectItem>
                     {uniqueGrades.map((grade) => (
                       <SelectItem key={grade} value={String(grade)}>
-                        Grade {grade}
+                        Form {grade}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -374,27 +409,31 @@ export default function StudentList() {
                 value={selectedClass}
                 onValueChange={(value) => {
                   setSelectedClass(value);
-                  if (value !== 'all') setSelectedGrade('all'); // Reset grade filter
+                  // If a specific class is selected, update grade filter to match
+                  if (value !== 'all') {
+                    const selectedClassData = classes.find((c) => c.id === value);
+                    if (selectedClassData) {
+                      setSelectedGrade(String(selectedClassData.grade));
+                    }
+                  }
                 }}
-                disabled={selectedGrade !== 'all'}
               >
                 <SelectTrigger id="class-filter" aria-label="Filter students by class">
                   <SelectValue placeholder="Select class" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Classes</SelectItem>
-                  {classes.map((cls) => (
+                  {/* Filter classes by selected grade */}
+                  {(selectedGrade === 'all'
+                    ? classes
+                    : classes.filter((c) => String(c.grade) === selectedGrade)
+                  ).map((cls) => (
                     <SelectItem key={cls.id} value={cls.id}>
-                      Grade {cls.grade} - {cls.name}
+                      {cls.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              {selectedGrade !== 'all' && (
-                <p className="text-xs text-muted-foreground">
-                  Disabled while grade filter is active
-                </p>
-              )}
             </div>
 
             {/* Sort */}
@@ -454,9 +493,11 @@ export default function StudentList() {
                 {paginatedStudents.map((student) => {
                   const classInfo = classes.find((c) => c.id === student.classId);
                   const badge = getAttendanceBadge(student.attendanceRate);
+                  // Use icNumber as key since it's unique, with fallback to id
+                  const uniqueKey = student.icNumber || student.id || `student-${Math.random()}`;
                   return (
                     <TableRow
-                      key={student.id}
+                      key={uniqueKey}
                       className="cursor-pointer"
                       onClick={() => setSelectedStudent(student)}
                     >
@@ -504,9 +545,11 @@ export default function StudentList() {
             {paginatedStudents.map((student) => {
               const classInfo = classes.find((c) => c.id === student.classId);
               const badge = getAttendanceBadge(student.attendanceRate);
+              // Use icNumber as key since it's unique, with fallback to id
+              const uniqueKey = student.icNumber || student.id || `student-${Math.random()}`;
               return (
                 <Card
-                  key={student.id}
+                  key={uniqueKey}
                   className="cursor-pointer hover:bg-accent transition-colors"
                   onClick={() => setSelectedStudent(student)}
                 >
@@ -603,7 +646,7 @@ export default function StudentList() {
           <DialogHeader>
             <DialogTitle>{selectedStudent?.name}</DialogTitle>
             <DialogDescription id="student-detail-description">
-              Detailed attendance information for the last 30 days
+              Detailed attendance information for {getDateRangeText()}
             </DialogDescription>
           </DialogHeader>
           {selectedStudent && (
