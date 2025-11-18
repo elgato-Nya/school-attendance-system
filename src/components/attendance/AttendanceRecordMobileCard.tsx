@@ -6,7 +6,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import type { Attendance } from '@/types';
-import { Calendar, Users, User, Edit } from 'lucide-react';
+import { Calendar, User, Edit } from 'lucide-react';
 
 interface AttendanceRecordMobileCardProps {
   record: Attendance;
@@ -45,7 +45,12 @@ export function AttendanceRecordMobileCard({ record, onClick }: AttendanceRecord
                 })}
               </time>
             </div>
-            <h3 className="font-semibold text-base">{record.className}</h3>
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="font-semibold text-base">{record.className}</h3>
+              <div className="flex items-center gap-1 text-primary">
+                <span className="text-xs">({record.records.length} students)</span>
+              </div>
+            </div>
           </div>
           {record.editHistory.length > 0 ? (
             <Badge
@@ -64,12 +69,8 @@ export function AttendanceRecordMobileCard({ record, onClick }: AttendanceRecord
         </div>
 
         {/* Stats Row - Compact */}
-        <div className="flex items-center justify-between py-1.5 px-2 bg-muted/50 rounded">
-          <div className="flex items-center gap-3 text-xs">
-            <div className="flex items-center gap-1">
-              <Users className="h-3 w-3 text-muted-foreground" />
-              <span className="font-medium">Total</span>
-            </div>
+        <div className="flex items-center justify-between py-1.5 bg-muted/50 rounded">
+          <div className="flex items-center gap-3 text-xs pl-2">
             <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
               <span className="font-medium">{record.summary.present}</span>
               <span className="text-muted-foreground">Present</span>
@@ -85,7 +86,10 @@ export function AttendanceRecordMobileCard({ record, onClick }: AttendanceRecord
               <span className="text-muted-foreground">Absent</span>
             </div>
           </div>
-          <Badge variant={getRateBadgeVariant(record.summary.rate)} className="text-xs px-2 py-0.5">
+          <Badge
+            variant={getRateBadgeVariant(record.summary.rate)}
+            className="text-xs mr-2 px-2 py-0.5"
+          >
             {record.summary.rate}%
           </Badge>
         </div>

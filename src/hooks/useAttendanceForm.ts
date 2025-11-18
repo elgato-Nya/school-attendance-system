@@ -37,6 +37,12 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
   const [showReasonField, setShowReasonField] = useState(false);
   const [copied, setCopied] = useState(false);
   const [records, setRecords] = useState<AttendanceRecord[]>([]);
+  const [showUpdateConfirm, setShowUpdateConfirm] = useState(false);
+  const [pendingSubmitData, setPendingSubmitData] = useState<{
+    existingId: string;
+    records: AttendanceRecord[];
+    reason: string;
+  } | null>(null);
 
   // Load class data
   useEffect(() => {
@@ -251,32 +257,23 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
       const existing = await getAttendanceByClassAndDate(classId, dateStr);
 
       if (existing) {
-        const confirm = window.confirm(
-          'Attendance already exists for this date. Do you want to update it?'
-        );
+        toast.dismiss(loadingToast);
+        setSubmitting(false);
 
-        if (!confirm) {
-          toast.dismiss(loadingToast);
-          setSubmitting(false);
-          return;
-        }
-
-        await updateAttendance(
-          existing.id,
+        // Show confirmation dialog
+        setPendingSubmitData({
+          existingId: existing.id,
           records,
-          userId,
-          userName,
-          lateReason.trim() || 'Updated attendance record'
-        );
-
-        toast.dismiss(loadingToast);
-        toast.success('Attendance updated successfully!');
-      } else {
-        await submitAttendance(classId, classData.name, dateStr, records, userId, userName);
-
-        toast.dismiss(loadingToast);
-        toast.success('Attendance submitted successfully!');
+          reason: lateReason.trim() || 'Updated attendance record',
+        });
+        setShowUpdateConfirm(true);
+        return;
       }
+
+      await submitAttendance(classId, classData?.name || '', dateStr, records, userId, userName);
+
+      toast.dismiss(loadingToast);
+      toast.success('Attendance submitted successfully!');
 
       if (showReasonField && lateReason.trim()) {
         toast.info(`Reason: ${lateReason}`);
@@ -290,6 +287,45 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleConfirmUpdate = async () => {
+    if (!pendingSubmitData) return;
+
+    setShowUpdateConfirm(false);
+    setSubmitting(true);
+    const loadingToast = toast.loading('Updating attendance...');
+
+    try {
+      await updateAttendance(
+        pendingSubmitData.existingId,
+        pendingSubmitData.records,
+        userId,
+        userName,
+        pendingSubmitData.reason
+      );
+
+      toast.dismiss(loadingToast);
+      toast.success('Attendance updated successfully!');
+
+      if (showReasonField && lateReason.trim()) {
+        toast.info(`Reason: ${lateReason}`);
+      }
+
+      navigate('/teacher/history');
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      console.error('Update attendance error:', error);
+      toast.error('Failed to update attendance. Please try again.');
+    } finally {
+      setSubmitting(false);
+      setPendingSubmitData(null);
+    }
+  };
+
+  const handleCancelUpdate = () => {
+    setShowUpdateConfirm(false);
+    setPendingSubmitData(null);
   };
 
   const calculateSummary = () => {
@@ -316,6 +352,7 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
     copied,
     records,
     summary: calculateSummary(),
+    showUpdateConfirm,
 
     // Actions
     setSelectedDate,
@@ -326,5 +363,7 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
     handleMarkAllPresent,
     handleCopyAttendance,
     handleSubmit,
+    handleConfirmUpdate,
+    handleCancelUpdate,
   };
 }

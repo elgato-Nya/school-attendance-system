@@ -89,7 +89,6 @@ async function updateAttendanceRecordsClassName(
     const snapshot = await getDocs(attendanceQuery);
 
     if (snapshot.empty) {
-      console.log('No attendance records found for class:', classId);
       return 0;
     }
 
@@ -122,7 +121,6 @@ async function updateAttendanceRecordsClassName(
       await batch.commit();
     }
 
-    console.log(`Updated ${updatedCount} attendance records with new class name: ${newClassName}`);
     return updatedCount;
   } catch (error) {
     console.error('Update attendance records className error:', error);

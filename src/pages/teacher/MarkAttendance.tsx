@@ -6,6 +6,16 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { DateSelectionCard } from '@/components/attendance/DateSelectionCard';
 import { StudentAttendanceCard } from '@/components/attendance/StudentAttendanceCard';
 import { AttendanceSummaryCard } from '@/components/attendance/AttendanceSummaryCard';
@@ -31,6 +41,7 @@ export default function MarkAttendance() {
     copied,
     records,
     summary,
+    showUpdateConfirm,
     setSelectedDate,
     setLateReason,
     handleStatusChange,
@@ -39,6 +50,8 @@ export default function MarkAttendance() {
     handleMarkAllPresent,
     handleCopyAttendance,
     handleSubmit,
+    handleConfirmUpdate,
+    handleCancelUpdate,
   } = useAttendanceForm({
     classId: classId || '',
     userId: user?.id || '',
@@ -197,6 +210,23 @@ export default function MarkAttendance() {
           </Button>
         </div>
       )}
+
+      {/* Update Confirmation Dialog */}
+      <AlertDialog open={showUpdateConfirm} onOpenChange={handleCancelUpdate}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Update Existing Attendance?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Attendance has already been submitted for this date. Do you want to update it? This
+              will replace the existing attendance record.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleCancelUpdate}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmUpdate}>Yes, Update</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

@@ -1,19 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import {
-  Search,
-  Users,
-  Calendar,
-  ChevronRight,
-  Loader2,
-  Filter,
-  GraduationCap,
-  BookOpen,
-} from 'lucide-react';
+import { ClassCard, ClassStatusBadge } from '@/components/shared/class';
+import { Search, Loader2, Filter, BookOpen } from 'lucide-react';
 import { getAllClasses } from '@/services/class/class.service';
 import { getAttendanceByClassAndDate } from '@/services/attendance.service';
 import type { Class } from '@/types';
@@ -204,78 +195,18 @@ export default function ClassSelection() {
 
               return (
                 <article key={cls.id} className="group" role="listitem">
-                  <Card
-                    className="h-full transition-all hover:shadow-md hover:border-primary cursor-pointer"
-                    onClick={() => handleClassClick(cls.id)}
-                    tabIndex={0}
-                    role="button"
-                    aria-label={`Open attendance for ${cls.name}, ${cls.grade}. ${studentCount} students. ${isSubmittedToday ? 'Attendance already submitted today' : 'Not yet submitted today'}`}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleClassClick(cls.id);
-                      }
+                  <ClassCard
+                    name={cls.name}
+                    grade={cls.grade}
+                    studentCount={studentCount}
+                    statusBadge={<ClassStatusBadge submitted={isSubmittedToday} />}
+                    primaryAction={{
+                      label: isSubmittedToday ? 'View / Edit' : 'Mark Attendance',
+                      onClick: () => handleClassClick(cls.id),
+                      variant: isSubmittedToday ? 'outline' : 'default',
                     }}
-                  >
-                    <CardHeader className="pb-3">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                            {cls.name}
-                          </CardTitle>
-                          <CardDescription className="flex items-center gap-1.5 mt-1">
-                            <GraduationCap className="h-3.5 w-3.5" aria-hidden="true" />
-                            <span>{cls.grade}</span>
-                          </CardDescription>
-                        </div>
-                        {isSubmittedToday && (
-                          <Badge
-                            variant="secondary"
-                            className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
-                            aria-label="Submitted"
-                          >
-                            �?Submitted
-                          </Badge>
-                        )}
-                      </div>
-                    </CardHeader>
-
-                    <CardContent className="space-y-3">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Users className="h-4 w-4" aria-hidden="true" />
-                        <span>
-                          <span className="font-medium text-foreground">{studentCount}</span>{' '}
-                          students
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Calendar className="h-4 w-4" aria-hidden="true" />
-                        <span>
-                          <time dateTime={today}>
-                            {new Date().toLocaleDateString('en-MY', {
-                              weekday: 'short',
-                              day: 'numeric',
-                              month: 'short',
-                            })}
-                          </time>
-                        </span>
-                      </div>
-
-                      <Button
-                        variant={isSubmittedToday ? 'outline' : 'default'}
-                        className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-                        aria-label={
-                          isSubmittedToday
-                            ? `View or edit attendance for ${cls.name}`
-                            : `Mark attendance for ${cls.name}`
-                        }
-                      >
-                        {isSubmittedToday ? 'View / Edit' : 'Mark Attendance'}
-                        <ChevronRight className="ml-2 h-4 w-4" aria-hidden="true" />
-                      </Button>
-                    </CardContent>
-                  </Card>
+                    onClick={() => handleClassClick(cls.id)}
+                  />
                 </article>
               );
             })}
