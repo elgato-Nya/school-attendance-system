@@ -25,10 +25,15 @@ const CLASSES_COLLECTION = 'classes';
 /**
  * Get all classes (active and archived)
  */
+/**
+ * Get all ACTIVE classes (default behavior - excludes archived)
+ * This is the primary function used throughout the app
+ */
 export async function getAllClasses(): Promise<Class[]> {
   try {
-    const querySnapshot = await getDocs(collection(db, CLASSES_COLLECTION));
+    const q = query(collection(db, CLASSES_COLLECTION), where('status', '==', CLASS_STATUS.ACTIVE));
 
+    const querySnapshot = await getDocs(q);
     const classes = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Class);
 
     // Sort client-side to avoid Firestore index requirement
@@ -40,21 +45,10 @@ export async function getAllClasses(): Promise<Class[]> {
 }
 
 /**
- * Get all active classes only
+ * Get all active classes only (alias for getAllClasses for clarity)
  */
 export async function getActiveClasses(): Promise<Class[]> {
-  try {
-    const q = query(collection(db, CLASSES_COLLECTION), where('status', '==', CLASS_STATUS.ACTIVE));
-
-    const querySnapshot = await getDocs(q);
-    const classes = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Class);
-
-    // Sort client-side to avoid Firestore index requirement
-    return classes.sort((a, b) => a.name.localeCompare(b.name));
-  } catch (error) {
-    console.error('Get active classes error:', error);
-    throw error;
-  }
+  return getAllClasses();
 }
 
 /**
@@ -66,15 +60,13 @@ export async function getArchivedClasses(): Promise<Class[]> {
       collection(db, CLASSES_COLLECTION),
       where('status', '==', CLASS_STATUS.ARCHIVED)
     );
-
     const querySnapshot = await getDocs(q);
     const classes = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Class);
 
-    // Sort client-side by archivedAt (most recent first)
+    // Sort by archivedAt in memory (no index required)
     return classes.sort((a, b) => {
-      const aTime = a.archivedAt?.toMillis() || 0;
-      const bTime = b.archivedAt?.toMillis() || 0;
-      return bTime - aTime;
+      if (!a.archivedAt || !b.archivedAt) return 0;
+      return b.archivedAt.toMillis() - a.archivedAt.toMillis();
     });
   } catch (error) {
     console.error('Get archived classes error:', error);
@@ -169,26 +161,18 @@ export async function updateClass(classId: string, data: Partial<ClassFormData>)
 }
 
 /**
- * Delete a class with cascade handling
+ * Delete a class
  *
- * This function will:
- * 1. Check if attendance records exist
- * 2. Remove classId from teacher's assignedClasses
- * 3. Delete the class document
+ * Steps:
+ * 1. Remove classId from teacher's assignedClasses
+ * 2. Delete the class document
  *
- * @throws Error if attendance records exist (must be archived first)
+ * Note: Admin can delete classes even with attendance records.
+ * Consider archiving instead to preserve historical data.
  */
 export async function deleteClass(classId: string): Promise<void> {
   try {
-    // Step 1: Check if attendance records exist
-    const hasAttendance = await hasAttendanceRecords(classId);
-    if (hasAttendance) {
-      throw new Error(
-        'Cannot delete class with attendance records. Please archive the class instead to preserve historical data.'
-      );
-    }
-
-    // Step 2: Get class data to find the teacher
+    // Step 1: Get class data to find the teacher
     const classData = await getClassById(classId);
     if (classData && classData.teacherRep) {
       // Remove this class from teacher's assignedClasses
@@ -202,7 +186,7 @@ export async function deleteClass(classId: string): Promise<void> {
       }
     }
 
-    // Step 3: Delete the class document
+    // Step 2: Delete the class document
     const docRef = doc(db, CLASSES_COLLECTION, classId);
     await deleteDoc(docRef);
   } catch (error) {
