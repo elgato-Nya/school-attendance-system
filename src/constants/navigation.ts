@@ -2,7 +2,7 @@
  * Navigation Configurations
  */
 
-import { LayoutDashboard, Users, GraduationCap, Calendar, FileText, History } from 'lucide-react';
+import { LayoutDashboard, Users, GraduationCap, Calendar, History, UserCog } from 'lucide-react';
 
 // Admin Navigation Groups
 export const ADMIN_NAV_GROUPS = [
@@ -14,16 +14,14 @@ export const ADMIN_NAV_GROUPS = [
     label: 'Management',
     items: [
       { path: '/admin/classes', label: 'Classes', icon: GraduationCap },
-      { path: '/admin/users', label: 'Users', icon: Users },
+      { path: '/admin/students', label: 'Students', icon: Users },
+      { path: '/admin/users', label: 'Users', icon: UserCog },
       { path: '/admin/holidays', label: 'Holidays', icon: Calendar },
     ],
   },
   {
     label: 'Attendance',
-    items: [
-      { path: '/admin/calendar', label: 'Calendar', icon: Calendar },
-      { path: '/admin/reports', label: 'Reports', icon: FileText },
-    ],
+    items: [{ path: '/admin/calendar', label: 'Calendar', icon: Calendar }],
   },
   {
     label: 'Teacher Portal',
@@ -47,6 +45,7 @@ export const TEACHER_NAV_GROUPS = [
     items: [
       { path: '/teacher/classes', label: 'Classes', icon: GraduationCap },
       { path: '/teacher/students', label: 'Students', icon: Users },
+      { path: '/teacher/manage-students', label: 'Manage Students', icon: UserCog },
     ],
   },
   {
@@ -54,7 +53,6 @@ export const TEACHER_NAV_GROUPS = [
     items: [
       { path: '/teacher/history', label: 'History', icon: History },
       { path: '/teacher/calendar', label: 'Calendar', icon: Calendar },
-      { path: '/teacher/reports', label: 'Reports', icon: FileText },
     ],
   },
 ] as const;
@@ -66,14 +64,13 @@ export const ADMIN_NAV_ITEMS = [
   { path: '/admin/users', label: 'Users', icon: Users },
   { path: '/admin/holidays', label: 'Holidays', icon: Calendar },
   { path: '/admin/calendar', label: 'Calendar', icon: Calendar },
-  { path: '/admin/reports', label: 'Reports', icon: FileText },
 ] as const;
 
 export const TEACHER_NAV_ITEMS = [
   { path: '/teacher/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/teacher/classes', label: 'Classes', icon: GraduationCap },
   { path: '/teacher/students', label: 'Students', icon: Users },
+  { path: '/teacher/manage-students', label: 'Manage Students', icon: UserCog },
   { path: '/teacher/history', label: 'History', icon: History },
   { path: '/teacher/calendar', label: 'Calendar', icon: Calendar },
-  { path: '/teacher/reports', label: 'Reports', icon: FileText },
 ] as const;
