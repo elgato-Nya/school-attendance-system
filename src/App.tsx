@@ -12,12 +12,13 @@ import { AdminDashboard } from '@/pages/admin/Dashboard';
 import { ClassManagement } from '@/pages/admin/ClassManagement';
 import { UserManagement } from '@/pages/admin/UserManagement';
 import { HolidayManagement } from '@/pages/admin/HolidayManagement';
+import { StudentManagement } from '@/pages/admin/StudentManagement';
 import CalendarPage from '@/pages/Calendar';
-import ReportsPage from '@/pages/Reports';
 import { TeacherDashboard } from '@/pages/teacher/Dashboard';
 import ClassSelection from '@/pages/teacher/ClassSelection';
 import MarkAttendance from '@/pages/teacher/MarkAttendance';
 import StudentList from '@/pages/teacher/StudentList';
+import ManageStudents from '@/pages/teacher/ManageStudents';
 import AttendanceHistory from '@/pages/teacher/AttendanceHistory';
 import { Toaster } from '@/components/ui/sonner';
 import { ROLES } from '@/utils/constants';
@@ -101,23 +102,6 @@ function App() {
               }
             />
             <Route
-              path="/admin/reports"
-              element={
-                <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
-                  <Layout
-                    navGroups={ADMIN_NAV_GROUPS}
-                    logoText="SMK Taman Melawati"
-                    homePath="/admin/dashboard"
-                    profilePath="/admin/profile"
-                    settingsPath="/admin/settings"
-                    useSchoolLogo={true}
-                  >
-                    <ReportsPage />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/admin/users"
               element={
                 <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
@@ -130,6 +114,23 @@ function App() {
                     useSchoolLogo={true}
                   >
                     <UserManagement />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/students"
+              element={
+                <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
+                  <Layout
+                    navGroups={ADMIN_NAV_GROUPS}
+                    logoText="SMK Taman Melawati"
+                    homePath="/admin/dashboard"
+                    profilePath="/admin/profile"
+                    settingsPath="/admin/settings"
+                    useSchoolLogo={true}
+                  >
+                    <StudentManagement />
                   </Layout>
                 </ProtectedRoute>
               }
@@ -227,6 +228,17 @@ function App() {
             />
 
             <Route
+              path="/teacher/manage-students"
+              element={
+                <ProtectedRoute allowedRoles={[ROLES.TEACHER, ROLES.ADMIN]}>
+                  <TeacherLayout>
+                    <ManageStudents />
+                  </TeacherLayout>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
               path="/teacher/history"
               element={
                 <ProtectedRoute allowedRoles={[ROLES.TEACHER, ROLES.ADMIN]}>
@@ -243,17 +255,6 @@ function App() {
                 <ProtectedRoute allowedRoles={[ROLES.TEACHER, ROLES.ADMIN]}>
                   <TeacherLayout>
                     <CalendarPage />
-                  </TeacherLayout>
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/teacher/reports"
-              element={
-                <ProtectedRoute allowedRoles={[ROLES.TEACHER, ROLES.ADMIN]}>
-                  <TeacherLayout>
-                    <ReportsPage />
                   </TeacherLayout>
                 </ProtectedRoute>
               }
