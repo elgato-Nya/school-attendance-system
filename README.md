@@ -1,114 +1,178 @@
-# 🏫 School Attendance Management System
+# School Attendance System
 
-A comprehensive attendance tracking system for schools with advanced edit tracking and audit trail capabilities.
+A modern, mobile-first web application for tracking student attendance at SMK Taman Melawati. Built with React, TypeScript, and Firebase, this system provides real-time attendance management with comprehensive features for both administrators and teachers.
+
+## Overview
+
+This system streamlines daily attendance operations by providing an intuitive interface for marking attendance, viewing statistics, and managing student records. All data is stored in Firebase Firestore with real-time synchronization across devices.
+
+**Key Highlights:**
+
+- ✅ Mobile-first responsive design
+- ✅ Role-based access control (Admin, Teacher)
+- ✅ Real-time data synchronization
+- ✅ Archive system for students and classes
+- ✅ Comprehensive filtering and date range selection
+- ✅ Edit history tracking with audit trail
+- ✅ CSV export for reports
+- ✅ Light/Dark theme support
+
+## Features at a Glance
+
+### For Administrators
+
+- School-wide attendance dashboard with submission tracking
+- Manage classes (create, archive, restore, delete)
+- Manage students (add, edit, archive, restore)
+- Manage teacher and admin accounts
+- View any teacher's dashboard data
+- Visual calendar showing all class attendance
+- Generate and export attendance reports
+
+### For Teachers
+
+- Personal dashboard showing assigned classes
+- Quick attendance marking interface
+- Manage students in assigned classes
+- View and edit attendance history with date filters
+- Individual student statistics and records
+- Visual calendar for assigned classes
+- Export class attendance data
+
+### Core Capabilities
+
+- Date range filtering (single day, last 7/30 days, custom range, all time)
+- Search and filter functionality across all pages
+- Archive with reason tracking (preserves all data)
+- Responsive charts and statistics
+- Holiday-aware attendance calculations
+- Edit history with rollback capability
 
 ---
 
-## 🚀 Recent Updates
+## Tech Stack
 
-### **Attendance Edit & Audit Trail System** (November 2025)
-
-We've implemented a complete attendance edit management system with:
-
-- ✅ **Complete Audit Trail** - Track who edited what, when, and why
-- ✅ **Accurate Statistics** - No double counting of edited records
-- ✅ **Required Justification** - All edits require detailed reasons
-- ✅ **Permission System** - Role-based edit access control
-- ✅ **Original Data Preservation** - Never lose original submissions
-- ✅ **Comprehensive Documentation** - Full guides and references
-
-**📚 [View Complete Documentation](./DOCUMENTATION_INDEX.md)**
+- **Frontend**: React 19 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI
+- **Backend**: Firebase (Firestore, Auth, Hosting)
+- **State**: Zustand + Context API
+- **Forms**: React Hook Form + Zod
+- **Charts**: Recharts
+- **Calendar**: FullCalendar
 
 ---
 
-## 📖 Documentation
+## Getting Started
 
-We have comprehensive documentation for the entire system:
+### Prerequisites
 
-### **Quick Start**
-- 🎯 **[START HERE: Complete Strategy](./COMPLETE_STRATEGY.md)** - Overview of everything
-- 📋 **[Implementation Checklist](./IMPLEMENTATION_CHECKLIST.md)** - Step-by-step integration guide
+- Node.js 18+
+- Firebase account
+- npm or yarn
 
-### **Understanding**
-- 📊 **[Visual Guide](./VISUAL_GUIDE.md)** - Diagrams and flowcharts
-- 📖 **[Refactoring Guide](./REFACTORING_GUIDE.md)** - Executive summary
+### Installation
 
-### **Technical**
-- 🔧 **[Technical Documentation](./ATTENDANCE_EDIT_AUDIT_SYSTEM.md)** - Complete API reference
-- 📑 **[Documentation Index](./DOCUMENTATION_INDEX.md)** - Navigation guide
+1. Clone the repository
 
----
-
-## 🛠️ Tech Stack
-
-This is a React + TypeScript + Vite application with:
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/elgato-Nya/school-attendance-system.git
+cd school-attendance-system
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+3. Configure Firebase
+
+```bash
+cp .env.example .env
+# Add your Firebase credentials to .env
+```
+
+4. Start development server
+
+```bash
+npm run dev
+```
+
+---
+
+## Scripts
+
+| Command               | Description                         |
+| --------------------- | ----------------------------------- |
+| `npm run dev`         | Start development server            |
+| `npm run build`       | Build for production                |
+| `npm run preview`     | Preview production build            |
+| `npm run lint`        | Run ESLint                          |
+| `npm run format`      | Format code with Prettier           |
+| `npm run deploy`      | Deploy to Firebase Hosting          |
+| `npm run populate:db` | Populate Firestore with sample data |
+
+---
+
+## Project Structure
+
+```
+src/
+├── components/       # Reusable UI components
+├── pages/           # Route pages (admin, teacher)
+├── services/        # Firebase & API services
+├── hooks/           # Custom React hooks
+├── contexts/        # React context providers
+├── utils/           # Helper functions
+├── types/           # TypeScript type definitions
+└── constants/       # App constants
+
+public/
+└── data/           # Static data (holidays)
+
+functions/          # Firebase Cloud Functions
+scripts/            # Database population scripts
+```
+
+---
+
+## Environment Variables
+
+```env
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
+
+---
+
+## Deployment
+
+### Firebase Hosting
+
+```bash
+npm run deploy
+```
+
+### Firebase Functions
+
+```bash
+npm run deploy:functions
+```
+
+---
+
+## License
+
+This project is private and proprietary.
+
+---
+
+## Support
+
+For issues or questions, contact the development team.
