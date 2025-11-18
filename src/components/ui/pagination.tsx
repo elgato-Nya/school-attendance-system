@@ -41,14 +41,22 @@ export function Pagination({
   }
 
   return (
-    <div className="flex items-center justify-between px-2 py-4">
-      <div className="text-sm text-muted-foreground">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2 py-4">
+      {/* Records info - hidden on mobile, shown on desktop */}
+      <div className="hidden sm:block text-sm text-muted-foreground">
         Showing <span className="font-medium">{startIndex}</span> to{' '}
         <span className="font-medium">{endIndex}</span> of{' '}
         <span className="font-medium">{totalRecords}</span> records
       </div>
 
-      <div className="flex items-center space-x-2">
+      {/* Mobile: Compact info */}
+      <div className="sm:hidden text-xs text-muted-foreground">
+        {startIndex}-{endIndex} of {totalRecords}
+      </div>
+
+      {/* Pagination controls */}
+      <div className="flex items-center gap-1 sm:space-x-2">
+        {/* First page button - always show */}
         {showFirstLast && (
           <Button
             variant="outline"
@@ -56,8 +64,9 @@ export function Pagination({
             onClick={() => onPageChange(1)}
             disabled={currentPage === 1}
             aria-label="First page"
+            className="h-8 w-8 sm:h-10 sm:w-10"
           >
-            <ChevronsLeft className="h-4 w-4" />
+            <ChevronsLeft className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         )}
 
@@ -67,35 +76,65 @@ export function Pagination({
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
           aria-label="Previous page"
+          className="h-8 w-8 sm:h-10 sm:w-10"
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
         </Button>
 
+        {/* Desktop: Show first page + ellipsis */}
         {startPage > 1 && (
           <>
-            <Button variant="outline" size="sm" onClick={() => onPageChange(1)}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onPageChange(1)}
+              className="hidden sm:inline-flex min-w-10"
+            >
               1
             </Button>
-            {startPage > 2 && <span className="text-muted-foreground">...</span>}
+            {startPage > 2 && (
+              <span key="ellipsis-start" className="hidden sm:inline text-muted-foreground px-1">
+                ...
+              </span>
+            )}
           </>
         )}
 
-        {pageNumbers.map((page) => (
-          <Button
-            key={page}
-            variant={currentPage === page ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => onPageChange(page)}
-            className="min-w-[40px]"
-          >
-            {page}
-          </Button>
-        ))}
+        {/* Page numbers - show fewer on mobile */}
+        {pageNumbers
+          .filter((page) => {
+            // On mobile, only show current page and adjacent pages
+            if (typeof window !== 'undefined' && window.innerWidth < 640) {
+              return Math.abs(page - currentPage) <= 1;
+            }
+            return true;
+          })
+          .map((page) => (
+            <Button
+              key={page}
+              variant={currentPage === page ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => onPageChange(page)}
+              className="h-8 min-w-8 sm:h-10 sm:min-w-10 text-xs sm:text-sm"
+            >
+              {page}
+            </Button>
+          ))}
 
+        {/* Desktop: Show last page + ellipsis */}
         {endPage < totalPages && (
           <>
-            {endPage < totalPages - 1 && <span className="text-muted-foreground">...</span>}
-            <Button variant="outline" size="sm" onClick={() => onPageChange(totalPages)}>
+            {endPage < totalPages - 1 && (
+              <span key="ellipsis-end" className="hidden sm:inline text-muted-foreground px-1">
+                ...
+              </span>
+            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onPageChange(totalPages)}
+              className="hidden sm:inline-flex min-w-10"
+            >
               {totalPages}
             </Button>
           </>
@@ -107,10 +146,12 @@ export function Pagination({
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           aria-label="Next page"
+          className="h-8 w-8 sm:h-10 sm:w-10"
         >
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
         </Button>
 
+        {/* Last page button - always show */}
         {showFirstLast && (
           <Button
             variant="outline"
@@ -118,8 +159,9 @@ export function Pagination({
             onClick={() => onPageChange(totalPages)}
             disabled={currentPage === totalPages}
             aria-label="Last page"
+            className="h-8 w-8 sm:h-10 sm:w-10"
           >
-            <ChevronsRight className="h-4 w-4" />
+            <ChevronsRight className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         )}
       </div>

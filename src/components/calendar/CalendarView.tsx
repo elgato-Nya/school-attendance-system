@@ -1,5 +1,5 @@
 /**
- * CalendarView Component
+ * CalendarView Component - Rewritten for reliable color updates
  * FullCalendar wrapper with attendance color coding and responsive theme support
  */
 
@@ -9,6 +9,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Card, CardContent } from '@/components/ui/card';
 import { format } from 'date-fns';
+import { Loader2 } from 'lucide-react';
 import type { Holiday } from '@/types';
 import { MonthYearPicker } from './MonthYearPicker';
 
@@ -20,16 +21,17 @@ interface CalendarViewProps {
   rangeMode?: boolean;
   rangeStart?: string | null;
   rangeEnd?: string | null;
+  isLoadingData?: boolean; // New prop to show loading indicator
 }
 
 export function CalendarView({
   onDateClick,
   onMonthChange,
   getDateInfo,
-  holidays,
   rangeMode = false,
   rangeStart = null,
   rangeEnd = null,
+  isLoadingData = false,
 }: CalendarViewProps) {
   const calendarRef = useRef<FullCalendar>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -47,6 +49,23 @@ export function CalendarView({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Update all cell colors - called whenever we need to refresh
+  const updateAllCellColors = () => {
+    const dayCells = document.querySelectorAll('.fc-daygrid-day');
+    dayCells.forEach((cell) => {
+      const dateStr = cell.getAttribute('data-date');
+      if (dateStr) {
+        const dateInfo = getDateInfo(dateStr);
+        (cell as HTMLElement).style.backgroundColor = dateInfo.color;
+        (cell as HTMLElement).style.color = dateInfo.textColor;
+
+        if (dateInfo.tooltip) {
+          cell.setAttribute('title', dateInfo.tooltip);
+        }
+      }
+    });
+  };
+
   const handleDateClick = (info: any) => {
     onDateClick(info.dateStr);
   };
@@ -62,11 +81,20 @@ export function CalendarView({
   };
 
   const handleDatesSet = (info: any) => {
-    // Use view.currentStart instead of info.start to get the actual calendar month
     const actualMonthStart = info.view.currentStart;
     setCurrentViewDate(actualMonthStart);
     onMonthChange(actualMonthStart);
   };
+
+  // Update colors whenever getDateInfo changes (new data loaded)
+  useEffect(() => {
+    // Wait a bit for DOM to be ready
+    const timer = setTimeout(() => {
+      updateAllCellColors();
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [getDateInfo]);
 
   // Check if date is in range selection
   const isInRange = (dateStr: string): boolean => {
@@ -82,19 +110,18 @@ export function CalendarView({
     return rangeEnd === dateStr;
   };
 
-  // Re-render calendar cells when theme or holidays change
-  useEffect(() => {
-    const calendarApi = calendarRef.current?.getApi();
-    if (calendarApi) {
-      // Force re-render by refetching events (this triggers a re-render)
-      calendarApi.refetchEvents();
-    }
-  }, [holidays, getDateInfo]);
-
   return (
     <Card>
       <CardContent className={isMobile ? 'p-2' : 'p-4 sm:p-6'}>
-        {/* Month/Year Picker - Professional navigation */}
+        {/* Loading indicator - non-blocking */}
+        {isLoadingData && (
+          <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <span>Loading attendance data...</span>
+          </div>
+        )}
+
+        {/* Month/Year Picker */}
         <div className="mb-4 flex justify-center">
           <MonthYearPicker currentDate={currentViewDate} onDateChange={handleMonthYearChange} />
         </div>
@@ -125,7 +152,7 @@ export function CalendarView({
               info.el.style.backgroundColor = dateInfo.color;
               info.el.style.color = dateInfo.textColor;
 
-              // Add smooth transition for theme changes
+              // Add smooth transition
               info.el.style.transition =
                 'background-color 0.2s ease, color 0.2s ease, border 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, transform 0.2s ease';
 
@@ -143,24 +170,20 @@ export function CalendarView({
                 info.el.style.cursor = 'crosshair';
 
                 if (isRangeStartDate(dateStr)) {
-                  // Start date - add prominent border with theme color
                   info.el.style.border = '3px solid hsl(var(--accent))';
                   info.el.style.boxShadow = '0 0 0 3px hsl(var(--accent) / 0.2)';
                   info.el.style.position = 'relative';
                   info.el.style.zIndex = '10';
                 } else if (isRangeEndDate(dateStr)) {
-                  // End date - add prominent border with theme color
                   info.el.style.border = '3px solid hsl(var(--accent))';
                   info.el.style.boxShadow = '0 0 0 3px hsl(var(--accent) / 0.2)';
                   info.el.style.position = 'relative';
                   info.el.style.zIndex = '10';
                 } else if (isInRange(dateStr)) {
-                  // Dates within range - add subtle highlight with accent
                   info.el.style.boxShadow = 'inset 0 0 0 2px hsl(var(--accent) / 0.3)';
                   info.el.style.border = '2px solid hsl(var(--accent) / 0.5)';
                   info.el.style.backgroundColor = `color-mix(in srgb, ${dateInfo.color} 70%, hsl(var(--accent)) 30%)`;
                 } else {
-                  // Other dates - subtle hint
                   info.el.style.border = '1px solid hsl(var(--border))';
                   info.el.style.opacity = '0.7';
                 }
@@ -183,7 +206,6 @@ export function CalendarView({
 
                   const handleMouseLeave = () => {
                     isHovering = false;
-                    // Reset styles only if still not hovering
                     requestAnimationFrame(() => {
                       if (!isHovering) {
                         info.el.style.opacity = '1';
@@ -197,7 +219,7 @@ export function CalendarView({
                   info.el.addEventListener('mouseenter', handleMouseEnter);
                   info.el.addEventListener('mouseleave', handleMouseLeave);
 
-                  // Cleanup on unmount - ensure styles are removed
+                  // Cleanup on unmount
                   const observer = new MutationObserver(() => {
                     if (!document.body.contains(info.el)) {
                       info.el.removeEventListener('mouseenter', handleMouseEnter);
@@ -209,12 +231,12 @@ export function CalendarView({
                 }
               }
 
-              // Add tooltip for accessibility
+              // Add tooltip
               if (dateInfo.tooltip) {
                 info.el.setAttribute('title', dateInfo.tooltip);
               }
 
-              // Improve text contrast and sizing
+              // Improve text styling
               info.el.style.fontWeight = '600';
               const dayNumber = info.el.querySelector('.fc-daygrid-day-number');
               if (dayNumber) {

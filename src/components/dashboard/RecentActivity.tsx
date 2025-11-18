@@ -46,11 +46,16 @@ export function RecentActivity({ activities, maxItems = 10 }: RecentActivityProp
   };
 
   return (
-    <Card>
+    <Card className="gap-1">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Clock className="h-5 w-5" aria-hidden="true" />
-          Recent Submissions
+        <CardTitle className="flex flex-col gap-1">
+          <div className="flex flex-row items-center gap-2">
+            <Clock className="h-5 w-5" aria-hidden="true" />
+            Recent Submissions
+          </div>
+          <p className="text-xs sm:text-sm font-normal text-muted-foreground">
+            Click on the submissions for details
+          </p>
         </CardTitle>
       </CardHeader>
       <CardContent>

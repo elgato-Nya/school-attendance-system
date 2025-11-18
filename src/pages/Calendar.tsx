@@ -79,7 +79,7 @@ export default function CalendarPage() {
   const [classes, setClasses] = useState<Class[]>([]);
   const [attendanceData, setAttendanceData] = useState<Map<string, Attendance[]>>(new Map());
   const [loading, setLoading] = useState(true);
-  const [initialLoad, setInitialLoad] = useState(true);
+  const [loadingMonthData, setLoadingMonthData] = useState(false);
 
   // Day report modal
   const [dayModalOpen, setDayModalOpen] = useState(false);
@@ -95,9 +95,81 @@ export default function CalendarPage() {
   const [rangeMode, setRangeMode] = useState(false);
 
   // Cache for loaded months to prevent redundant API calls
+  // @ts-expect-error - loadedMonths used in functional state update
   const [loadedMonths, setLoadedMonths] = useState<Set<string>>(new Set());
 
-  // Initial data load (holidays and classes only)
+  // Load attendance for a specific month
+  const loadAttendanceForMonth = useCallback(async (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const monthKey = `${year}-${month}`;
+
+    try {
+      // Check if already loaded using functional state
+      let alreadyLoaded = false;
+      setLoadedMonths((prev) => {
+        alreadyLoaded = prev.has(monthKey);
+        return prev; // Don't modify yet
+      });
+
+      if (alreadyLoaded) {
+        return;
+      }
+
+      setLoadingMonthData(true);
+
+      const startDate = `${year}-${month}-01`;
+      const endDate = `${year}-${month}-31`;
+
+      const q = query(
+        collection(db, 'attendance'),
+        where('date', '>=', startDate),
+        where('date', '<=', endDate),
+        orderBy('date', 'asc')
+      );
+
+      const snapshot = await getDocs(q);
+      const dataMap = new Map<string, Attendance[]>();
+
+      snapshot.docs.forEach((doc) => {
+        const data = doc.data();
+        const attendance: Attendance = {
+          id: doc.id,
+          classId: data.classId || '',
+          className: data.className || '',
+          date: data.date || '',
+          submittedBy: data.submittedBy || '',
+          submittedByName: data.submittedByName || '',
+          timestamp: data.timestamp,
+          records: data.records || [],
+          summary: {
+            total: data.summary?.total || 0,
+            present: data.summary?.present || 0,
+            late: data.summary?.late || 0,
+            absent: data.summary?.absent || 0,
+            excused: data.summary?.excused || 0,
+            rate: data.summary?.rate || 0,
+          },
+          telegramSent: data.telegramSent || false,
+          editHistory: data.editHistory || [],
+          updatedAt: data.updatedAt || undefined,
+        };
+        const existing = dataMap.get(attendance.date) || [];
+        dataMap.set(attendance.date, [...existing, attendance]);
+      });
+
+      // Merge with existing data
+      setAttendanceData((prev) => new Map([...prev, ...dataMap]));
+
+      // Mark as loaded AFTER successful fetch
+      setLoadedMonths((prev) => new Set([...prev, monthKey]));
+    } catch (error) {
+      console.error(`Load attendance for month ${monthKey} error:`, error);
+      toast.error('Failed to load attendance data');
+    } finally {
+      setLoadingMonthData(false);
+    }
+  }, []); // Initial data load (holidays and classes) - separate from attendance data
   useEffect(() => {
     const loadInitialData = async () => {
       setLoading(true);
@@ -106,86 +178,33 @@ export default function CalendarPage() {
 
         setHolidays(holidaysData);
         setClasses(classesData);
-
-        // Load attendance for current month only
-        await loadAttendanceForMonth(new Date());
       } catch (error) {
         console.error('Load calendar data error:', error);
+        toast.error('Failed to load calendar data');
       } finally {
         setLoading(false);
-        setInitialLoad(false);
       }
     };
 
     loadInitialData();
   }, []);
 
-  const loadAttendanceForMonth = useCallback(
-    async (date: Date) => {
+  // Load current month attendance data asynchronously (doesn't block page load)
+  useEffect(() => {
+    const loadCurrentMonth = async () => {
       try {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const monthKey = `${year}-${month}`;
-
-        // Skip if already loaded
-        if (loadedMonths.has(monthKey)) {
-          return;
-        }
-
-        const startDate = `${year}-${month}-01`;
-        const endDate = `${year}-${month}-31`;
-
-        const q = query(
-          collection(db, 'attendance'),
-          where('date', '>=', startDate),
-          where('date', '<=', endDate),
-          orderBy('date', 'asc')
-        );
-
-        const snapshot = await getDocs(q);
-        const dataMap = new Map<string, Attendance[]>();
-
-        snapshot.docs.forEach((doc) => {
-          const data = doc.data();
-          const attendance: Attendance = {
-            id: doc.id,
-            classId: data.classId || '',
-            className: data.className || '',
-            date: data.date || '',
-            submittedBy: data.submittedBy || '',
-            submittedByName: data.submittedByName || '',
-            timestamp: data.timestamp,
-            records: data.records || [],
-            summary: {
-              total: data.summary?.total || 0,
-              present: data.summary?.present || 0,
-              late: data.summary?.late || 0,
-              absent: data.summary?.absent || 0,
-              excused: data.summary?.excused || 0,
-              rate: data.summary?.rate || 0,
-            },
-            telegramSent: data.telegramSent || false,
-            editHistory: data.editHistory || [],
-            updatedAt: data.updatedAt || undefined,
-          };
-          const existing = dataMap.get(attendance.date) || [];
-          dataMap.set(attendance.date, [...existing, attendance]);
-        });
-
-        // Merge with existing data
-        setAttendanceData((prev) => new Map([...prev, ...dataMap]));
-
-        // Mark month as loaded
-        setLoadedMonths((prev) => new Set([...prev, monthKey]));
+        await loadAttendanceForMonth(new Date());
       } catch (error) {
-        console.error('Load attendance for month error:', error);
-        if (!initialLoad) {
-          toast.error('Failed to load attendance data for this month');
-        }
+        console.error('Failed to load current month attendance:', error);
+        // Don't show error toast - user can see via loading indicator
       }
-    },
-    [loadedMonths, initialLoad]
-  );
+    };
+
+    // Only load after holidays and classes are ready
+    if (!loading) {
+      loadCurrentMonth();
+    }
+  }, [loading, loadAttendanceForMonth]);
 
   // Memoize getDateInfo to prevent recalculation on every render
   const getDateInfo = useCallback(
@@ -580,6 +599,7 @@ export default function CalendarPage() {
         rangeMode={rangeMode}
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
+        isLoadingData={loadingMonthData}
       />
 
       <DayReportModal

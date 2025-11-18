@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface Alert {
   id: string;
@@ -15,10 +16,9 @@ interface Alert {
 
 interface AlertCardProps {
   alerts: Alert[];
-  onViewClass?: (classId: string) => void;
 }
 
-export function AlertCard({ alerts, onViewClass }: AlertCardProps) {
+export function AlertCard({ alerts }: AlertCardProps) {
   const getSeverityVariant = (severity: string): 'destructive' | 'warning' | 'secondary' => {
     if (severity === 'high') return 'destructive';
     if (severity === 'medium') return 'warning';
@@ -72,16 +72,16 @@ export function AlertCard({ alerts, onViewClass }: AlertCardProps) {
                     Grade {alert.grade} • {new Date(alert.date).toLocaleDateString()}
                   </p>
                 </div>
-                {onViewClass && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => onViewClass(alert.classId)}
-                    aria-label={`View details for ${alert.className}`}
-                  >
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                  aria-label={`View details for ${alert.className}`}
+                >
+                  <Link to={`/admin/classes?classId=${alert.classId}`}>
                     <ExternalLink className="h-4 w-4" />
-                  </Button>
-                )}
+                  </Link>
+                </Button>
               </div>
             ))}
           </div>
