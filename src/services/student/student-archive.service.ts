@@ -114,7 +114,8 @@ export async function archiveStudent(
       studentData.icNumber
     );
 
-    const archivedStudent: Omit<ArchivedStudent, 'id'> = {
+    // Build archived student object (exclude undefined fields for Firestore)
+    const archivedStudent: any = {
       studentData,
       studentIcNumber: studentData.icNumber,
       originalClassId: classId,
@@ -123,10 +124,14 @@ export async function archiveStudent(
       archivedBy,
       archivedByName,
       reason,
-      reasonDetails: reason === 'Other' ? reasonDetails : undefined,
       canRestore: true,
       attendanceSummary,
     };
+
+    // Only add reasonDetails if it has a value (Firestore doesn't accept undefined)
+    if (reasonDetails && reasonDetails.trim()) {
+      archivedStudent.reasonDetails = reasonDetails;
+    }
 
     // Use IC number + timestamp as document ID for easy lookup
     const docId = `${classId}_${studentData.icNumber}_${Date.now()}`;
