@@ -7,7 +7,14 @@ import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -91,14 +98,14 @@ export function Navbar({
                   <Button
                     key={item.path}
                     variant={active ? 'default' : 'ghost'}
-                    className={`justify-start w-full h-10 ${active ? '' : 'hover:bg-accent hover:text-accent-foreground'}`}
+                    className={`flex items-center justify-start w-full h-10 ${active ? '' : 'hover:bg-accent hover:text-accent-foreground'}`}
                     onClick={() => {
                       navigate(item.path);
                       setMobileMenuOpen(false);
                     }}
                   >
-                    <Link to={item.path}>
-                      <Icon className="h-4 w-4 mr-3 shrink-0" />
+                    <Link to={item.path} className="flex items-center gap-3 w-full">
+                      <Icon className="h-4 w-4 shrink-0" />
                       <span className="truncate">{item.label}</span>
                     </Link>
                   </Button>
@@ -154,7 +161,7 @@ export function Navbar({
                     const Icon = item.icon;
                     return (
                       <DropdownMenuItem key={item.path} onClick={() => navigate(item.path)}>
-                        <Link to={item.path}>
+                        <Link to={item.path} className="flex items-center gap-0.5 w-full">
                           <Icon className="mr-2 h-4 w-4" />
                           {item.label}
                         </Link>
@@ -176,9 +183,9 @@ export function Navbar({
                 variant={active ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => navigate(item.path)}
-                className="gap-1.5"
+                className="flex items-center gap-1"
               >
-                <Link to={item.path}>
+                <Link to={item.path} className="flex items-center gap-1 w-full">
                   <Icon className="h-4 w-4" />
                   <span className="hidden lg:inline">{item.label}</span>
                 </Link>
@@ -211,11 +218,13 @@ export function Navbar({
                       <SheetTitle className="text-left text-base font-bold truncate">
                         {logoText}
                       </SheetTitle>
-                      <p className="text-xs text-muted-foreground mt-0.5">Navigation Menu</p>
+                      <SheetDescription className="text-xs text-muted-foreground mt-0.5">
+                        Navigation Menu
+                      </SheetDescription>
                     </div>
                   </div>
                 </SheetHeader>
-                <nav className="flex-1 overflow-y-auto p-4">
+                <nav className="flex-1 overflow-y-auto pl-3">
                   <MobileNavLinks />
                 </nav>
                 {/* User info footer */}
@@ -234,7 +243,10 @@ export function Navbar({
             </Sheet>
 
             {/* Logo */}
-            <Link to={homePath} className="flex items-center gap-2 cursor-pointer group min-w-0">
+            <Link
+              to={homePath}
+              className="flex items-center gap-2 cursor-pointer group min-w-0 w-full"
+            >
               {logoIcon}
               <h1 className="text-base sm:text-lg font-bold truncate">{logoText}</h1>
             </Link>
@@ -262,15 +274,17 @@ export function Navbar({
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate(profilePath)}>
-                  <Link to={profilePath}>
+                <DropdownMenuItem>
+                  <Link to={profilePath} className="flex items-center gap-0.5 w-full">
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate(settingsPath)}>
-                  <Settings className="mr-2 h-4 w-4" />
-                  Settings
+                <DropdownMenuItem>
+                  <Link to={settingsPath} className="flex items-center gap-0.5 w-full">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="text-destructive">
