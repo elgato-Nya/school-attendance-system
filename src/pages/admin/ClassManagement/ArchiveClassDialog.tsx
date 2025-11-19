@@ -30,7 +30,7 @@ interface ArchiveClassDialogProps {
 const ARCHIVE_REASONS = [
   { value: 'End of Academic Year', label: 'Akhir Tahun Akademik' },
   { value: 'Class Restructuring', label: 'Penstrukturan Semula Kelas' },
-  { value: 'Low Enrollment', label: 'Enrolmen Rendah' },
+  { value: 'Low Enrollment', label: 'Pendaftaran Rendah' },
   { value: 'Other', label: 'Lain-lain (nyatakan di bawah)' },
 ] as const;
 
@@ -100,7 +100,7 @@ export function ArchiveClassDialog({
                 value={customReason}
                 onChange={(e) => setCustomReason(e.target.value)}
                 placeholder="Masukkan sebab pengarkiban..."
-                className="min-h-[80px]"
+                className="min-h-20"
               />
             </div>
           )}

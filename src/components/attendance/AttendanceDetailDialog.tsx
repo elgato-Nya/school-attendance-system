@@ -81,9 +81,7 @@ export function AttendanceDetailDialog({
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="overview">Gambaran</TabsTrigger>
             <TabsTrigger value="students">Murid ({attendance.records.length})</TabsTrigger>
-            <TabsTrigger value="history">
-              Sejarah Suntingan ({attendance.editHistory.length})
-            </TabsTrigger>
+            <TabsTrigger value="history">Suntingan ({attendance.editHistory.length})</TabsTrigger>
           </TabsList>
 
           <div className="flex-1 mt-4 overflow-y-auto pr-4">
@@ -142,14 +140,14 @@ export function AttendanceDetailDialog({
                       )}
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <p className="text-sm text-muted-foreground">Pemberitahuan Telegram</p>
                     <div className="mt-1">
                       <Badge variant={attendance.telegramSent ? 'success' : 'secondary'}>
                         {attendance.telegramSent ? 'Dihantar' : 'Tidak Dihantar'}
                       </Badge>
                     </div>
-                  </div>
+                  </div> */}
                 </CardContent>
               </Card>
 

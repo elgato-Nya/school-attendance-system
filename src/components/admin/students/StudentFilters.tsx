@@ -43,7 +43,7 @@ export function StudentFilters({
     selectedGrade === 'all' ? classes : classes.filter((c) => c.grade === Number(selectedGrade));
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-row gap-3 bg-accent">
       {/* Search bar - full width on mobile */}
       <div className="relative w-full">
         <Search

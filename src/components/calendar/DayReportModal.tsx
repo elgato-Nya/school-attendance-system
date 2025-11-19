@@ -123,7 +123,12 @@ export function DayReportModal({ open, onOpenChange, dayReport, classes }: DayRe
         <DialogHeader>
           <DialogTitle className="text-xl sm:text-2xl font-bold">Report Kehadiran</DialogTitle>
           <DialogDescription id="penerangan-report-harian" className="text-sm sm:text-base">
-            {format(parseISO(dayReport.date), 'EEEE, dd MMMM yyyy')}
+            {new Intl.DateTimeFormat('ms-MY', {
+              weekday: 'long',
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric',
+            }).format(parseISO(dayReport.date))}
           </DialogDescription>
         </DialogHeader>
 

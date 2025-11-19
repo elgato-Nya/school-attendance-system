@@ -52,7 +52,7 @@ export function ClassCard({
             </CardTitle>
             <CardDescription className="flex items-center gap-1.5 mt-1">
               <GraduationCap className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              <span>Darjah {grade}</span>
+              <span>Tingkatan {grade}</span>
             </CardDescription>
           </div>
           {statusBadge && <div className="shrink-0">{statusBadge}</div>}

@@ -9,6 +9,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Card, CardContent } from '@/components/ui/card';
 import { format } from 'date-fns';
+// FullCalendar Malay locale
+import msLocale from '@fullcalendar/core/locales/ms';
 import { Loader2 } from 'lucide-react';
 import type { Holiday } from '@/types';
 import { MonthYearPicker } from './MonthYearPicker';
@@ -36,6 +38,7 @@ export function CalendarView({
   const calendarRef = useRef<FullCalendar>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [currentViewDate, setCurrentViewDate] = useState(new Date());
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -96,6 +99,18 @@ export function CalendarView({
     return () => clearTimeout(timer);
   }, [getDateInfo]);
 
+  // Listen for browser fullscreen changes so we can adjust header formatting
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      setIsFullScreen(!!document.fullscreenElement);
+      // Allow a small delay for layout to stabilize before reapplying colors
+      setTimeout(updateAllCellColors, 120);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullScreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullScreenChange);
+  }, []);
+
   // Check if date is in range selection
   const isInRange = (dateStr: string): boolean => {
     if (!rangeStart || !rangeEnd) return false;
@@ -128,6 +143,7 @@ export function CalendarView({
 
         <div className="calendar-container max-w-[1400px] mx-auto">
           <FullCalendar
+            locale={msLocale}
             ref={calendarRef}
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
@@ -248,7 +264,16 @@ export function CalendarView({
             aspectRatio={isMobile ? 0.85 : 1.4}
             contentHeight="auto"
             dayMaxEvents={isMobile ? 0 : 2}
-            dayHeaderFormat={isMobile ? { weekday: 'narrow' } : { weekday: 'short' }}
+            // Show full weekday names when in fullscreen, narrow on mobile, short otherwise
+            dayHeaderFormat={
+              isFullScreen
+                ? { weekday: 'long' }
+                : isMobile
+                  ? { weekday: 'narrow' }
+                  : { weekday: 'short' }
+            }
+            // Start week on Sunday (Ahad)
+            firstDay={0}
             fixedWeekCount={false}
           />
         </div>

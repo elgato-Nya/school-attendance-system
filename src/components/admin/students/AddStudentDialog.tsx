@@ -271,7 +271,7 @@ export function AddStudentDialog({
               Cancel
             </Button>
             <Button type="submit" className="w-full sm:flex-1" disabled={submitting}>
-              {submitting ? 'Adding...' : 'Add Student'}
+              {submitting ? 'Menambah...' : 'Tambah Murid'}
             </Button>
           </div>
         </form>

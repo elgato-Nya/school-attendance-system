@@ -46,7 +46,9 @@ export function StudentDetailsDialog({
             <User className="h-5 w-5" aria-hidden="true" />
             Butiran Murid
           </DialogTitle>
-          <DialogDescription>Maklumat lengkap tentang murid</DialogDescription>
+          <DialogDescription className="flex justify-start">
+            Maklumat lengkap tentang murid
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -69,7 +71,7 @@ export function StudentDetailsDialog({
                 <GraduationCap className="h-4 w-4 text-primary" aria-hidden="true" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium">Class</p>
+                <p className="text-sm font-medium">Kelas</p>
                 <p className="text-sm text-muted-foreground wrap-break-words">
                   {classInfo ? `Form ${classInfo.grade} - ${classInfo.name}` : 'Unknown Class'}
                 </p>
@@ -82,7 +84,7 @@ export function StudentDetailsDialog({
                 <Hash className="h-4 w-4 text-primary" aria-hidden="true" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium">IC Number</p>
+                <p className="text-sm font-medium">Nombor IC</p>
                 <p className="text-sm text-muted-foreground font-mono">{studentData.icNumber}</p>
               </div>
             </div>
@@ -106,7 +108,7 @@ export function StudentDetailsDialog({
                 <User className="h-4 w-4 text-primary" aria-hidden="true" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium">Guardian</p>
+                <p className="text-sm font-medium">Penjaga</p>
                 <p className="text-sm text-muted-foreground wrap-break-words">
                   {studentData.guardianName}
                 </p>

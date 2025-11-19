@@ -65,7 +65,7 @@ export function ClassesGrid({
         {!searchQuery && gradeFilter === 'all' && (
           <Button onClick={onCreateFirstClass}>
             <UserPlus className="h-4 w-4 mr-2" />
-            Create First Class
+            Cipta Kelas Pertama Anda
           </Button>
         )}
       </div>

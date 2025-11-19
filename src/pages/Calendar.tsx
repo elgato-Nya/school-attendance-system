@@ -254,7 +254,7 @@ export default function CalendarPage() {
       return {
         color: attendanceColors.background,
         textColor: attendanceColors.foreground,
-        tooltip: `${attendanceColors.label}: ${rate.toFixed(1)}% attendance`,
+        tooltip: `${attendanceColors.label}: Kehadiran ${rate.toFixed(1)}%`,
       };
     },
     [holidays, attendanceData]
@@ -369,7 +369,7 @@ export default function CalendarPage() {
 
   const generateRangeReport = async (start: string, end: string) => {
     try {
-      toast.loading('Generating range report...');
+      toast.loading('Menghasilkan laporan julat...');
 
       // Query all attendance records in the range
       const q = query(

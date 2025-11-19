@@ -61,17 +61,17 @@ export const HOLIDAY_CARD_COLORS = {
   [HOLIDAY_TYPES.PUBLIC]: {
     leftBorder: CALENDAR_COLORS.HOLIDAY_PUBLIC,
     badge: 'destructive' as const,
-    label: 'Public Holiday',
+    label: 'Cuti Umum',
   },
   [HOLIDAY_TYPES.SCHOOL]: {
     leftBorder: CALENDAR_COLORS.HOLIDAY_SCHOOL,
     badge: 'default' as const,
-    label: 'School Holiday',
+    label: 'Cuti Sekolah',
   },
   [HOLIDAY_TYPES.EVENT]: {
     leftBorder: CALENDAR_COLORS.HOLIDAY_EVENT,
     badge: 'secondary' as const,
-    label: 'School Event',
+    label: 'Acara Sekolah',
   },
 } as const;
 
@@ -96,7 +96,7 @@ export function getAttendanceColor(rate: number): {
     return {
       background: CALENDAR_COLORS.ATTENDANCE_EXCELLENT,
       foreground: CALENDAR_COLORS.ATTENDANCE_EXCELLENT_FOREGROUND,
-      label: 'Excellent',
+      label: 'Cemerlang',
     };
   }
 
@@ -104,14 +104,14 @@ export function getAttendanceColor(rate: number): {
     return {
       background: CALENDAR_COLORS.ATTENDANCE_GOOD,
       foreground: CALENDAR_COLORS.ATTENDANCE_GOOD_FOREGROUND,
-      label: 'Good',
+      label: 'Baik',
     };
   }
 
   return {
     background: CALENDAR_COLORS.ATTENDANCE_POOR,
     foreground: CALENDAR_COLORS.ATTENDANCE_POOR_FOREGROUND,
-    label: 'Needs Attention',
+    label: 'Perlu Perhatian',
   };
 }
 
@@ -127,17 +127,17 @@ export function getHolidayColor(type: HolidayType): {
     [HOLIDAY_TYPES.PUBLIC]: {
       background: CALENDAR_COLORS.HOLIDAY_PUBLIC,
       foreground: CALENDAR_COLORS.HOLIDAY_FOREGROUND,
-      label: 'Public Holiday',
+      label: 'Cuti Umum',
     },
     [HOLIDAY_TYPES.SCHOOL]: {
       background: CALENDAR_COLORS.HOLIDAY_SCHOOL,
       foreground: CALENDAR_COLORS.HOLIDAY_FOREGROUND,
-      label: 'School Holiday',
+      label: 'Cuti Sekolah',
     },
     [HOLIDAY_TYPES.EVENT]: {
       background: CALENDAR_COLORS.HOLIDAY_EVENT,
       foreground: CALENDAR_COLORS.HOLIDAY_FOREGROUND,
-      label: 'School Event',
+      label: 'Acara Sekolah',
     },
   };
 
