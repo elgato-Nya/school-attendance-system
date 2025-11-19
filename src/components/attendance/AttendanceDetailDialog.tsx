@@ -29,7 +29,6 @@ import {
   Timer,
   AlertCircle,
 } from 'lucide-react';
-import { format } from 'date-fns';
 
 interface AttendanceDetailDialogProps {
   attendance: Attendance | null;

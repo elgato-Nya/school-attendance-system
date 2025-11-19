@@ -164,7 +164,9 @@ export function StudentTable({
               {/* Header: Name and Status */}
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-sm leading-tight break-words">{data.name}</h3>
+                  <h3 className="font-semibold text-sm leading-tight wrap-break-words">
+                    {data.name}
+                  </h3>
                   <p className="text-xs text-muted-foreground font-mono mt-0.5">{data.icNumber}</p>
                 </div>
                 <Badge

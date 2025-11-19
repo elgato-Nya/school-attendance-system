@@ -128,7 +128,7 @@ export function UserFormDialog({
                 </div>
               ) : (
                 <>
-                  <ScrollArea className="h-[160px] w-full rounded-md border">
+                  <ScrollArea className="h-40 w-full rounded-md border">
                     <div className="p-4 space-y-3">
                       {classes.map((cls) => (
                         <div key={cls.id} className="flex items-center space-x-3">

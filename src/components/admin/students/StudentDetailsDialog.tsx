@@ -53,7 +53,7 @@ export function StudentDetailsDialog({
           {/* Header with Name and Status */}
           <div className="flex items-start justify-between gap-3 pb-4 border-b">
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold break-words">{studentData.name}</h3>
+              <h3 className="text-lg font-semibold wrap-break-words">{studentData.name}</h3>
               <p className="text-sm text-muted-foreground mt-1">{studentData.icNumber}</p>
             </div>
             <Badge variant={isArchived ? 'secondary' : 'default'}>
@@ -70,7 +70,7 @@ export function StudentDetailsDialog({
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium">Class</p>
-                <p className="text-sm text-muted-foreground break-words">
+                <p className="text-sm text-muted-foreground wrap-break-words">
                   {classInfo ? `Form ${classInfo.grade} - ${classInfo.name}` : 'Unknown Class'}
                 </p>
               </div>
@@ -107,7 +107,7 @@ export function StudentDetailsDialog({
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium">Guardian</p>
-                <p className="text-sm text-muted-foreground break-words">
+                <p className="text-sm text-muted-foreground wrap-break-words">
                   {studentData.guardianName}
                 </p>
               </div>
@@ -134,7 +134,9 @@ export function StudentDetailsDialog({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium">Alamat</p>
-                  <p className="text-sm text-muted-foreground break-words">{studentData.address}</p>
+                  <p className="text-sm text-muted-foreground wrap-break-words">
+                    {studentData.address}
+                  </p>
                 </div>
               </div>
             )}
