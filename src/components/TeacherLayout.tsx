@@ -25,7 +25,7 @@ export function TeacherLayout({ children }: TeacherLayoutProps) {
   return (
     <Layout
       navGroups={navGroups}
-      logoText="Attendance System"
+      logoText="Sistem Kehadiran"
       homePath={homePath}
       profilePath={profilePath}
       settingsPath={settingsPath}

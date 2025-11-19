@@ -86,8 +86,8 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
         setExistingSubmission(false);
       }
     } catch (error) {
-      console.error('Load class error:', error);
-      toast.error('Failed to load class data');
+      console.error('Ralat semasa memuatkan data kelas:', error);
+      toast.error('Terdapat masalah dalam memuatkan data kelas.');
       navigate('/teacher/classes');
     } finally {
       setLoading(false);
@@ -98,7 +98,7 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
 
     if (isFuture(selectedDate)) {
-      toast.error('Cannot submit attendance for future dates');
+      toast.error('Tarikh yang dipilih tidak boleh pada masa hadapan.');
       return;
     }
 
@@ -120,7 +120,7 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
         setHolidayName('');
       }
     } catch (error) {
-      console.error('Check holiday error:', error);
+      console.error('Ralat semasa memeriksa cuti:', error);
     }
 
     if (classId) {
@@ -168,7 +168,7 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
         remarks: '',
       }))
     );
-    toast.success('All students marked as present');
+    toast.success('Semua pelajar ditanda hadir');
   };
 
   const handleCopyAttendance = () => {
@@ -179,19 +179,18 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
     const absentRecords = records.filter((r) => r.status === 'absent');
     const summary = calculateSummary();
 
-    let message = `📋 *Attendance Report*\n`;
-    message += `Class: ${classData.name} (Grade ${classData.grade})\n`;
-    message += `Date: ${dateStr}\n`;
-    message += `Teacher: ${userName}\n\n`;
+    let message = `📋 *Laporan Kehadiran*\n`;
+    message += `Kelas: ${classData.name} (Tingkatan ${classData.grade})\n`;
+    message += `Tarikh: ${dateStr}\n`;
+    message += `Guru: ${userName}\n\n`;
 
-    message += `📊 *Summary*\n`;
-    message += `Total Students: ${summary.total}\n`;
-    message += `Present: ${summary.present} (${summary.rate}%)\n`;
-    message += `Late: ${summary.late}\n`;
-    message += `Absent: ${summary.absent}\n\n`;
-
+    message += `📊 *Ringkasan*\n`;
+    message += `Jumlah Pelajar: ${summary.total}\n`;
+    message += `Hadir: ${summary.present} (${summary.rate}%)\n`;
+    message += `Lewat: ${summary.late}\n`;
+    message += `Tidak Hadir: ${summary.absent}\n\n`;
     if (lateRecords.length > 0) {
-      message += `⏰ *Late Arrivals (${lateRecords.length})*\n`;
+      message += `⏰ *Pelajar Lewat (${lateRecords.length})*\n`;
       lateRecords.forEach((record, index) => {
         message += `${index + 1}. ${record.studentName}`;
         if (record.lateTime) message += ` - ${record.lateTime}`;
@@ -202,7 +201,7 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
     }
 
     if (absentRecords.length > 0) {
-      message += `❌ *Absent Students (${absentRecords.length})*\n`;
+      message += `❌ *Pelajar Tidak Hadir (${absentRecords.length})*\n`;
       absentRecords.forEach((record, index) => {
         message += `${index + 1}. ${record.studentName}`;
         if (record.remarks) message += ` - ${record.remarks}`;
@@ -212,20 +211,20 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
     }
 
     if (lateRecords.length === 0 && absentRecords.length === 0) {
-      message += `✅ *Perfect Attendance!*\nAll students were present on time.\n\n`;
+      message += `✅ *Kehadiran Sempurna!*\nSemua pelajar hadir tepat pada waktunya.\n\n`;
     }
 
-    message += `Generated on ${format(new Date(), 'dd/MM/yyyy HH:mm')}`;
+    message += `Dihasilkan pada ${format(new Date(), 'dd/MM/yyyy HH:mm')}`;
 
     navigator.clipboard
       .writeText(message)
       .then(() => {
         setCopied(true);
-        toast.success('Attendance report copied to clipboard!');
+        toast.success('Laporan kehadiran disalin ke papan klip!');
         setTimeout(() => setCopied(false), 2000);
       })
       .catch(() => {
-        toast.error('Failed to copy to clipboard');
+        toast.error('Gagal menyalin ke papan klip');
       });
   };
 
@@ -233,24 +232,24 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
     if (!classData || !classId) return;
 
     if (isHolidayDate) {
-      toast.error(`Cannot submit attendance on ${holidayName}. It's a holiday.`);
+      toast.error(`Tidak boleh menghantar kehadiran pada ${holidayName}. Ia adalah cuti.`);
       return;
     }
 
     if (showReasonField && !lateReason.trim()) {
-      toast.error('Please provide a reason for late submission');
+      toast.error('Sila berikan sebab untuk penghantaran lewat');
       return;
     }
 
     const lateRecords = records.filter((r) => r.status === 'late');
     const missingTimes = lateRecords.filter((r) => !r.lateTime);
     if (missingTimes.length > 0) {
-      toast.error('Please provide time for all late students');
+      toast.error('Sila berikan masa untuk semua pelajar lewat');
       return;
     }
 
     setSubmitting(true);
-    const loadingToast = toast.loading('Submitting attendance...');
+    const loadingToast = toast.loading('Menghantar kehadiran...');
 
     try {
       const dateStr = format(selectedDate, 'yyyy-MM-dd');
@@ -264,7 +263,7 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
         setPendingSubmitData({
           existingId: existing.id,
           records,
-          reason: lateReason.trim() || 'Updated attendance record',
+          reason: lateReason.trim() || 'Kemas kini rekod kehadiran',
         });
         setShowUpdateConfirm(true);
         return;
@@ -273,17 +272,17 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
       await submitAttendance(classId, classData?.name || '', dateStr, records, userId, userName);
 
       toast.dismiss(loadingToast);
-      toast.success('Attendance submitted successfully!');
+      toast.success('Kehadiran berjaya dihantar!');
 
       if (showReasonField && lateReason.trim()) {
-        toast.info(`Reason: ${lateReason}`);
+        toast.info(`Sebab: ${lateReason}`);
       }
 
       navigate('/teacher/history');
     } catch (error) {
       toast.dismiss(loadingToast);
-      console.error('Submit attendance error:', error);
-      toast.error('Failed to submit attendance. Please try again.');
+      console.error('Ralat menghantar kehadiran:', error);
+      toast.error('Gagal menghantar kehadiran. Sila cuba lagi.');
     } finally {
       setSubmitting(false);
     }
@@ -294,7 +293,7 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
 
     setShowUpdateConfirm(false);
     setSubmitting(true);
-    const loadingToast = toast.loading('Updating attendance...');
+    const loadingToast = toast.loading('Mengemas kini kehadiran...');
 
     try {
       await updateAttendance(
@@ -306,17 +305,17 @@ export function useAttendanceForm({ classId, userId, userName }: UseAttendanceFo
       );
 
       toast.dismiss(loadingToast);
-      toast.success('Attendance updated successfully!');
+      toast.success('Kehadiran berjaya dikemas kini!');
 
       if (showReasonField && lateReason.trim()) {
-        toast.info(`Reason: ${lateReason}`);
+        toast.info(`Sebab: ${lateReason}`);
       }
 
       navigate('/teacher/history');
     } catch (error) {
       toast.dismiss(loadingToast);
-      console.error('Update attendance error:', error);
-      toast.error('Failed to update attendance. Please try again.');
+      console.error('Ralat mengemas kini kehadiran:', error);
+      toast.error('Gagal mengemas kini kehadiran. Sila cuba lagi.');
     } finally {
       setSubmitting(false);
       setPendingSubmitData(null);
