@@ -83,7 +83,7 @@ export function StudentManagement() {
       setStudents(allStudents);
     } catch (error) {
       console.error('Error loading data:', error);
-      toast.error('Failed to load students');
+      toast.error('Gagal memuatkan murid');
     } finally {
       setLoading(false);
     }
@@ -183,13 +183,13 @@ export function StudentManagement() {
         // Delete from active students - remove from class
         const student = studentToDelete as Student & { studentIndex: number };
         await removeStudentFromClass(student.classId, student.studentIndex);
-        toast.success(`${student.name} has been removed from class`);
+        toast.success(`${student.name} telah dikeluarkan daripada kelas`);
         setStudents((prev) => prev.filter((s) => s.id !== student.id));
       } else {
         // Permanently delete from archived collection
         const archived = studentToDelete as ArchivedStudent;
         await permanentlyDeleteArchivedStudent(archived.id!);
-        toast.success(`${archived.studentData.name} has been permanently deleted`);
+        toast.success(`${archived.studentData.name} telah dipadam secara kekal`);
         setArchivedStudents((prev) => prev.filter((s) => s.id !== archived.id));
       }
 
@@ -197,7 +197,7 @@ export function StudentManagement() {
       setStudentToDelete(null);
     } catch (error) {
       console.error('Error deleting student:', error);
-      toast.error('Failed to delete student');
+      toast.error('Gagal memadam murid');
     }
   };
 
@@ -216,7 +216,7 @@ export function StudentManagement() {
         const classData = classes.find((c) => c.id === student.classId);
 
         if (!classData) {
-          toast.error('Class not found');
+          toast.error('Kelas tidak dijumpai');
           return;
         }
 
@@ -228,13 +228,13 @@ export function StudentManagement() {
           user.id!,
           user.name,
           'Other',
-          'Archived from Student Management'
+          'Diarkibkan daripada Pengurusan Murid'
         );
 
         // Remove from class
         await removeStudentFromClass(student.classId, student.studentIndex);
 
-        toast.success(`${student.name} has been archived`);
+        toast.success(`${student.name} telah diarkibkan`);
       } else {
         // Restore archived student
         const archived = studentToArchive as ArchivedStudent;
@@ -242,7 +242,7 @@ export function StudentManagement() {
         // Ask which class to restore to (default to original class)
         await restoreArchivedStudent(archived.id!, archived.originalClassId);
 
-        toast.success(`${archived.studentData.name} has been restored`);
+        toast.success(`${archived.studentData.name} telah dipulihkan`);
       }
 
       await loadData();
@@ -250,7 +250,7 @@ export function StudentManagement() {
       setStudentToArchive(null);
     } catch (error) {
       console.error('Error archiving/restoring student:', error);
-      toast.error('Failed to update student status');
+      toast.error('Gagal mengemaskini status murid');
     }
   };
 
@@ -259,12 +259,12 @@ export function StudentManagement() {
       await addStudentToClass(classId, studentData);
 
       const classData = classes.find((c) => c.id === classId);
-      toast.success(`${studentData.name} has been added to ${classData?.name || 'class'}`);
+      toast.success(`${studentData.name} telah ditambah ke ${classData?.name || 'kelas'}`);
 
       await loadData();
     } catch (error) {
       console.error('Error adding student:', error);
-      toast.error('Failed to add student');
+      toast.error('Gagal menambah murid');
       throw error;
     }
   };
@@ -272,7 +272,7 @@ export function StudentManagement() {
   if (loading) {
     return (
       <div className="p-6">
-        <LoadingState message="Loading students..." />
+        <LoadingState message="Memuatkan murid..." />
       </div>
     );
   }
@@ -283,19 +283,19 @@ export function StudentManagement() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Student Management
+            Pengurusan Murid
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Centralized hub for managing all students across the school
+            Pusat berpusat untuk menguruskan semua murid di seluruh sekolah
           </p>
         </div>
         <Button
           onClick={() => setAddStudentDialogOpen(true)}
           className="w-full sm:w-auto"
-          aria-label="Add new student"
+          aria-label="Tambah murid baharu"
         >
           <UserPlus className="h-4 w-4 mr-2" aria-hidden="true" />
-          Add Student
+          Tambah Murid
         </Button>
       </div>
 
@@ -314,14 +314,14 @@ export function StudentManagement() {
         className="space-y-4"
       >
         <TabsList className="grid w-full max-w-md grid-cols-2">
-          <TabsTrigger value="active" aria-label={`View active students, ${students.length} total`}>
-            Active Students ({students.length})
+          <TabsTrigger value="active" aria-label={`Lihat murid aktif, ${students.length} jumlah`}>
+            Murid Aktif ({students.length})
           </TabsTrigger>
           <TabsTrigger
             value="archived"
-            aria-label={`View archived students, ${archivedStudents.length} total`}
+            aria-label={`Lihat murid diarkibkan, ${archivedStudents.length} jumlah`}
           >
-            Archived ({archivedStudents.length})
+            Diarkibkan ({archivedStudents.length})
           </TabsTrigger>
         </TabsList>
 
@@ -349,8 +349,8 @@ export function StudentManagement() {
             }}
             emptyMessage={
               searchTerm || selectedClass !== 'all' || selectedGrade !== 'all'
-                ? 'No active students found matching your filters'
-                : 'No active students'
+                ? 'Tiada murid aktif dijumpai yang sepadan dengan penapis anda'
+                : 'Tiada murid aktif'
             }
           />
         </TabsContent>
@@ -368,8 +368,8 @@ export function StudentManagement() {
             }}
             emptyMessage={
               searchTerm || selectedClass !== 'all' || selectedGrade !== 'all'
-                ? 'No archived students found matching your filters'
-                : 'No archived students'
+                ? 'Tiada murid diarkibkan dijumpai yang sepadan dengan penapis anda'
+                : 'Tiada murid diarkibkan'
             }
           />
         </TabsContent>

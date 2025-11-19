@@ -25,12 +25,12 @@ interface StudentDetailDialogProps {
 
 function getAttendanceBadge(rate: number) {
   if (rate >= 90) {
-    return { variant: 'default' as const, label: 'Excellent' };
+    return { variant: 'default' as const, label: 'Cemerlang' };
   }
   if (rate >= 75) {
-    return { variant: 'secondary' as const, label: 'Good' };
+    return { variant: 'secondary' as const, label: 'Baik' };
   }
-  return { variant: 'destructive' as const, label: 'At Risk' };
+  return { variant: 'destructive' as const, label: 'Berisiko' };
 }
 
 export default function StudentDetailDialog({
@@ -55,11 +55,11 @@ export default function StudentDetailDialog({
           <DialogDescription id="student-detail-description">
             {viewMode === 'single' &&
               singleDate &&
-              `Detailed attendance for ${format(singleDate, 'MMMM d, yyyy')}`}
+              `Kehadiran terperinci untuk ${format(singleDate, 'MMMM d, yyyy')}`}
             {viewMode === 'range' &&
               startDate &&
               endDate &&
-              `Detailed attendance from ${format(startDate, 'MMM d')} to ${format(endDate, 'MMM d, yyyy')}`}
+              `Kehadiran terperinci dari ${format(startDate, 'MMM d')} hingga ${format(endDate, 'MMM d, yyyy')}`}
           </DialogDescription>
         </DialogHeader>
 
@@ -67,25 +67,25 @@ export default function StudentDetailDialog({
           {/* Student Info */}
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">IC Number:</span>
+              <span className="text-muted-foreground">Nombor IC:</span>
               <span className="font-medium">{student.icNumber}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Class:</span>
+              <span className="text-muted-foreground">Kelas:</span>
               <span className="font-medium">
                 {classes.find((c) => c.id === student.classId)
-                  ? `Grade ${classes.find((c) => c.id === student.classId)!.grade} - ${
+                  ? `Tingkatan ${classes.find((c) => c.id === student.classId)!.grade} - ${
                       classes.find((c) => c.id === student.classId)!.name
                     }`
-                  : 'N/A'}
+                  : 'T/A'}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Guardian:</span>
+              <span className="text-muted-foreground">Penjaga:</span>
               <span className="font-medium">{student.guardianName}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Contact:</span>
+              <span className="text-muted-foreground">Hubungan:</span>
               <span className="font-medium">{student.guardianContact}</span>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function StudentDetailDialog({
           <div className="bg-muted/50 rounded-lg p-4 space-y-3">
             <h4 className="font-semibold flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
-              Attendance Summary
+              Ringkasan Kehadiran
             </h4>
             {student.totalDays === 0 && (
               <p
@@ -105,7 +105,7 @@ export default function StudentDetailDialog({
                   color: 'hsl(var(--warning-foreground))',
                 }}
               >
-                No attendance records found for this student in the selected date range.
+                Tiada rekod kehadiran dijumpai untuk murid ini dalam julat tarikh yang dipilih.
               </p>
             )}
             <div className="grid grid-cols-2 gap-3">
@@ -115,7 +115,7 @@ export default function StudentDetailDialog({
                   <div className="text-lg font-bold" style={{ color: 'hsl(var(--success))' }}>
                     {student.presentDays}
                   </div>
-                  <div className="text-xs text-muted-foreground">Present</div>
+                  <div className="text-xs text-muted-foreground">Hadir</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -124,7 +124,7 @@ export default function StudentDetailDialog({
                   <div className="text-lg font-bold" style={{ color: 'hsl(var(--warning))' }}>
                     {student.lateDays}
                   </div>
-                  <div className="text-xs text-muted-foreground">Late</div>
+                  <div className="text-xs text-muted-foreground">Lewat</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -133,26 +133,26 @@ export default function StudentDetailDialog({
                   <div className="text-lg font-bold" style={{ color: 'hsl(var(--destructive))' }}>
                     {student.absentDays}
                   </div>
-                  <div className="text-xs text-muted-foreground">Absent</div>
+                  <div className="text-xs text-muted-foreground">Tidak Hadir</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4 text-muted-foreground" />
                 <div>
                   <div className="text-lg font-bold">{student.totalDays}</div>
-                  <div className="text-xs text-muted-foreground">Days Recorded</div>
+                  <div className="text-xs text-muted-foreground">Hari Direkod</div>
                 </div>
               </div>
             </div>
             {student.totalDays > 0 && (
               <p className="text-xs text-muted-foreground pt-2 border-t">
-                Only counting days where this student has an attendance record (not days before
-                enrollment).
+                Hanya mengira hari di mana murid ini mempunyai rekod kehadiran (bukan hari sebelum
+                pendaftaran).
               </p>
             )}
             <div className="pt-3 border-t">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Attendance Rate</span>
+                <span className="text-sm font-medium">Kadar Kehadiran</span>
                 <Badge
                   variant={getAttendanceBadge(student.attendanceRate).variant}
                   className="text-base"

@@ -71,7 +71,7 @@ export function AttendanceChart({
         </CardHeader>
         <CardContent>
           <div className="h-[300px] flex items-center justify-center text-muted-foreground">
-            <p className="text-sm">No attendance data available for the selected period</p>
+            <p className="text-sm">Tiada data kehadiran tersedia untuk tempoh yang dipilih</p>
           </div>
         </CardContent>
       </Card>

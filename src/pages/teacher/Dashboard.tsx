@@ -105,7 +105,7 @@ export function TeacherDashboard() {
 
   // Get dynamic date range description
   const dateRangeDescription = useMemo(() => {
-    if (!dateFilter) return 'Selected period';
+    if (!dateFilter) return 'Tempoh dipilih';
 
     const { from, to } = dateFilter;
     const today = new Date();
@@ -117,13 +117,13 @@ export function TeacherDashboard() {
 
     // Check if it's today only
     if (fromDate.getTime() === today.getTime() && toDate.getTime() === today.getTime()) {
-      return 'Today';
+      return 'Hari Ini';
     }
 
     // Check if it's a 7-day range ending today
     const daysDiff = Math.round((toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24));
     if (daysDiff === 6 && toDate.getTime() === today.getTime()) {
-      return 'Last 7 days';
+      return '7 Hari Lepas';
     }
 
     // Check if same day
@@ -164,8 +164,13 @@ export function TeacherDashboard() {
 
   if (loading) {
     return (
-      <div className="p-6" role="status" aria-live="polite" aria-label="Loading dashboard data">
-        <LoadingState message="Loading your dashboard..." />
+      <div
+        className="p-6"
+        role="status"
+        aria-live="polite"
+        aria-label="Memuatkan data papan pemuka"
+      >
+        <LoadingState message="Memuatkan papan pemuka anda..." />
       </div>
     );
   }
@@ -177,13 +182,13 @@ export function TeacherDashboard() {
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Teacher Dashboard
+              Papan Pemuka Guru
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
               {selectedTeacher && user?.role === ROLES.ADMIN ? (
                 <span className="inline-flex items-center gap-1.5">
                   <Eye className="h-3 w-3" />
-                  Viewing: <span className="font-semibold">{selectedTeacher.name}</span>
+                  Melihat: <span className="font-semibold">{selectedTeacher.name}</span>
                 </span>
               ) : stats.todaySubmissions === stats.totalAssignedClasses ? (
                 <span className="inline-flex items-center gap-1.5 text-green-600 dark:text-green-400 font-medium">
@@ -191,14 +196,14 @@ export function TeacherDashboard() {
                     <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                   </span>
-                  All attendance submitted today
+                  Semua kehadiran diserahkan hari ini
                 </span>
               ) : (
                 <span>
                   <span className="font-semibold">
                     {stats.todaySubmissions}/{stats.totalAssignedClasses}
                   </span>{' '}
-                  classes submitted today
+                  kelas diserahkan hari ini
                 </span>
               )}
             </p>
@@ -212,7 +217,7 @@ export function TeacherDashboard() {
                   }
                 >
                   <ClipboardCheck className="h-4 w-4 mr-2" />
-                  Mark Attendance
+                  Tandakan Kehadiran
                 </Link>
               </Button>
             )}
@@ -221,7 +226,7 @@ export function TeacherDashboard() {
               variant="outline"
               size="default"
               disabled={loading}
-              aria-label="Refresh"
+              aria-label="Muat semula"
             >
               <RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
             </Button>
@@ -234,7 +239,7 @@ export function TeacherDashboard() {
             <CardContent className="p-4">
               <div className="space-y-2">
                 <Label htmlFor="teacher-select" className="text-sm font-medium">
-                  Search Teacher to View Dashboard
+                  Cari Guru untuk Lihat Papan Pemuka
                 </Label>
                 <Popover open={teacherSearchOpen} onOpenChange={setTeacherSearchOpen}>
                   <PopoverTrigger asChild>
@@ -247,7 +252,7 @@ export function TeacherDashboard() {
                       disabled={teachersLoading}
                     >
                       {teachersLoading ? (
-                        'Loading teachers...'
+                        'Memuatkan guru...'
                       ) : selectedTeacherId ? (
                         <span className="flex items-center gap-2">
                           {selectedTeacherName}
@@ -255,11 +260,11 @@ export function TeacherDashboard() {
                             (
                             {(teachers.find((t) => t.id === selectedTeacherId) as any)
                               ?.activeClassCount || 0}{' '}
-                            classes)
+                            kelas)
                           </span>
                         </span>
                       ) : (
-                        'Search and select a teacher...'
+                        'Cari dan pilih guru...'
                       )}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
@@ -269,7 +274,7 @@ export function TeacherDashboard() {
                       <div className="flex items-center gap-2 px-3 py-2 border rounded-md">
                         <Search className="h-4 w-4 text-muted-foreground" />
                         <Input
-                          placeholder="Search teachers..."
+                          placeholder="Cari guru..."
                           value={teacherSearchQuery}
                           onChange={(e) => setTeacherSearchQuery(e.target.value)}
                           className="border-0 p-0 h-auto focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -279,7 +284,7 @@ export function TeacherDashboard() {
                     <div className="max-h-[300px] overflow-y-auto">
                       {filteredTeachers.length === 0 ? (
                         <div className="p-4 text-sm text-muted-foreground text-center">
-                          {teacherSearchQuery ? 'No teachers found' : 'No teachers available'}
+                          {teacherSearchQuery ? 'Tiada guru dijumpai' : 'Tiada guru tersedia'}
                         </div>
                       ) : (
                         <div className="p-1">
@@ -302,7 +307,7 @@ export function TeacherDashboard() {
                                 </span>
                               </div>
                               <span className="text-xs text-muted-foreground">
-                                ({(teacher as any).activeClassCount || 0} classes)
+                                ({(teacher as any).activeClassCount || 0} kelas)
                               </span>
                             </button>
                           ))}
@@ -313,7 +318,7 @@ export function TeacherDashboard() {
                 </Popover>
                 {!selectedTeacherId && (
                   <p className="text-xs text-muted-foreground">
-                    Search and select a teacher to view their dashboard data and assigned classes
+                    Cari dan pilih guru untuk melihat data papan pemuka dan kelas mereka
                   </p>
                 )}
               </div>
@@ -337,7 +342,7 @@ export function TeacherDashboard() {
                 <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
                   <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                 </div>
-                Attendance Summary ({dateRangeDescription})
+                Ringkasan Kehadiran ({dateRangeDescription})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -350,7 +355,7 @@ export function TeacherDashboard() {
                     {stats.presentToday}
                   </div>
                   <div className="text-xs md:text-sm text-muted-foreground mt-1 font-medium">
-                    Present
+                    Hadir
                   </div>
                 </div>
                 <div className="text-center p-3 md:p-4 rounded-xl border bg-amber-50/50 dark:bg-amber-950/20 transition-all hover:bg-amber-50 dark:hover:bg-amber-950/30 hover:shadow-md">
@@ -361,7 +366,7 @@ export function TeacherDashboard() {
                     {stats.lateToday}
                   </div>
                   <div className="text-xs md:text-sm text-muted-foreground mt-1 font-medium">
-                    Late
+                    Lewat
                   </div>
                 </div>
                 <div className="text-center p-3 md:p-4 rounded-xl border bg-red-50/50 dark:bg-red-950/20 transition-all hover:bg-red-50 dark:hover:bg-red-950/30 hover:shadow-md">
@@ -372,7 +377,7 @@ export function TeacherDashboard() {
                     {stats.absentToday}
                   </div>
                   <div className="text-xs md:text-sm text-muted-foreground mt-1 font-medium">
-                    Absent
+                    Tidak Hadir
                   </div>
                 </div>
               </div>
@@ -387,8 +392,8 @@ export function TeacherDashboard() {
                   <School className="h-4 w-4 md:h-5 md:w-5 text-primary" />
                 </div>
                 {selectedTeacher && user?.role === ROLES.ADMIN
-                  ? `${selectedTeacher.name}'s Classes`
-                  : 'My Classes'}
+                  ? `Kelas ${selectedTeacher.name}`
+                  : 'Kelas Saya'}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -397,9 +402,9 @@ export function TeacherDashboard() {
                   <div className="mx-auto h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-4">
                     <School className="h-8 w-8 text-muted-foreground" />
                   </div>
-                  <p className="text-sm text-muted-foreground">No classes assigned yet</p>
+                  <p className="text-sm text-muted-foreground">Tiada kelas ditugaskan lagi</p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Contact admin to assign classes
+                    Hubungi pentadbir untuk menugaskan kelas
                   </p>
                 </div>
               ) : (
@@ -417,11 +422,12 @@ export function TeacherDashboard() {
                       <div className="flex items-center gap-2 mt-1">
                         <p className="text-xs md:text-sm text-muted-foreground flex items-center gap-1">
                           <Users className="h-3 w-3" />
-                          {summary.studentCount} students
+                          {summary.studentCount} murid
                         </p>
                         <span className="text-muted-foreground">•</span>
                         <p className="text-xs md:text-sm text-muted-foreground">
-                          Period avg: <span className="font-semibold">{summary.weeklyRate}%</span>
+                          Purata tempoh:{' '}
+                          <span className="font-semibold">{summary.weeklyRate}%</span>
                         </p>
                       </div>
                     </div>
@@ -431,7 +437,7 @@ export function TeacherDashboard() {
                         size="lg"
                         onClick={() => handleViewClassDetails(summary.classId, summary.className)}
                         className="shrink-0 h-8 w-8 p-0"
-                        title="View details"
+                        title="Lihat butiran"
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
@@ -439,7 +445,7 @@ export function TeacherDashboard() {
                         asChild
                         variant="ghost"
                         className="shrink-0 h-8 w-8 p-0"
-                        title="Mark attendance"
+                        title="Tandakan kehadiran"
                       >
                         <Link to={`/teacher/mark-attendance/${summary.classId}`}>
                           <ArrowRight className="h-4 w-4" />
@@ -463,14 +469,14 @@ export function TeacherDashboard() {
                   <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Calendar className="h-4 w-4 text-primary" />
                   </div>
-                  Period Overview
+                  Tinjauan Tempoh
                 </CardTitle>
                 <Button
                   asChild
                   variant="ghost"
                   size="sm"
                   className="text-xs h-8 w-8 p-0"
-                  title="View history"
+                  title="Lihat sejarah"
                 >
                   <Link to="/teacher/history">
                     <ArrowRight className="h-3 w-3" />
@@ -484,7 +490,7 @@ export function TeacherDashboard() {
                 <div className="relative space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-muted-foreground">
-                      Average Attendance
+                      Purata Kehadiran
                     </span>
                     <div className="text-right">
                       <div className="text-3xl font-bold bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
@@ -510,7 +516,7 @@ export function TeacherDashboard() {
                     <div className="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
                       <Users className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <span className="text-sm font-medium">Total Students</span>
+                    <span className="text-sm font-medium">Jumlah Murid</span>
                   </div>
                   <span className="text-lg font-bold">{stats.totalStudents}</span>
                 </div>
@@ -519,7 +525,7 @@ export function TeacherDashboard() {
                     <div className="h-8 w-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
                       <School className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                     </div>
-                    <span className="text-sm font-medium">My Classes</span>
+                    <span className="text-sm font-medium">Kelas Saya</span>
                   </div>
                   <span className="text-lg font-bold">{stats.totalAssignedClasses}</span>
                 </div>
@@ -534,7 +540,7 @@ export function TeacherDashboard() {
                 <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
                   <TrendingUp className="h-4 w-4 text-primary" />
                 </div>
-                Quick Actions
+                Tindakan Pantas
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 pt-4">
@@ -547,7 +553,7 @@ export function TeacherDashboard() {
                   <div className="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform">
                     <Users className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <span className="flex-1 text-left font-medium">View All Students</span>
+                  <span className="flex-1 text-left font-medium">Lihat Semua Murid</span>
                   <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               </Button>
@@ -560,7 +566,7 @@ export function TeacherDashboard() {
                   <div className="h-8 w-8 rounded-lg bg-purple-500/10 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform">
                     <Calendar className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                   </div>
-                  <span className="flex-1 text-left font-medium">Attendance History</span>
+                  <span className="flex-1 text-left font-medium">Sejarah Kehadiran</span>
                   <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               </Button>
@@ -575,7 +581,7 @@ export function TeacherDashboard() {
                   <div className="h-8 w-8 rounded-lg bg-green-500/10 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform">
                     <Users className="h-4 w-4 text-green-600 dark:text-green-400" />
                   </div>
-                  <span className="flex-1 text-left font-medium">Manage Students</span>
+                  <span className="flex-1 text-left font-medium">Urus Murid</span>
                   <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               </Button>

@@ -99,12 +99,12 @@ export function SubmissionDetailsDialog({
             <h3 className="font-semibold text-base truncate">{detail.className}</h3>
             <Badge variant="outline" className="shrink-0 text-xs">
               <GraduationCap className="h-3 w-3 mr-1" aria-hidden="true" />
-              Grade {detail.grade}
+              Tingkatan {detail.grade}
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground flex items-center gap-1.5">
             <User className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-            <span className="truncate">{detail.studentCount} students</span>
+            <span className="truncate">{detail.studentCount} murid</span>
           </p>
         </div>
         <Badge
@@ -118,12 +118,12 @@ export function SubmissionDetailsDialog({
           {detail.submitted ? (
             <>
               <CheckCircle2 className="h-3 w-3 mr-1" aria-hidden="true" />
-              Submitted
+              Dihantar
             </>
           ) : (
             <>
               <XCircle className="h-3 w-3 mr-1" aria-hidden="true" />
-              Pending
+              Tertunda
             </>
           )}
         </Badge>
@@ -132,7 +132,7 @@ export function SubmissionDetailsDialog({
       <div className="space-y-2 pt-3 border-t">
         <div className="flex items-center gap-2 text-sm">
           <UserCircle className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden="true" />
-          <span className="text-muted-foreground">Assigned to:</span>
+          <span className="text-muted-foreground">Ditugaskan kepada:</span>
           <span className="font-medium truncate">{detail.teacherName}</span>
         </div>
 
@@ -140,12 +140,12 @@ export function SubmissionDetailsDialog({
           <>
             <div className="flex items-center gap-2 text-sm">
               <User className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden="true" />
-              <span className="text-muted-foreground">Submitted by:</span>
+              <span className="text-muted-foreground">Dihantar oleh:</span>
               <span className="font-medium truncate">{detail.submittedByName}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Clock className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden="true" />
-              <span className="text-muted-foreground">Time:</span>
+              <span className="text-muted-foreground">Masa:</span>
               <span className="font-medium">{format(detail.submittedAt, 'h:mm a')}</span>
             </div>
           </>
@@ -163,10 +163,10 @@ export function SubmissionDetailsDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
-            Today's Attendance Submissions
+            Penyerahan Kehadiran Hari Ini
           </DialogTitle>
           <DialogDescription id="submission-details-description">
-            View which classes have submitted attendance for {format(new Date(), 'MMMM d, yyyy')}
+            Lihat kelas mana yang sudah hantar kehadiran untuk {format(new Date(), 'MMMM d, yyyy')}
           </DialogDescription>
         </DialogHeader>
 
@@ -174,19 +174,19 @@ export function SubmissionDetailsDialog({
         <div className="grid grid-cols-3 gap-3 py-4">
           <div className="text-center p-3 rounded-lg bg-muted/50">
             <div className="text-2xl font-bold">{submissionDetails.length}</div>
-            <div className="text-xs text-muted-foreground mt-1">Total Classes</div>
+            <div className="text-xs text-muted-foreground mt-1">Jumlah Kelas</div>
           </div>
           <div className="text-center p-3 rounded-lg bg-green-100 dark:bg-green-950/30">
             <div className="text-2xl font-bold text-green-600 dark:text-green-400">
               {submittedClasses.length}
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Submitted</div>
+            <div className="text-xs text-muted-foreground mt-1">Diserahkan</div>
           </div>
           <div className="text-center p-3 rounded-lg bg-red-100 dark:bg-red-950/30">
             <div className="text-2xl font-bold text-red-600 dark:text-red-400">
               {pendingClasses.length}
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Pending</div>
+            <div className="text-xs text-muted-foreground mt-1">Tertunda</div>
           </div>
         </div>
 
@@ -198,13 +198,13 @@ export function SubmissionDetailsDialog({
         >
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="all" className="text-xs sm:text-sm">
-              All ({submissionDetails.length})
+              Semua ({submissionDetails.length})
             </TabsTrigger>
             <TabsTrigger value="submitted" className="text-xs sm:text-sm">
-              Submitted ({submittedClasses.length})
+              Dihantar ({submittedClasses.length})
             </TabsTrigger>
             <TabsTrigger value="pending" className="text-xs sm:text-sm">
-              Pending ({pendingClasses.length})
+              Tertunda ({pendingClasses.length})
             </TabsTrigger>
           </TabsList>
 
@@ -212,7 +212,7 @@ export function SubmissionDetailsDialog({
             <TabsContent value="all" className="mt-0 space-y-3">
               {submissionDetails.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-muted-foreground">No classes found</p>
+                  <p className="text-muted-foreground">Tiada kelas dijumpai</p>
                 </div>
               ) : (
                 submissionDetails.map(renderClassCard)
@@ -223,7 +223,7 @@ export function SubmissionDetailsDialog({
               {submittedClasses.length === 0 ? (
                 <div className="text-center py-12">
                   <CheckCircle2 className="h-12 w-12 mx-auto mb-3 text-muted-foreground opacity-50" />
-                  <p className="text-muted-foreground">No submissions yet today</p>
+                  <p className="text-muted-foreground">Tiada penyerahan hari ini</p>
                 </div>
               ) : (
                 submittedClasses.map(renderClassCard)
@@ -235,9 +235,9 @@ export function SubmissionDetailsDialog({
                 <div className="text-center py-12">
                   <CheckCircle2 className="h-12 w-12 mx-auto mb-3 text-green-500" />
                   <p className="text-green-600 dark:text-green-400 font-medium">
-                    All classes have submitted!
+                    Semua kelas telah serahkan!
                   </p>
-                  <p className="text-sm text-muted-foreground mt-1">Great job team! 🎉</p>
+                  <p className="text-sm text-muted-foreground mt-1">Kerja bagus semua!</p>
                 </div>
               ) : (
                 pendingClasses.map(renderClassCard)

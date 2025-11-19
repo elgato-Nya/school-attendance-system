@@ -122,7 +122,7 @@ export default function StudentList() {
 
       if (classesData.length === 0) {
         setDataLoading(false);
-        toast.info('No classes available.');
+        toast.info('Tiada kelas tersedia.');
         return;
       }
 
@@ -216,7 +216,7 @@ export default function StudentList() {
       setAllStudents(studentsWithStats);
     } catch (error) {
       console.error('Error loading students:', error);
-      toast.error('Failed to load students');
+      toast.error('Gagal memuatkan senarai murid');
     } finally {
       setDataLoading(false);
     }
@@ -274,12 +274,12 @@ export default function StudentList() {
 
   const getAttendanceBadge = (rate: number) => {
     if (rate >= 90) {
-      return { variant: 'default' as const, label: 'Excellent', color: 'text-green-600' };
+      return { variant: 'default' as const, label: 'Cemerlang', color: 'text-green-600' };
     }
     if (rate >= 75) {
-      return { variant: 'secondary' as const, label: 'Good', color: 'text-yellow-600' };
+      return { variant: 'secondary' as const, label: 'Baik', color: 'text-yellow-600' };
     }
-    return { variant: 'destructive' as const, label: 'At Risk', color: 'text-red-600' };
+    return { variant: 'destructive' as const, label: 'Berisiko', color: 'text-red-600' };
   };
 
   const summaryStats = useMemo(
@@ -294,7 +294,7 @@ export default function StudentList() {
 
   const handleRefresh = () => {
     loadData();
-    toast.success('Data refreshed');
+    toast.success('Data dikemaskini');
   };
 
   const getDateRangeText = () => {
@@ -312,9 +312,9 @@ export default function StudentList() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold">Student List</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold">Senarai Murid</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            View student attendance statistics for {getDateRangeText()}
+            Lihat statistik kehadiran murid untuk {getDateRangeText()}
           </p>
         </div>
         <Button
@@ -325,21 +325,21 @@ export default function StudentList() {
           className="gap-2"
         >
           <RefreshCcw className={`h-4 w-4 ${dataLoading ? 'animate-spin' : ''}`} />
-          Refresh
+          Muat Semula
         </Button>
       </div>
 
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Filters</CardTitle>
-          <CardDescription>Search and filter students</CardDescription>
+          <CardTitle className="text-lg">Penapis</CardTitle>
+          <CardDescription>Cari dan tapis murid</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Row 1: Date Filter and Search */}
           <div className="flex flex-col md:flex-row gap-4 md:items-end">
             <div className="flex-1 space-y-2 ">
-              <Label>Date Range</Label>
+              <Label>Julat Tarikh</Label>
               <DateFilter
                 value={dateFilter}
                 onChange={handleDateChange}
@@ -347,7 +347,7 @@ export default function StudentList() {
               />
             </div>
             <div className="flex-1 space-y-2">
-              <Label htmlFor="student-search">Search Students</Label>
+              <Label htmlFor="student-search">Cari Murid</Label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -355,9 +355,9 @@ export default function StudentList() {
                   type="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by name or IC..."
+                  placeholder="Cari mengikut nama atau IC..."
                   className="pl-9"
-                  aria-label="Search students by name or IC number"
+                  aria-label="Cari murid mengikut nama atau nombor IC"
                 />
               </div>
             </div>
@@ -367,7 +367,7 @@ export default function StudentList() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Grade Filter */}
             <div className="space-y-2">
-              <Label htmlFor="grade-filter">Filter by Grade</Label>
+              <Label htmlFor="grade-filter">Tapis mengikut Tingkatan</Label>
               <div className="relative">
                 <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none z-10" />
                 <Select
@@ -386,15 +386,15 @@ export default function StudentList() {
                   <SelectTrigger
                     id="grade-filter"
                     className="pl-9"
-                    aria-label="Filter students by grade"
+                    aria-label="Tapis murid mengikut tingkatan"
                   >
-                    <SelectValue placeholder="Select grade" />
+                    <SelectValue placeholder="Pilih tingkatan" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Grades</SelectItem>
+                    <SelectItem value="all">Semua Tingkatan</SelectItem>
                     {uniqueGrades.map((grade) => (
                       <SelectItem key={grade} value={String(grade)}>
-                        Form {grade}
+                        Tingkatan {grade}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -404,7 +404,7 @@ export default function StudentList() {
 
             {/* Class Filter */}
             <div className="space-y-2">
-              <Label htmlFor="class-filter">Filter by Class</Label>
+              <Label htmlFor="class-filter">Tapis mengikut Kelas</Label>
               <Select
                 value={selectedClass}
                 onValueChange={(value) => {
@@ -418,11 +418,11 @@ export default function StudentList() {
                   }
                 }}
               >
-                <SelectTrigger id="class-filter" aria-label="Filter students by class">
-                  <SelectValue placeholder="Select class" />
+                <SelectTrigger id="class-filter" aria-label="Tapis murid mengikut kelas">
+                  <SelectValue placeholder="Pilih kelas" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Classes</SelectItem>
+                  <SelectItem value="all">Semua Kelas</SelectItem>
                   {/* Filter classes by selected grade */}
                   {(selectedGrade === 'all'
                     ? classes
@@ -438,14 +438,14 @@ export default function StudentList() {
 
             {/* Sort */}
             <div className="space-y-2">
-              <Label htmlFor="sort-by">Sort By</Label>
+              <Label htmlFor="sort-by">Susun Mengikut</Label>
               <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
-                <SelectTrigger id="sort-by" aria-label="Sort students">
+                <SelectTrigger id="sort-by" aria-label="Susun murid">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="name">Name (A-Z)</SelectItem>
-                  <SelectItem value="attendance">Attendance Rate (High to Low)</SelectItem>
+                  <SelectItem value="name">Nama (A-Z)</SelectItem>
+                  <SelectItem value="attendance">Kadar Kehadiran (Tinggi ke Rendah)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -458,7 +458,7 @@ export default function StudentList() {
         <Card>
           <CardContent className="py-12 text-center">
             <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent" />
-            <p className="mt-4 text-muted-foreground">Loading students...</p>
+            <p className="mt-4 text-muted-foreground">Memuatkan murid...</p>
           </CardContent>
         </Card>
       ) : filteredStudents.length === 0 ? (
@@ -467,8 +467,8 @@ export default function StudentList() {
             <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
             <p className="text-muted-foreground">
               {searchQuery || selectedClass !== 'all' || selectedGrade !== 'all'
-                ? 'No students found matching your filters.'
-                : 'No students found.'}
+                ? 'Tiada murid dijumpai yang sepadan dengan penapis anda.'
+                : 'Tiada murid dijumpai.'}
             </p>
           </CardContent>
         </Card>
@@ -479,14 +479,14 @@ export default function StudentList() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>IC Number</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Class</TableHead>
-                  <TableHead className="text-right">Days Tracked</TableHead>
-                  <TableHead className="text-right">Present</TableHead>
-                  <TableHead className="text-right">Late</TableHead>
-                  <TableHead className="text-right">Absent</TableHead>
-                  <TableHead className="text-right">Attendance Rate</TableHead>
+                  <TableHead>Nombor IC</TableHead>
+                  <TableHead>Nama</TableHead>
+                  <TableHead>Kelas</TableHead>
+                  <TableHead className="text-right">Hari Dijejak</TableHead>
+                  <TableHead className="text-right">Hadir</TableHead>
+                  <TableHead className="text-right">Lewat</TableHead>
+                  <TableHead className="text-right">Tidak Hadir</TableHead>
+                  <TableHead className="text-right">Kadar Kehadiran</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -571,15 +571,15 @@ export default function StudentList() {
                         <div className="text-lg font-bold text-green-600">
                           {student.presentDays}
                         </div>
-                        <div className="text-xs text-muted-foreground">Present</div>
+                        <div className="text-xs text-muted-foreground">Hadir</div>
                       </div>
                       <div>
                         <div className="text-lg font-bold text-yellow-600">{student.lateDays}</div>
-                        <div className="text-xs text-muted-foreground">Late</div>
+                        <div className="text-xs text-muted-foreground">Lewat</div>
                       </div>
                       <div>
                         <div className="text-lg font-bold text-red-600">{student.absentDays}</div>
-                        <div className="text-xs text-muted-foreground">Absent</div>
+                        <div className="text-xs text-muted-foreground">Tidak Hadir</div>
                       </div>
                     </div>
                   </CardContent>
@@ -611,26 +611,26 @@ export default function StudentList() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              Summary
+              Ringkasan
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold">{summaryStats.total}</div>
-                <div className="text-sm text-muted-foreground">Total Students</div>
+                <div className="text-sm text-muted-foreground">Jumlah Murid</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">{summaryStats.excellent}</div>
-                <div className="text-sm text-muted-foreground">Excellent (≥90%)</div>
+                <div className="text-sm text-muted-foreground">Cemerlang (≥90%)</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-yellow-600">{summaryStats.good}</div>
-                <div className="text-sm text-muted-foreground">Good (75-89%)</div>
+                <div className="text-sm text-muted-foreground">Baik (75-89%)</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-red-600">{summaryStats.atRisk}</div>
-                <div className="text-sm text-muted-foreground">At Risk (&lt;75%)</div>
+                <div className="text-sm text-muted-foreground">Berisiko (&lt;75%)</div>
               </div>
             </div>
           </CardContent>
@@ -646,7 +646,7 @@ export default function StudentList() {
           <DialogHeader>
             <DialogTitle>{selectedStudent?.name}</DialogTitle>
             <DialogDescription id="student-detail-description">
-              Detailed attendance information for {getDateRangeText()}
+              Maklumat kehadiran terperinci untuk {getDateRangeText()}
             </DialogDescription>
           </DialogHeader>
           {selectedStudent && (
@@ -654,25 +654,25 @@ export default function StudentList() {
               {/* Student Info */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">IC Number:</span>
+                  <span className="text-muted-foreground">Nombor IC:</span>
                   <span className="font-medium">{selectedStudent.icNumber}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Class:</span>
+                  <span className="text-muted-foreground">Kelas:</span>
                   <span className="font-medium">
                     {classes.find((c) => c.id === selectedStudent.classId)
-                      ? `Grade ${classes.find((c) => c.id === selectedStudent.classId)!.grade} - ${
+                      ? `Tingkatan ${classes.find((c) => c.id === selectedStudent.classId)!.grade} - ${
                           classes.find((c) => c.id === selectedStudent.classId)!.name
                         }`
-                      : 'N/A'}
+                      : 'T/A'}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Guardian:</span>
+                  <span className="text-muted-foreground">Penjaga:</span>
                   <span className="font-medium">{selectedStudent.guardianName}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Contact:</span>
+                  <span className="text-muted-foreground">Hubungan:</span>
                   <span className="font-medium">{selectedStudent.guardianContact}</span>
                 </div>
               </div>
@@ -681,7 +681,7 @@ export default function StudentList() {
               <div className="bg-muted/50 rounded-lg p-4 space-y-3">
                 <h4 className="font-semibold flex items-center gap-2">
                   <TrendingUp className="h-4 w-4" />
-                  Attendance Summary
+                  Ringkasan Kehadiran
                 </h4>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex items-center gap-2">
@@ -690,7 +690,7 @@ export default function StudentList() {
                       <div className="text-lg font-bold text-green-600">
                         {selectedStudent.presentDays}
                       </div>
-                      <div className="text-xs text-muted-foreground">Present</div>
+                      <div className="text-xs text-muted-foreground">Hadir</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -699,7 +699,7 @@ export default function StudentList() {
                       <div className="text-lg font-bold text-yellow-600">
                         {selectedStudent.lateDays}
                       </div>
-                      <div className="text-xs text-muted-foreground">Late</div>
+                      <div className="text-xs text-muted-foreground">Lewat</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -708,20 +708,20 @@ export default function StudentList() {
                       <div className="text-lg font-bold text-red-600">
                         {selectedStudent.absentDays}
                       </div>
-                      <div className="text-xs text-muted-foreground">Absent</div>
+                      <div className="text-xs text-muted-foreground">Tidak Hadir</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-muted-foreground" />
                     <div>
                       <div className="text-lg font-bold">{selectedStudent.totalDays}</div>
-                      <div className="text-xs text-muted-foreground">Total Days</div>
+                      <div className="text-xs text-muted-foreground">Jumlah Hari</div>
                     </div>
                   </div>
                 </div>
                 <div className="pt-3 border-t">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Attendance Rate</span>
+                    <span className="text-sm font-medium">Kadar Kehadiran</span>
                     <Badge
                       variant={getAttendanceBadge(selectedStudent.attendanceRate).variant}
                       className="text-base"

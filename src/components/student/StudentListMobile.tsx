@@ -21,12 +21,12 @@ interface StudentListMobileProps {
 
 function getAttendanceBadge(rate: number) {
   if (rate >= 90) {
-    return { variant: 'default' as const, label: 'Excellent' };
+    return { variant: 'default' as const, label: 'Cemerlang' };
   }
   if (rate >= 75) {
-    return { variant: 'secondary' as const, label: 'Good' };
+    return { variant: 'secondary' as const, label: 'Baik' };
   }
-  return { variant: 'destructive' as const, label: 'At Risk' };
+  return { variant: 'destructive' as const, label: 'Berisiko' };
 }
 
 export default function StudentListMobile({
@@ -65,14 +65,14 @@ export default function StudentListMobile({
                     <h3 className="font-semibold truncate">{student.name}</h3>
                     <p className="text-sm text-muted-foreground">{student.icNumber}</p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {classInfo ? `Grade ${classInfo.grade} - ${classInfo.name}` : 'N/A'}
+                      {classInfo ? `Tingkatan ${classInfo.grade} - ${classInfo.name}` : 'T/A'}
                     </p>
                   </div>
 
                   {viewMode === 'single' ? (
                     <div className="ml-2 shrink-0">
                       {student.totalDays === 0 ? (
-                        <Badge variant="secondary">No Record</Badge>
+                        <Badge variant="secondary">Tiada Rekod</Badge>
                       ) : isPresent ? (
                         <Badge
                           variant="default"
@@ -81,12 +81,12 @@ export default function StudentListMobile({
                             color: 'hsl(var(--success-foreground))',
                           }}
                         >
-                          Present
+                          Hadir
                         </Badge>
                       ) : isAbsent ? (
-                        <Badge variant="destructive">Absent</Badge>
+                        <Badge variant="destructive">Tidak Hadir</Badge>
                       ) : (
-                        <Badge variant="secondary">No Record</Badge>
+                        <Badge variant="secondary">Tiada Rekod</Badge>
                       )}
                     </div>
                   ) : (
@@ -101,7 +101,7 @@ export default function StudentListMobile({
                     {isLate && (
                       <div className="text-center py-2">
                         <div style={{ color: 'hsl(var(--warning))' }} className="font-medium">
-                          ⚠️ Arrived Late{student.lateTime && ` at ${student.lateTime}`}
+                          ⚠️ Tiba Lewat{student.lateTime && ` pada ${student.lateTime}`}
                         </div>
                       </div>
                     )}
@@ -112,13 +112,13 @@ export default function StudentListMobile({
                       <div className="text-lg font-bold" style={{ color: 'hsl(var(--success))' }}>
                         {student.presentDays}
                       </div>
-                      <div className="text-xs text-muted-foreground">Present</div>
+                      <div className="text-xs text-muted-foreground">Hadir</div>
                     </div>
                     <div>
                       <div className="text-lg font-bold" style={{ color: 'hsl(var(--warning))' }}>
                         {student.lateDays}
                       </div>
-                      <div className="text-xs text-muted-foreground">Late</div>
+                      <div className="text-xs text-muted-foreground">Lewat</div>
                     </div>
                     <div>
                       <div
@@ -127,7 +127,7 @@ export default function StudentListMobile({
                       >
                         {student.absentDays}
                       </div>
-                      <div className="text-xs text-muted-foreground">Absent</div>
+                      <div className="text-xs text-muted-foreground">Tidak Hadir</div>
                     </div>
                   </div>
                 )}

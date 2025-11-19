@@ -91,9 +91,9 @@ export function ArchiveStudentDialog({
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex-row justify-end gap-4">
-          <AlertDialogCancel className="w-auto">Cancel</AlertDialogCancel>
+          <AlertDialogCancel className="w-auto">Batal</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm} className="w-auto">
-            {isArchived ? 'Restore Student' : 'Archive Student'}
+            {isArchived ? 'Pulihkan Murid' : 'Arkib Murid'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

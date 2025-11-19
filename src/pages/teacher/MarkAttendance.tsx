@@ -63,7 +63,7 @@ export default function MarkAttendance() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
-          <p className="text-muted-foreground">Loading class data...</p>
+          <p className="text-muted-foreground">Memuatkan data kelas...</p>
         </div>
       </div>
     );
@@ -73,7 +73,7 @@ export default function MarkAttendance() {
     return (
       <Alert variant="destructive">
         <AlertTriangle className="h-4 w-4" />
-        <AlertDescription>Class not found</AlertDescription>
+        <AlertDescription>Kelas tidak dijumpai</AlertDescription>
       </Alert>
     );
   }
@@ -82,7 +82,7 @@ export default function MarkAttendance() {
     <div
       className="space-y-4 sm:space-y-6 pb-8 px-2 sm:px-0"
       role="main"
-      aria-label="Mark attendance form"
+      aria-label="Borang tandakan kehadiran"
     >
       {/* Header */}
       <div className="flex items-center gap-3 sm:gap-4">
@@ -90,17 +90,17 @@ export default function MarkAttendance() {
           variant="outline"
           size="icon"
           onClick={() => navigate('/teacher/classes')}
-          aria-label="Back to class selection"
+          aria-label="Kembali ke pemilihan kelas"
           className="shrink-0"
         >
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <div className="flex-1 min-w-0">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight truncate">
-            Mark Attendance
+            Tandakan Kehadiran
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground truncate">
-            {classData.name} Grade {classData.grade} {classData.students.length} Students
+            {classData.name} Tingkatan {classData.grade} {classData.students.length} Murid
           </p>
         </div>
       </div>
@@ -123,26 +123,26 @@ export default function MarkAttendance() {
           <Button
             variant="outline"
             onClick={handleMarkAllPresent}
-            aria-label="Mark all students as present"
+            aria-label="Tandakan semua murid hadir"
           >
             <CheckCircle2 className="h-4 w-4 mr-2" aria-hidden="true" />
-            Mark All Present
+            Tandakan Semua Hadir
           </Button>
           <Button
             variant="outline"
             onClick={handleCopyAttendance}
-            aria-label="Copy attendance report"
+            aria-label="Salin laporan kehadiran"
             className="ml-auto"
           >
             {copied ? (
               <>
                 <Check className="h-4 w-4 mr-2" aria-hidden="true" />
-                Copied!
+                Disalin!
               </>
             ) : (
               <>
                 <Copy className="h-4 w-4 mr-2" aria-hidden="true" />
-                Copy Report
+                Salin Laporan
               </>
             )}
           </Button>
@@ -153,9 +153,9 @@ export default function MarkAttendance() {
       {!isHolidayDate && (
         <Card>
           <CardHeader>
-            <CardTitle>Student Attendance</CardTitle>
+            <CardTitle>Kehadiran Murid</CardTitle>
             <CardDescription>
-              Mark exceptions only. All students are pre-marked as present.
+              Tandakan pengecualian sahaja. Semua murid telah ditanda sebagai hadir.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -197,16 +197,16 @@ export default function MarkAttendance() {
             disabled={submitting}
             className="w-full sm:w-auto"
           >
-            Cancel
+            Batal
           </Button>
           <Button
             onClick={handleSubmit}
             disabled={submitting || (showReasonField && !lateReason.trim())}
-            aria-label="Submit attendance"
+            aria-label="Serahkan kehadiran"
             className="w-full sm:w-auto"
           >
             <Save className="h-4 w-4 mr-2" aria-hidden="true" />
-            {submitting ? 'Submitting...' : 'Submit Attendance'}
+            {submitting ? 'Menyerahkan...' : 'Serahkan Kehadiran'}
           </Button>
         </div>
       )}
@@ -215,15 +215,15 @@ export default function MarkAttendance() {
       <AlertDialog open={showUpdateConfirm} onOpenChange={handleCancelUpdate}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Update Existing Attendance?</AlertDialogTitle>
+            <AlertDialogTitle>Kemaskini Kehadiran Sedia Ada?</AlertDialogTitle>
             <AlertDialogDescription>
-              Attendance has already been submitted for this date. Do you want to update it? This
-              will replace the existing attendance record.
+              Kehadiran telah diserahkan untuk tarikh ini. Adakah anda mahu mengemaskininya? Ini
+              akan menggantikan rekod kehadiran sedia ada.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCancelUpdate}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmUpdate}>Yes, Update</AlertDialogAction>
+            <AlertDialogCancel onClick={handleCancelUpdate}>Batal</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmUpdate}>Ya, Kemaskini</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

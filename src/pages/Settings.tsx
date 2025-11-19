@@ -33,21 +33,21 @@ export function Settings() {
     if (value === 'small') root.classList.add('text-sm');
     else if (value === 'large') root.classList.add('text-lg');
 
-    toast.success('Font size updated');
+    toast.success('Saiz fon dikemas kini');
   };
 
   const handleColourPaletteChange = (newPalette: ColourPalette) => {
     setColourPalette(newPalette);
-    toast.success(`Colour palette changed to ${newPalette}`);
+    toast.success(`Palet warna ditukar kepada ${newPalette}`);
   };
 
   const colourPalettes: Array<{ name: string; value: ColourPalette; colors: [string, string] }> = [
-    { name: 'Default', value: 'default', colors: ['hsl(222.2 47.4% 11.2%)', 'hsl(210 40% 96.1%)'] },
-    { name: 'Blue', value: 'blue', colors: ['hsl(221.2 83.2% 53.3%)', 'hsl(210 40% 96.1%)'] },
-    { name: 'Green', value: 'green', colors: ['hsl(142.1 76.2% 36.3%)', 'hsl(138.5 76.5% 96.7%)'] },
-    { name: 'Purple', value: 'purple', colors: ['hsl(262.1 83.3% 57.8%)', 'hsl(270 100% 98%)'] },
-    { name: 'Orange', value: 'orange', colors: ['hsl(24.6 95% 53.1%)', 'hsl(33.3 100% 96.5%)'] },
-    { name: 'Red', value: 'red', colors: ['hsl(0 72.2% 50.6%)', 'hsl(0 85.7% 97.3%)'] },
+    { name: 'Lalai', value: 'default', colors: ['hsl(222.2 47.4% 11.2%)', 'hsl(210 40% 96.1%)'] },
+    { name: 'Biru', value: 'blue', colors: ['hsl(221.2 83.2% 53.3%)', 'hsl(210 40% 96.1%)'] },
+    { name: 'Hijau', value: 'green', colors: ['hsl(142.1 76.2% 36.3%)', 'hsl(138.5 76.5% 96.7%)'] },
+    { name: 'Ungu', value: 'purple', colors: ['hsl(262.1 83.3% 57.8%)', 'hsl(270 100% 98%)'] },
+    { name: 'Oren', value: 'orange', colors: ['hsl(24.6 95% 53.1%)', 'hsl(33.3 100% 96.5%)'] },
+    { name: 'Merah', value: 'red', colors: ['hsl(0 72.2% 50.6%)', 'hsl(0 85.7% 97.3%)'] },
   ];
 
   return (
@@ -56,21 +56,17 @@ export function Settings() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
             <Palette className="h-8 w-8" aria-hidden="true" />
-            Appearance Settings
+            Tetapan Penampilan
           </h1>
-          <p className="text-muted-foreground mt-2">
-            Customize the look and feel of your interface
-          </p>
+          <p className="text-muted-foreground mt-2">Sesuaikan rupa dan rasa antara muka anda</p>
         </div>
 
         <div className="space-y-6">
           {/* Theme Selection */}
           <Card>
             <CardHeader>
-              <CardTitle>Theme Mode</CardTitle>
-              <CardDescription>
-                Select your preferred color theme for the application
-              </CardDescription>
+              <CardTitle>Mod Tema</CardTitle>
+              <CardDescription>Pilih tema warna pilihan anda untuk aplikasi</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <RadioGroup
@@ -86,19 +82,19 @@ export function Settings() {
                   )
                 }
                 role="radiogroup"
-                aria-label="Theme selection"
+                aria-label="Pemilihan tema"
               >
                 <div className="flex items-center space-x-3 space-y-0 rounded-md border p-4 hover:bg-accent hover:border-accent-foreground/20 cursor-pointer transition-all">
                   <RadioGroupItem value="light" id="light" />
                   <Label htmlFor="light" className="flex items-center gap-2 cursor-pointer flex-1">
                     <Sun className="h-5 w-5" aria-hidden="true" />
                     <div>
-                      <div className="font-medium">Light</div>
-                      <div className="text-sm text-muted-foreground">Bright and clear</div>
+                      <div className="font-medium">Cerah</div>
+                      <div className="text-sm text-muted-foreground">Terang dan jelas</div>
                     </div>
                   </Label>
                   {theme === 'light' && (
-                    <Check className="h-5 w-5 text-primary" aria-label="Currently selected" />
+                    <Check className="h-5 w-5 text-primary" aria-label="Dipilih pada masa ini" />
                   )}
                 </div>
 
@@ -107,12 +103,12 @@ export function Settings() {
                   <Label htmlFor="dark" className="flex items-center gap-2 cursor-pointer flex-1">
                     <Moon className="h-5 w-5" aria-hidden="true" />
                     <div>
-                      <div className="font-medium">Dark</div>
-                      <div className="text-sm text-muted-foreground">Easy on the eyes</div>
+                      <div className="font-medium">Gelap</div>
+                      <div className="text-sm text-muted-foreground">Selesa untuk mata</div>
                     </div>
                   </Label>
                   {theme === 'dark' && (
-                    <Check className="h-5 w-5 text-primary" aria-label="Currently selected" />
+                    <Check className="h-5 w-5 text-primary" aria-label="Dipilih pada masa ini" />
                   )}
                 </div>
 
@@ -121,12 +117,12 @@ export function Settings() {
                   <Label htmlFor="system" className="flex items-center gap-2 cursor-pointer flex-1">
                     <Monitor className="h-5 w-5" aria-hidden="true" />
                     <div>
-                      <div className="font-medium">System</div>
-                      <div className="text-sm text-muted-foreground">Matches your device</div>
+                      <div className="font-medium">Sistem</div>
+                      <div className="text-sm text-muted-foreground">Mengikut peranti anda</div>
                     </div>
                   </Label>
                   {theme === 'system' && (
-                    <Check className="h-5 w-5 text-primary" aria-label="Currently selected" />
+                    <Check className="h-5 w-5 text-primary" aria-label="Dipilih pada masa ini" />
                   )}
                 </div>
 
@@ -138,12 +134,12 @@ export function Settings() {
                   >
                     <Sun className="h-5 w-5" aria-hidden="true" />
                     <div>
-                      <div className="font-medium">High Contrast Light</div>
-                      <div className="text-sm text-muted-foreground">Maximum readability</div>
+                      <div className="font-medium">Kontras Tinggi Cerah</div>
+                      <div className="text-sm text-muted-foreground">Kebolehbacaan maksimum</div>
                     </div>
                   </Label>
                   {theme === 'high-contrast-light' && (
-                    <Check className="h-5 w-5 text-primary" aria-label="Currently selected" />
+                    <Check className="h-5 w-5 text-primary" aria-label="Dipilih pada masa ini" />
                   )}
                 </div>
 
@@ -155,14 +151,14 @@ export function Settings() {
                   >
                     <Moon className="h-5 w-5" aria-hidden="true" />
                     <div>
-                      <div className="font-medium">High Contrast Dark</div>
+                      <div className="font-medium">Kontras Tinggi Gelap</div>
                       <div className="text-sm text-muted-foreground">
-                        Maximum contrast, dark mode
+                        Kontras maksimum, mod gelap
                       </div>
                     </div>
                   </Label>
                   {theme === 'high-contrast-dark' && (
-                    <Check className="h-5 w-5 text-primary" aria-label="Currently selected" />
+                    <Check className="h-5 w-5 text-primary" aria-label="Dipilih pada masa ini" />
                   )}
                 </div>
               </RadioGroup>
@@ -174,17 +170,15 @@ export function Settings() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Sparkles className="h-5 w-5" aria-hidden="true" />
-                Color Palette
+                Palet Warna
               </CardTitle>
-              <CardDescription>
-                Choose your preferred color scheme for the interface
-              </CardDescription>
+              <CardDescription>Pilih skema warna pilihan anda untuk antara muka</CardDescription>
             </CardHeader>
             <CardContent>
               <div
                 className="grid grid-cols-2 md:grid-cols-3 gap-4"
                 role="radiogroup"
-                aria-label="Color palette selection"
+                aria-label="Pemilihan palet warna"
               >
                 {colourPalettes.map((item) => (
                   <button
@@ -226,28 +220,30 @@ export function Settings() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Type className="h-5 w-5" aria-hidden="true" />
-                Font Size
+                Saiz Fon
               </CardTitle>
-              <CardDescription>Adjust the text size for better readability</CardDescription>
+              <CardDescription>
+                Laraskan saiz teks untuk kebolehbacaan yang lebih baik
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <RadioGroup
                 value={fontSize}
                 onValueChange={handleFontSizeChange}
                 role="radiogroup"
-                aria-label="Font size selection"
+                aria-label="Pemilihan saiz fon"
               >
                 <div className="flex items-center space-x-3 space-y-0 rounded-md border p-4 hover:bg-accent hover:border-accent-foreground/20 cursor-pointer transition-all">
                   <RadioGroupItem value="small" id="small" />
                   <Label htmlFor="small" className="flex items-center gap-2 cursor-pointer flex-1">
                     <Type className="h-4 w-4" aria-hidden="true" />
                     <div>
-                      <div className="font-medium text-sm">Small</div>
-                      <div className="text-xs text-muted-foreground">Compact view</div>
+                      <div className="font-medium text-sm">Kecil</div>
+                      <div className="text-xs text-muted-foreground">Paparan padat</div>
                     </div>
                   </Label>
                   {fontSize === 'small' && (
-                    <Check className="h-5 w-5 text-primary" aria-label="Currently selected" />
+                    <Check className="h-5 w-5 text-primary" aria-label="Dipilih pada masa ini" />
                   )}
                 </div>
 
@@ -256,12 +252,12 @@ export function Settings() {
                   <Label htmlFor="medium" className="flex items-center gap-2 cursor-pointer flex-1">
                     <Type className="h-5 w-5" aria-hidden="true" />
                     <div>
-                      <div className="font-medium">Medium</div>
-                      <div className="text-sm text-muted-foreground">Default size</div>
+                      <div className="font-medium">Sederhana</div>
+                      <div className="text-sm text-muted-foreground">Saiz lalai</div>
                     </div>
                   </Label>
                   {fontSize === 'medium' && (
-                    <Check className="h-5 w-5 text-primary" aria-label="Currently selected" />
+                    <Check className="h-5 w-5 text-primary" aria-label="Dipilih pada masa ini" />
                   )}
                 </div>
 
@@ -270,12 +266,12 @@ export function Settings() {
                   <Label htmlFor="large" className="flex items-center gap-2 cursor-pointer flex-1">
                     <Type className="h-6 w-6" aria-hidden="true" />
                     <div>
-                      <div className="font-medium text-lg">Large</div>
-                      <div className="text-sm text-muted-foreground">Easier to read</div>
+                      <div className="font-medium text-lg">Besar</div>
+                      <div className="text-sm text-muted-foreground">Lebih mudah dibaca</div>
                     </div>
                   </Label>
                   {fontSize === 'large' && (
-                    <Check className="h-5 w-5 text-primary" aria-label="Currently selected" />
+                    <Check className="h-5 w-5 text-primary" aria-label="Dipilih pada masa ini" />
                   )}
                 </div>
               </RadioGroup>

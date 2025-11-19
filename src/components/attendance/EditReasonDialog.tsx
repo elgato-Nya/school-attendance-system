@@ -90,25 +90,25 @@ export function EditReasonDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="w-[calc(100%-2rem)] max-w-md sm:max-w-[525px]">
         <DialogHeader>
-          <DialogTitle>Edit Attendance Record</DialogTitle>
+          <DialogTitle>Sunting Rekod Kehadiran</DialogTitle>
           <DialogDescription>
             {className && date && (
               <span className="block mt-1">
                 {className} - {date}
               </span>
             )}
-            Please provide a reason for editing this attendance record. This will be logged for
-            audit purposes.
+            Sila berikan sebab untuk menyunting rekod kehadiran ini. Ini akan dilog untuk tujuan
+            audit.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           {/* Preset Reasons */}
           <div className="space-y-2">
-            <Label htmlFor="preset-reason">Reason for Edit *</Label>
+            <Label htmlFor="preset-reason">Sebab Penyuntingan *</Label>
             <Select value={selectedPreset} onValueChange={handlePresetChange}>
               <SelectTrigger id="preset-reason">
-                <SelectValue placeholder="Select a reason..." />
+                <SelectValue placeholder="Pilih sebab..." />
               </SelectTrigger>
               <SelectContent>
                 {EDIT_REASONS_PRESETS.map((preset) => (
@@ -123,17 +123,17 @@ export function EditReasonDialog({
           {/* Custom Reason Input */}
           {showCustomInput && (
             <div className="space-y-2">
-              <Label htmlFor="custom-reason">Please specify the reason *</Label>
+              <Label htmlFor="custom-reason">Sila nyatakan sebab *</Label>
               <Textarea
                 id="custom-reason"
-                placeholder="Enter detailed reason for editing attendance..."
+                placeholder="Masukkan sebab terperinci untuk menyunting kehadiran..."
                 value={customReason}
                 onChange={(e) => handleCustomReasonChange(e.target.value)}
                 className="min-h-[100px] resize-none"
                 maxLength={500}
               />
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Minimum {EDIT_REASON_MIN_LENGTH} characters required</span>
+                <span>Minimum {EDIT_REASON_MIN_LENGTH} aksara diperlukan</span>
                 <span>{characterCount}/500</span>
               </div>
             </div>

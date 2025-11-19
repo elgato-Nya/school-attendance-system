@@ -20,7 +20,7 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading...</p>
+          <p className="mt-4 text-muted-foreground">Memuatkan...</p>
         </div>
       </div>
     );
@@ -36,9 +36,9 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-destructive">Access Denied</h1>
+          <h1 className="text-2xl font-bold text-destructive">Akses Ditolak</h1>
           <p className="mt-2 text-muted-foreground">
-            You don't have permission to access this page.
+            Anda tidak mempunyai kebenaran untuk mengakses halaman ini.
           </p>
         </div>
       </div>

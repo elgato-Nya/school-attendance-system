@@ -7,90 +7,90 @@ import { toast as sonnerToast } from 'sonner';
 // Common error messages
 const ERROR_MESSAGES = {
   // Network & Connection
-  NETWORK_ERROR: 'Network error. Please check your internet connection.',
-  CONNECTION_TIMEOUT: 'Request timed out. Please try again.',
-  SERVER_ERROR: 'Server error. Please try again later.',
+  NETWORK_ERROR: 'Ralat rangkaian. Sila semak sambungan internet anda.',
+  CONNECTION_TIMEOUT: 'Permintaan tamat tempoh. Sila cuba lagi.',
+  SERVER_ERROR: 'Ralat pelayan. Sila cuba lagi kemudian.',
 
   // Authentication
-  AUTH_FAILED: 'Authentication failed. Please log in again.',
-  UNAUTHORIZED: 'You do not have permission to perform this action.',
-  SESSION_EXPIRED: 'Your session has expired. Please log in again.',
+  AUTH_FAILED: 'Pengesahan gagal. Sila log masuk semula.',
+  UNAUTHORIZED: 'Anda tidak mempunyai kebenaran untuk melakukan tindakan ini.',
+  SESSION_EXPIRED: 'Sesi anda telah tamat tempoh. Sila log masuk semula.',
 
   // User Management
-  USER_CREATE_FAILED: 'Failed to create user. Please check the details and try again.',
-  USER_UPDATE_FAILED: 'Failed to update user. Please try again.',
-  USER_DELETE_FAILED: 'Failed to delete user. Please try again.',
-  USER_LOAD_FAILED: 'Failed to load users. Please refresh the page.',
-  EMAIL_ALREADY_EXISTS: 'This email is already registered.',
-  INVALID_EMAIL: 'Please enter a valid email address.',
-  WEAK_PASSWORD: 'Password must be at least 6 characters long.',
+  USER_CREATE_FAILED: 'Gagal mencipta pengguna. Sila semak butiran dan cuba lagi.',
+  USER_UPDATE_FAILED: 'Gagal mengemaskini pengguna. Sila cuba lagi.',
+  USER_DELETE_FAILED: 'Gagal memadam pengguna. Sila cuba lagi.',
+  USER_LOAD_FAILED: 'Gagal memuatkan pengguna. Sila muat semula halaman.',
+  EMAIL_ALREADY_EXISTS: 'Emel ini telah berdaftar.',
+  INVALID_EMAIL: 'Sila masukkan alamat emel yang sah.',
+  WEAK_PASSWORD: 'Kata laluan mestilah sekurang-kurangnya 6 aksara.',
 
   // Class Management
-  CLASS_CREATE_FAILED: 'Failed to create class. Please check the details and try again.',
-  CLASS_UPDATE_FAILED: 'Failed to update class. Please try again.',
+  CLASS_CREATE_FAILED: 'Gagal mencipta kelas. Sila semak butiran dan cuba lagi.',
+  CLASS_UPDATE_FAILED: 'Gagal mengemaskini kelas. Sila cuba lagi.',
   CLASS_DELETE_FAILED:
-    'Failed to delete class. This class may have students or attendance records.',
-  CLASS_LOAD_FAILED: 'Failed to load classes. Please refresh the page.',
-  NO_TEACHER_AVAILABLE: 'No teachers available. Please create a teacher account first.',
+    'Gagal memadam kelas. Kelas ini mungkin mempunyai murid atau rekod kehadiran.',
+  CLASS_LOAD_FAILED: 'Gagal memuatkan kelas. Sila muat semula halaman.',
+  NO_TEACHER_AVAILABLE: 'Tiada guru tersedia. Sila cipta akaun guru terlebih dahulu.',
 
   // Student Management
-  STUDENT_ADD_FAILED: 'Failed to add student. Please check the details and try again.',
-  STUDENT_UPDATE_FAILED: 'Failed to update student information. Please try again.',
-  STUDENT_DELETE_FAILED: 'Failed to remove student. Please try again.',
-  STUDENT_LOAD_FAILED: 'Failed to load students. Please refresh the page.',
-  IC_NUMBER_EXISTS: 'A student with this IC number already exists.',
-  INVALID_IC_NUMBER: 'Please enter a valid IC number (format: XXXXXX-XX-XXXX).',
+  STUDENT_ADD_FAILED: 'Gagal menambah murid. Sila semak butiran dan cuba lagi.',
+  STUDENT_UPDATE_FAILED: 'Gagal mengemaskini maklumat murid. Sila cuba lagi.',
+  STUDENT_DELETE_FAILED: 'Gagal mengeluarkan murid. Sila cuba lagi.',
+  STUDENT_LOAD_FAILED: 'Gagal memuatkan murid. Sila muat semula halaman.',
+  IC_NUMBER_EXISTS: 'Murid dengan nombor IC ini sudah wujud.',
+  INVALID_IC_NUMBER: 'Sila masukkan nombor IC yang sah (format: XXXXXX-XX-XXXX).',
 
   // Attendance
-  ATTENDANCE_SUBMIT_FAILED: 'Failed to submit attendance. Please try again.',
-  ATTENDANCE_LOAD_FAILED: 'Failed to load attendance records. Please refresh the page.',
-  ATTENDANCE_UPDATE_FAILED: 'Failed to update attendance. Please try again.',
+  ATTENDANCE_SUBMIT_FAILED: 'Gagal menyerahkan kehadiran. Sila cuba lagi.',
+  ATTENDANCE_LOAD_FAILED: 'Gagal memuatkan rekod kehadiran. Sila muat semula halaman.',
+  ATTENDANCE_UPDATE_FAILED: 'Gagal mengemaskini kehadiran. Sila cuba lagi.',
 
   // General
-  LOAD_DATA_FAILED: 'Failed to load data. Please refresh the page.',
-  SAVE_FAILED: 'Failed to save changes. Please try again.',
-  DELETE_FAILED: 'Failed to delete item. Please try again.',
-  VALIDATION_ERROR: 'Please check the form for errors.',
-  UNKNOWN_ERROR: 'An unexpected error occurred. Please try again.',
+  LOAD_DATA_FAILED: 'Gagal memuatkan data. Sila muat semula halaman.',
+  SAVE_FAILED: 'Gagal menyimpan perubahan. Sila cuba lagi.',
+  DELETE_FAILED: 'Gagal memadam item. Sila cuba lagi.',
+  VALIDATION_ERROR: 'Sila semak borang untuk ralat.',
+  UNKNOWN_ERROR: 'Ralat yang tidak dijangka berlaku. Sila cuba lagi.',
 };
 
 const SUCCESS_MESSAGES = {
   // User Management
-  USER_CREATED: 'User created successfully!',
-  USER_UPDATED: 'User updated successfully!',
-  USER_DELETED: 'User deleted successfully!',
+  USER_CREATED: 'Pengguna berjaya dicipta!',
+  USER_UPDATED: 'Pengguna berjaya dikemaskini!',
+  USER_DELETED: 'Pengguna berjaya dipadam!',
 
   // Class Management
-  CLASS_CREATED: 'Class created successfully!',
-  CLASS_UPDATED: 'Class updated successfully!',
-  CLASS_DELETED: 'Class deleted successfully!',
+  CLASS_CREATED: 'Kelas berjaya dicipta!',
+  CLASS_UPDATED: 'Kelas berjaya dikemaskini!',
+  CLASS_DELETED: 'Kelas berjaya dipadam!',
 
   // Student Management
-  STUDENT_ADDED: 'Student added successfully!',
-  STUDENT_UPDATED: 'Student updated successfully!',
-  STUDENT_DELETED: 'Student removed successfully!',
+  STUDENT_ADDED: 'Murid berjaya ditambah!',
+  STUDENT_UPDATED: 'Murid berjaya dikemaskini!',
+  STUDENT_DELETED: 'Murid berjaya dikeluarkan!',
 
   // Attendance
-  ATTENDANCE_SUBMITTED: 'Attendance submitted successfully!',
-  ATTENDANCE_UPDATED: 'Attendance updated successfully!',
+  ATTENDANCE_SUBMITTED: 'Kehadiran berjaya diserahkan!',
+  ATTENDANCE_UPDATED: 'Kehadiran berjaya dikemaskini!',
 
   // General
-  SAVE_SUCCESS: 'Changes saved successfully!',
-  DELETE_SUCCESS: 'Item deleted successfully!',
+  SAVE_SUCCESS: 'Perubahan berjaya disimpan!',
+  DELETE_SUCCESS: 'Item berjaya dipadam!',
 };
 
 const INFO_MESSAGES = {
-  LOADING: 'Loading data...',
-  PROCESSING: 'Processing...',
-  SAVING: 'Saving changes...',
-  DELETING: 'Deleting...',
+  LOADING: 'Memuatkan data...',
+  PROCESSING: 'Memproses...',
+  SAVING: 'Menyimpan perubahan...',
+  DELETING: 'Memadam...',
 };
 
 const WARNING_MESSAGES = {
-  UNSAVED_CHANGES: 'You have unsaved changes. Are you sure you want to leave?',
-  DELETE_CONFIRMATION: 'This action cannot be undone. Are you sure?',
-  NO_DATA: 'No data available.',
-  EMPTY_LIST: 'The list is empty.',
+  UNSAVED_CHANGES: 'Anda mempunyai perubahan yang belum disimpan. Adakah anda pasti mahu keluar?',
+  DELETE_CONFIRMATION: 'Tindakan ini tidak boleh dibatalkan. Adakah anda pasti?',
+  NO_DATA: 'Tiada data tersedia.',
+  EMPTY_LIST: 'Senarai kosong.',
 };
 
 /**

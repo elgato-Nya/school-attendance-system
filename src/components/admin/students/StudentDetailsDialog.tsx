@@ -44,9 +44,9 @@ export function StudentDetailsDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <User className="h-5 w-5" aria-hidden="true" />
-            Student Details
+            Butiran Murid
           </DialogTitle>
-          <DialogDescription>Full information about the student</DialogDescription>
+          <DialogDescription>Maklumat lengkap tentang murid</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -57,7 +57,7 @@ export function StudentDetailsDialog({
               <p className="text-sm text-muted-foreground mt-1">{studentData.icNumber}</p>
             </div>
             <Badge variant={isArchived ? 'secondary' : 'default'}>
-              {isArchived ? 'Archived' : 'Active'}
+              {isArchived ? 'Diarkib' : 'Aktif'}
             </Badge>
           </div>
 
@@ -94,7 +94,7 @@ export function StudentDetailsDialog({
                   <User className="h-4 w-4 text-primary" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium">Date of Birth</p>
+                  <p className="text-sm font-medium">Tarikh Lahir</p>
                   <p className="text-sm text-muted-foreground">{studentData.dob}</p>
                 </div>
               </div>
@@ -119,7 +119,7 @@ export function StudentDetailsDialog({
                 <Phone className="h-4 w-4 text-primary" aria-hidden="true" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium">Contact Number</p>
+                <p className="text-sm font-medium">Nombor Telefon</p>
                 <p className="text-sm text-muted-foreground font-mono">
                   {studentData.guardianContact}
                 </p>
@@ -133,7 +133,7 @@ export function StudentDetailsDialog({
                   <MapPin className="h-4 w-4 text-primary" aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium">Address</p>
+                  <p className="text-sm font-medium">Alamat</p>
                   <p className="text-sm text-muted-foreground break-words">{studentData.address}</p>
                 </div>
               </div>

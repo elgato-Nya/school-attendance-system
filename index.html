@@ -2,13 +2,16 @@
 <html lang="ms">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/malaysian_school_logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Sistem Kehadiran Sekolah - School Attendance Management System" />
+    <meta
+      name="description"
+      content="Sistem Kehadiran Sekolah - School Attendance Management System"
+    />
     <title>Sistem Kehadiran Sekolah</title>
     <script>
       // Apply theme immediately to prevent flash
-      (function() {
+      (function () {
         try {
           const theme = localStorage.getItem('school-attendance-theme') || 'light';
           if (theme === 'dark') {
@@ -18,7 +21,9 @@
           } else if (theme === 'high-contrast-dark') {
             document.documentElement.classList.add('dark', 'high-contrast');
           } else if (theme === 'system') {
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
             if (systemTheme === 'dark') {
               document.documentElement.classList.add('dark');
             }
@@ -26,9 +31,12 @@
         } catch (e) {}
       })();
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="root"></div>

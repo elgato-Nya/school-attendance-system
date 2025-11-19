@@ -23,12 +23,12 @@ export function RangeSelectionInfo({ rangeStart, rangeEnd, onCancel }: RangeSele
   // Create accessible status message
   const getStatusMessage = () => {
     if (selectionState === 'initial') {
-      return 'Click on a date to select the start date of your range';
+      return 'Klik pada tarikh untuk memilih tarikh mula julat anda';
     }
     if (selectionState === 'partial') {
-      return `Start date selected: ${format(parseISO(rangeStart!), 'MMMM dd, yyyy')}. Now select an end date`;
+      return `Tarikh mula dipilih: ${format(parseISO(rangeStart!), 'MMMM dd, yyyy')}. Sekarang pilih tarikh akhir`;
     }
-    return 'Range selected. Generating report';
+    return 'Julat dipilih. Menjana laporan';
   };
 
   return (
@@ -44,16 +44,16 @@ export function RangeSelectionInfo({ rangeStart, rangeEnd, onCancel }: RangeSele
         <div className="flex-1 space-y-1.5 sm:space-y-2 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <div className="mb-0 text-xs sm:text-base leading-tight font-medium tracking-tight">
-              Range Selection Mode
+              Mod Pemilihan Julat
             </div>
             <Badge
               variant="outline"
               className="text-[10px] sm:text-xs shrink-0 px-1.5 py-0.5"
-              aria-label={`Selection status: ${selectionState}`}
+              aria-label={`Status pemilihan: ${selectionState}`}
             >
-              {selectionState === 'initial' && 'Step 1 of 2'}
-              {selectionState === 'partial' && 'Step 2 of 2'}
-              {selectionState === 'complete' && 'Complete'}
+              {selectionState === 'initial' && 'Langkah 1 daripada 2'}
+              {selectionState === 'partial' && 'Langkah 2 daripada 2'}
+              {selectionState === 'complete' && 'Lengkap'}
             </Badge>
           </div>
 
@@ -63,7 +63,7 @@ export function RangeSelectionInfo({ rangeStart, rangeEnd, onCancel }: RangeSele
               <p className="leading-relaxed flex items-start gap-1">
                 <Info className="h-3 w-3 sm:h-3.5 sm:w-3.5 mt-0.5 shrink-0" aria-hidden="true" />
                 <span className="flex-1 min-w-0">
-                  Tap a date to select the <strong className="font-semibold">start date</strong>
+                  Ketik tarikh untuk memilih <strong className="font-semibold">tarikh mula</strong>
                 </span>
               </p>
             )}
@@ -73,14 +73,14 @@ export function RangeSelectionInfo({ rangeStart, rangeEnd, onCancel }: RangeSele
               <div
                 className="space-y-1.5 sm:space-y-2"
                 role="group"
-                aria-label="Range selection progress"
+                aria-label="Kemajuan pemilihan julat"
               >
                 <dl className="text-xs sm:text-sm">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-1">
-                    <dt className="text-muted-foreground text-[11px] sm:text-xs">Start:</dt>
+                    <dt className="text-muted-foreground text-[11px] sm:text-xs">Mula:</dt>
                     <dd
                       className="font-semibold wrap-break-words"
-                      aria-label={`Start date: ${format(parseISO(rangeStart!), 'MMMM dd, yyyy')}`}
+                      aria-label={`Tarikh mula: ${format(parseISO(rangeStart!), 'MMMM dd, yyyy')}`}
                     >
                       <time dateTime={rangeStart!}>
                         {format(parseISO(rangeStart!), 'MMM dd, yyyy')}
@@ -91,7 +91,7 @@ export function RangeSelectionInfo({ rangeStart, rangeEnd, onCancel }: RangeSele
                 <p className="text-muted-foreground leading-relaxed flex items-start gap-1">
                   <Info className="h-3 w-3 sm:h-3.5 sm:w-3.5 mt-0.5 shrink-0" aria-hidden="true" />
                   <span className="flex-1 min-w-0">
-                    Now tap the <strong className="font-semibold">end date</strong>
+                    Sekarang ketik <strong className="font-semibold">tarikh akhir</strong>
                   </span>
                 </p>
               </div>
@@ -102,14 +102,14 @@ export function RangeSelectionInfo({ rangeStart, rangeEnd, onCancel }: RangeSele
               <div
                 className="space-y-1.5 sm:space-y-2"
                 role="group"
-                aria-label="Selected date range"
+                aria-label="Julat tarikh dipilih"
               >
                 <dl className="text-xs sm:text-sm">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-1">
-                    <dt className="text-muted-foreground text-[11px] sm:text-xs">Range:</dt>
+                    <dt className="text-muted-foreground text-[11px] sm:text-xs">Julat:</dt>
                     <dd
                       className="font-semibold wrap-break-word"
-                      aria-label={`Date range from ${format(parseISO(rangeStart!), 'MMMM dd, yyyy')} to ${format(parseISO(rangeEnd!), 'MMMM dd, yyyy')}`}
+                      aria-label={`Julat tarikh dari ${format(parseISO(rangeStart!), 'MMMM dd, yyyy')} hingga ${format(parseISO(rangeEnd!), 'MMMM dd, yyyy')}`}
                     >
                       <time dateTime={rangeStart!}>{format(parseISO(rangeStart!), 'MMM dd')}</time>
                       {' - '}
@@ -124,7 +124,7 @@ export function RangeSelectionInfo({ rangeStart, rangeEnd, onCancel }: RangeSele
                   role="status"
                   aria-live="polite"
                 >
-                  Generating report...
+                  Menjana laporan...
                 </p>
               </div>
             )}
@@ -136,8 +136,8 @@ export function RangeSelectionInfo({ rangeStart, rangeEnd, onCancel }: RangeSele
           size="icon"
           onClick={onCancel}
           className="shrink-0 h-8 w-8 sm:h-8 sm:w-8 -mt-1 -mr-1 touch-manipulation"
-          aria-label="Cancel range selection mode"
-          title="Cancel"
+          aria-label="Batal mod pemilihan julat"
+          title="Batal"
         >
           <X className="h-4 w-4" />
         </Button>

@@ -6,7 +6,7 @@ interface LoadingStateProps {
   message?: string;
 }
 
-export function LoadingState({ message = 'Loading...' }: LoadingStateProps) {
+export function LoadingState({ message = 'Memuatkan...' }: LoadingStateProps) {
   return (
     <Card>
       <CardContent className="flex flex-col items-center justify-center py-12">

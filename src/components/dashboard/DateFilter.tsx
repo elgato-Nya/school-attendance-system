@@ -123,22 +123,22 @@ export function DateFilter({ value, onChange, onReset }: DateFilterProps) {
     if (daysDiff === 0) {
       return format(value.from, 'MMM d, yyyy');
     } else if (daysDiff === 6 && isToday) {
-      return 'Last 7 Days';
+      return '7 Hari Lepas';
     } else if (daysDiff === 29 && isToday) {
-      return 'Last 30 Days';
+      return '30 Hari Lepas';
     } else if (daysDiff > 365) {
-      return 'All Time';
+      return 'Sepanjang Masa';
     } else {
       return `${format(value.from, 'MMM d')} - ${format(value.to, 'MMM d, yyyy')}`;
     }
   };
 
   const options = [
-    { value: 'single', label: 'Single Date', icon: CalendarIcon },
-    { value: 'last7', label: 'Last 7 Days', icon: CalendarIcon },
-    { value: 'last30', label: 'Last 30 Days', icon: CalendarIcon },
-    { value: 'alltime', label: 'All Time', icon: CalendarIcon },
-    { value: 'custom', label: 'Custom Range', icon: CalendarIcon },
+    { value: 'single', label: 'Tarikh Tunggal', icon: CalendarIcon },
+    { value: 'last7', label: '7 Hari Lepas', icon: CalendarIcon },
+    { value: 'last30', label: '30 Hari Lepas', icon: CalendarIcon },
+    { value: 'alltime', label: 'Sepanjang Masa', icon: CalendarIcon },
+    { value: 'custom', label: 'Julat Tersuai', icon: CalendarIcon },
   ] as const;
 
   return (
@@ -186,14 +186,14 @@ export function DateFilter({ value, onChange, onReset }: DateFilterProps) {
               {selectedOption === 'single' && (
                 <>
                   <div className="mb-3 flex items-center justify-between">
-                    <p className="text-sm font-medium">Select a date</p>
+                    <p className="text-sm font-medium">Pilih tarikh</p>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => setShowCalendar(false)}
                       className="h-7 text-xs"
                     >
-                      Back
+                      Kembali
                     </Button>
                   </div>
                   <Calendar
@@ -208,14 +208,14 @@ export function DateFilter({ value, onChange, onReset }: DateFilterProps) {
               {selectedOption === 'custom' && customStep === 'from' && (
                 <>
                   <div className="mb-3 flex items-center justify-between">
-                    <p className="text-sm font-medium">Select start date</p>
+                    <p className="text-sm font-medium">Pilih tarikh mula</p>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => setShowCalendar(false)}
                       className="h-7 text-xs"
                     >
-                      Back
+                      Kembali
                     </Button>
                   </div>
                   <Calendar
@@ -231,18 +231,18 @@ export function DateFilter({ value, onChange, onReset }: DateFilterProps) {
                 <>
                   <div className="mb-3 space-y-2">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium">Select end date</p>
+                      <p className="text-sm font-medium">Pilih tarikh akhir</p>
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => setCustomStep('from')}
                         className="h-7 text-xs"
                       >
-                        Back
+                        Kembali
                       </Button>
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      From: {format(tempFromDate, 'MMM d, yyyy')}
+                      Dari: {format(tempFromDate, 'MMM d, yyyy')}
                     </div>
                   </div>
                   <Calendar
@@ -262,8 +262,8 @@ export function DateFilter({ value, onChange, onReset }: DateFilterProps) {
         <button
           onClick={handleReset}
           className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center h-6 w-6 rounded-md hover:bg-muted transition-colors"
-          title="Reset to today"
-          aria-label="Clear date filter"
+          title="Set semula ke hari ini"
+          aria-label="Kosongkan penapis tarikh"
         >
           <X className="h-4 w-4 text-muted-foreground" />
         </button>

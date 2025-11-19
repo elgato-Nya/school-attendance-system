@@ -33,11 +33,11 @@ export function validateEmail(email: string): {
   error?: string;
 } {
   if (!email || email.trim().length === 0) {
-    return { isValid: false, error: 'Email is required' };
+    return { isValid: false, error: 'Emel diperlukan' };
   }
 
   if (!EMAIL_REGEX.test(email)) {
-    return { isValid: false, error: 'Invalid email format' };
+    return { isValid: false, error: 'Format emel tidak sah' };
   }
 
   return { isValid: true };
@@ -51,29 +51,32 @@ export function validatePassword(password: string): {
   error?: string;
 } {
   if (!password || password.length === 0) {
-    return { isValid: false, error: 'Password is required' };
+    return { isValid: false, error: 'Kata laluan diperlukan' };
   }
 
   if (password.length < 8) {
-    return { isValid: false, error: 'Password must be at least 8 characters' };
+    return { isValid: false, error: 'Kata laluan mesti sekurang-kurangnya 8 aksara' };
   }
 
   if (!/[A-Z]/.test(password)) {
     return {
       isValid: false,
-      error: 'Password must contain at least one uppercase letter',
+      error: 'Kata laluan mesti mengandungi sekurang-kurangnya satu huruf besar',
     };
   }
 
   if (!/[a-z]/.test(password)) {
     return {
       isValid: false,
-      error: 'Password must contain at least one lowercase letter',
+      error: 'Kata laluan mesti mengandungi sekurang-kurangnya satu huruf kecil',
     };
   }
 
   if (!/\d/.test(password)) {
-    return { isValid: false, error: 'Password must contain at least one number' };
+    return {
+      isValid: false,
+      error: 'Kata laluan mesti mengandungi sekurang-kurangnya satu nombor',
+    };
   }
 
   return { isValid: true };
@@ -87,7 +90,7 @@ export function validatePhoneNumber(phone: string): {
   error?: string;
 } {
   if (!phone || phone.trim().length === 0) {
-    return { isValid: false, error: 'Phone number is required' };
+    return { isValid: false, error: 'Nombor telefon diperlukan' };
   }
 
   // Remove spaces and dashes for validation
@@ -96,7 +99,7 @@ export function validatePhoneNumber(phone: string): {
   if (!MALAYSIAN_PHONE_REGEX.test(cleanPhone)) {
     return {
       isValid: false,
-      error: 'Invalid Malaysian phone number format (e.g., 012-34567890)',
+      error: 'Format nombor telefon Malaysia tidak sah (cth: 012-34567890)',
     };
   }
 
@@ -111,17 +114,17 @@ export function validateDate(date: string): {
   error?: string;
 } {
   if (!date || date.trim().length === 0) {
-    return { isValid: false, error: 'Date is required' };
+    return { isValid: false, error: 'Tarikh diperlukan' };
   }
 
   if (!DATE_REGEX.test(date)) {
-    return { isValid: false, error: 'Invalid date format (YYYY-MM-DD)' };
+    return { isValid: false, error: 'Format tarikh tidak sah (YYYY-MM-DD)' };
   }
 
   // Check if date is valid
   const dateObj = new Date(date);
   if (isNaN(dateObj.getTime())) {
-    return { isValid: false, error: 'Invalid date' };
+    return { isValid: false, error: 'Tarikh tidak sah' };
   }
 
   return { isValid: true };
@@ -135,11 +138,11 @@ export function validateTime(time: string): {
   error?: string;
 } {
   if (!time || time.trim().length === 0) {
-    return { isValid: false, error: 'Time is required' };
+    return { isValid: false, error: 'Masa diperlukan' };
   }
 
   if (!TIME_REGEX.test(time)) {
-    return { isValid: false, error: 'Invalid time format (HH:MM)' };
+    return { isValid: false, error: 'Format masa tidak sah (HH:MM)' };
   }
 
   return { isValid: true };
@@ -162,13 +165,13 @@ export function validateDateOfBirth(dob: string): {
   const age = today.getFullYear() - dobDate.getFullYear();
 
   if (dobDate > today) {
-    return { isValid: false, error: 'Date of birth cannot be in the future' };
+    return { isValid: false, error: 'Tarikh lahir tidak boleh pada masa hadapan' };
   }
 
   if (age < 5 || age > 25) {
     return {
       isValid: false,
-      error: 'Student age must be between 5 and 25 years',
+      error: 'Umur murid mesti antara 5 hingga 25 tahun',
     };
   }
 
@@ -186,11 +189,11 @@ export function validateStudentForm(data: StudentFormData): {
 
   // Validate name
   if (!data.name || data.name.trim().length === 0) {
-    errors.name = 'Student name is required';
+    errors.name = 'Nama murid diperlukan';
   } else if (data.name.trim().length < 2) {
-    errors.name = 'Student name must be at least 2 characters';
+    errors.name = 'Nama murid mesti sekurang-kurangnya 2 aksara';
   } else if (data.name.trim().length > 100) {
-    errors.name = 'Student name must not exceed 100 characters';
+    errors.name = 'Nama murid tidak boleh melebihi 100 aksara';
   }
 
   // Validate date of birth
@@ -201,9 +204,9 @@ export function validateStudentForm(data: StudentFormData): {
 
   // Validate guardian name
   if (!data.guardianName || data.guardianName.trim().length === 0) {
-    errors.guardianName = 'Guardian name is required';
+    errors.guardianName = 'Nama penjaga diperlukan';
   } else if (data.guardianName.trim().length < 2) {
-    errors.guardianName = 'Guardian name must be at least 2 characters';
+    errors.guardianName = 'Nama penjaga mesti sekurang-kurangnya 2 aksara';
   }
 
   // Validate guardian contact
@@ -214,7 +217,7 @@ export function validateStudentForm(data: StudentFormData): {
 
   // Validate address (optional)
   if (data.address && data.address.trim().length > 500) {
-    errors.address = 'Address must not exceed 500 characters';
+    errors.address = 'Alamat tidak boleh melebihi 500 aksara';
   }
 
   return {
@@ -234,23 +237,23 @@ export function validateClassForm(data: ClassFormData): {
 
   // Validate name
   if (!data.name || data.name.trim().length === 0) {
-    errors.name = 'Class name is required';
+    errors.name = 'Nama kelas diperlukan';
   } else if (data.name.trim().length < 2) {
-    errors.name = 'Class name must be at least 2 characters';
+    errors.name = 'Nama kelas mesti sekurang-kurangnya 2 aksara';
   } else if (data.name.length > 50) {
-    errors.name = 'Class name must not exceed 50 characters';
+    errors.name = 'Nama kelas tidak boleh melebihi 50 aksara';
   }
 
   // Validate grade (must be 1-5)
   if (!data.grade || data.grade === 0) {
-    errors.grade = 'Grade is required';
+    errors.grade = 'Tingkatan diperlukan';
   } else if (data.grade < 1 || data.grade > 5) {
-    errors.grade = 'Grade must be between 1 and 5';
+    errors.grade = 'Tingkatan mesti antara 1 hingga 5';
   }
 
   // Validate teacher rep
   if (!data.teacherRep || data.teacherRep.trim().length === 0) {
-    errors.teacherRep = 'Class teacher is required';
+    errors.teacherRep = 'Guru kelas diperlukan';
   }
 
   return {
@@ -279,22 +282,22 @@ export function validateUserForm(
 
   // Validate name
   if (!data.name || data.name.trim().length === 0) {
-    errors.name = 'Name is required';
+    errors.name = 'Nama diperlukan';
   } else if (data.name.trim().length < 2) {
-    errors.name = 'Name must be at least 2 characters';
+    errors.name = 'Nama mesti sekurang-kurangnya 2 aksara';
   } else if (data.name.trim().length > 100) {
-    errors.name = 'Name must not exceed 100 characters';
+    errors.name = 'Nama tidak boleh melebihi 100 aksara';
   }
 
   // Validate role
   if (!data.role || !Object.values(ROLES).includes(data.role)) {
-    errors.role = 'Valid role is required';
+    errors.role = 'Peranan yang sah diperlukan';
   }
 
   // Validate password (only for new users)
   if (isNewUser) {
     if (!data.password) {
-      errors.password = 'Password is required for new users';
+      errors.password = 'Kata laluan diperlukan untuk pengguna baru';
     } else {
       const passwordValidation = validatePassword(data.password);
       if (!passwordValidation.isValid) {
@@ -305,7 +308,7 @@ export function validateUserForm(
 
   // Validate assigned classes (optional, but should be array)
   if (!Array.isArray(data.assignedClasses)) {
-    errors.assignedClasses = 'Assigned classes must be an array';
+    errors.assignedClasses = 'Kelas yang ditetapkan mesti dalam bentuk senarai';
   }
 
   return {
@@ -331,16 +334,16 @@ export function validateHolidayForm(data: HolidayFormData): {
 
   // Validate name
   if (!data.name || data.name.trim().length === 0) {
-    errors.name = 'Holiday name is required';
+    errors.name = 'Nama cuti diperlukan';
   } else if (data.name.trim().length < 2) {
-    errors.name = 'Holiday name must be at least 2 characters';
+    errors.name = 'Nama cuti mesti sekurang-kurangnya 2 aksara';
   } else if (data.name.trim().length > 100) {
-    errors.name = 'Holiday name must not exceed 100 characters';
+    errors.name = 'Nama cuti tidak boleh melebihi 100 aksara';
   }
 
   // Validate type
   if (!data.type || data.type.trim().length === 0) {
-    errors.type = 'Holiday type is required';
+    errors.type = 'Jenis cuti diperlukan';
   }
 
   return {
@@ -357,7 +360,7 @@ export function validateRemarks(remarks: string): {
   error?: string;
 } {
   if (remarks && remarks.length > 500) {
-    return { isValid: false, error: 'Remarks must not exceed 500 characters' };
+    return { isValid: false, error: 'Catatan tidak boleh melebihi 500 aksara' };
   }
 
   return { isValid: true };

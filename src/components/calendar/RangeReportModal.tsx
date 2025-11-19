@@ -65,14 +65,14 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className="w-[calc(100%-2rem)] max-w-4xl max-h-[90vh] overflow-y-auto p-4 sm:p-6 gap-4"
-        aria-describedby="range-report-description"
+        aria-describedby="julat-deskripsi-report"
       >
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
             <Calendar className="h-5 w-5 sm:h-6 sm:w-6 shrink-0" aria-hidden="true" />
-            <span className="truncate">Range Report</span>
+            <span className="truncate">Laporan Julat</span>
           </DialogTitle>
-          <DialogDescription id="range-report-description" className="text-sm sm:text-base">
+          <DialogDescription id="julat-deskripsi-report" className="text-sm sm:text-base">
             <span className="inline-flex flex-wrap items-center gap-1 sm:gap-2">
               <span className="text-xs sm:text-sm">
                 {format(parseISO(startDate), 'MMM dd, yyyy')}
@@ -82,7 +82,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                 {format(parseISO(endDate), 'MMM dd, yyyy')}
               </span>
               <Badge variant="secondary" className="text-xs">
-                {totalDays} {totalDays === 1 ? 'day' : 'days'}
+                {totalDays} {totalDays === 1 ? 'hari' : 'hari'}
               </Badge>
             </span>
           </DialogDescription>
@@ -93,7 +93,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
           <div className="space-y-3">
             <h3 className="font-semibold text-base sm:text-lg flex items-center gap-2">
               <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
-              Overall Summary
+              Ringkasan Keseluruhan
             </h3>
             <div className="grid gap-2 sm:gap-3 grid-cols-2 md:grid-cols-4">
               <Card>
@@ -106,9 +106,9 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                     <p className="text-xl sm:text-2xl font-bold">
                       {Math.round(overall.totalStudents)}
                     </p>
-                    <p className="text-xs sm:text-sm text-muted-foreground">Avg/Day</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Purata/Hari</p>
                     <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">
-                      {overall.totalAttendanceRecords} records
+                      {overall.totalAttendanceRecords} rekod
                     </p>
                   </div>
                 </CardContent>
@@ -124,7 +124,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                     <p className="text-xl sm:text-2xl font-bold text-green-600">
                       {overall.present}
                     </p>
-                    <p className="text-xs sm:text-sm text-muted-foreground">Present</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Hadir</p>
                     <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">
                       {((overall.present / overall.totalAttendanceRecords) * 100).toFixed(1)}%
                     </p>
@@ -140,7 +140,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                       aria-hidden="true"
                     />
                     <p className="text-xl sm:text-2xl font-bold text-yellow-600">{overall.late}</p>
-                    <p className="text-xs sm:text-sm text-muted-foreground">Late</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Lewat</p>
                     <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">
                       {((overall.late / overall.totalAttendanceRecords) * 100).toFixed(1)}%
                     </p>
@@ -156,7 +156,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                       aria-hidden="true"
                     />
                     <p className="text-xl sm:text-2xl font-bold text-red-600">{overall.absent}</p>
-                    <p className="text-xs sm:text-sm text-muted-foreground">Absent</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Tidak Hadir</p>
                     <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">
                       {((overall.absent / overall.totalAttendanceRecords) * 100).toFixed(1)}%
                     </p>
@@ -170,7 +170,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-primary" aria-hidden="true" />
-                    <span className="font-semibold text-sm sm:text-base">Overall Rate</span>
+                    <span className="font-semibold text-sm sm:text-base">Kadar Keseluruhan</span>
                   </div>
                   <Badge
                     variant={overall.rate >= 85 ? 'default' : 'destructive'}
@@ -180,7 +180,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                   </Badge>
                 </div>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-2">
-                  {daysWithData} of {totalDays} days recorded
+                  {daysWithData} daripada {totalDays} hari direkodkan
                 </p>
               </CardContent>
             </Card>
@@ -190,7 +190,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
 
           {/* Class Performance */}
           <div>
-            <h3 className="font-semibold text-base sm:text-lg mb-2 sm:mb-3">Class Performance</h3>
+            <h3 className="font-semibold text-base sm:text-lg mb-2 sm:mb-3">Prestasi Kelas</h3>
             <div className="space-y-2 max-h-[300px] sm:max-h-[400px] overflow-y-auto">
               {classPerformance
                 .sort((a, b) => b.avgAttendanceRate - a.avgAttendanceRate)
@@ -203,7 +203,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                             {cls.className}
                           </p>
                           <p className="text-xs sm:text-sm text-muted-foreground">
-                            {cls.daysReported} {cls.daysReported === 1 ? 'day' : 'days'}
+                            {cls.daysReported} {cls.daysReported === 1 ? 'hari' : 'hari'}
                           </p>
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
@@ -232,7 +232,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
 
           {/* Daily Breakdown */}
           <div>
-            <h3 className="font-semibold text-base sm:text-lg mb-2 sm:mb-3">Daily Breakdown</h3>
+            <h3 className="font-semibold text-base sm:text-lg mb-2 sm:mb-3">Ringkasan Harian</h3>
             <div className="space-y-2 max-h-[300px] sm:max-h-[400px] overflow-y-auto pr-1">
               {dailyBreakdown
                 .sort((a, b) => b.date.localeCompare(a.date))
@@ -245,8 +245,8 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                             {format(parseISO(day.date), 'EEE, MMM dd, yyyy')}
                           </p>
                           <p className="text-xs sm:text-sm text-muted-foreground">
-                            {day.classCount} {day.classCount === 1 ? 'class' : 'classes'} •{' '}
-                            {day.totalStudents} students
+                            {day.classCount} {day.classCount === 1 ? 'kelas' : 'kelas'} •{' '}
+                            {day.totalStudents} pelajar
                           </p>
                         </div>
                         <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 w-full sm:w-auto">
@@ -255,7 +255,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                               variant="default"
                               className="bg-green-600 text-[10px] sm:text-xs px-1.5 sm:px-2"
                             >
-                              {day.present} P
+                              {day.present} H
                             </Badge>
                             {day.late > 0 && (
                               <Badge
@@ -270,7 +270,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                                 variant="destructive"
                                 className="text-[10px] sm:text-xs px-1.5 sm:px-2"
                               >
-                                {day.absent} A
+                                {day.absent} T
                               </Badge>
                             )}
                           </div>
@@ -290,7 +290,7 @@ export function RangeReportModal({ open, onOpenChange, rangeReport }: RangeRepor
                 <Card>
                   <CardContent className="p-8 text-center">
                     <p className="text-muted-foreground">
-                      No attendance data available for this date range
+                      Tiada data kehadiran untuk julat tarikh ini
                     </p>
                   </CardContent>
                 </Card>

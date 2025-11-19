@@ -48,19 +48,19 @@ export function StudentListDialog({ classItem }: StudentListDialogProps) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex-1 min-w-0">
             <DialogTitle className="text-xl sm:text-2xl truncate">
-              Students in {classItem.name}
+              Murid dalam {classItem.name}
             </DialogTitle>
             <DialogDescription className="mt-1">
               <Badge variant="secondary" className="text-xs">
-                Grade {classItem.grade} • {classItem.students.length}{' '}
-                {classItem.students.length === 1 ? 'student' : 'students'}
+                Tingkatan {classItem.grade} • {classItem.students.length}{' '}
+                {classItem.students.length === 1 ? 'murid' : 'murid'}
               </Badge>
             </DialogDescription>
           </div>
           <Button asChild size="sm" className="w-full sm:w-auto">
-            <Link to="/admin/students" aria-label="Manage all students">
+            <Link to="/admin/students" aria-label="Urus semua murid">
               <Settings className="h-4 w-4 mr-2" aria-hidden="true" />
-              Manage Students
+              Urus Murid
             </Link>
           </Button>
         </div>
@@ -71,11 +71,11 @@ export function StudentListDialog({ classItem }: StudentListDialogProps) {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search students or guardians..."
+            placeholder="Cari murid atau penjaga..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
-            aria-label="Search students"
+            aria-label="Cari murid"
           />
         </div>
       </div>
@@ -86,18 +86,21 @@ export function StudentListDialog({ classItem }: StudentListDialogProps) {
           <div className="flex flex-col items-center justify-center py-12">
             <Users className="h-12 w-12 text-muted-foreground mb-4" aria-hidden="true" />
             <h3 className="text-lg font-medium mb-2">
-              {searchQuery ? 'No students found' : 'No students yet'}
+              {searchQuery ? 'Tiada murid dijumpai' : 'Belum ada murid'}
             </h3>
             <p className="text-sm text-muted-foreground text-center mb-4">
               {searchQuery
-                ? 'Try adjusting your search'
-                : 'Get started by adding students in Student Management'}
+                ? 'Cuba laraskan carian anda'
+                : 'Mulakan dengan menambah murid dalam Pengurusan Murid'}
             </p>
             {!searchQuery && (
               <Button asChild size="sm">
-                <Link to="/admin/students" aria-label="Go to Student Management to add students">
+                <Link
+                  to="/admin/students"
+                  aria-label="Pergi ke Pengurusan Murid untuk tambah murid"
+                >
                   <Settings className="h-4 w-4 mr-2" aria-hidden="true" />
-                  Go to Student Management
+                  Pergi ke Pengurusan Murid
                 </Link>
               </Button>
             )}
@@ -110,10 +113,10 @@ export function StudentListDialog({ classItem }: StudentListDialogProps) {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-12">#</TableHead>
-                    <TableHead>Student Name</TableHead>
-                    <TableHead>IC Number</TableHead>
-                    <TableHead>Guardian</TableHead>
-                    <TableHead>Contact</TableHead>
+                    <TableHead>Nama Murid</TableHead>
+                    <TableHead>Nombor IC</TableHead>
+                    <TableHead>Penjaga</TableHead>
+                    <TableHead>Hubungan</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -164,8 +167,8 @@ export function StudentListDialog({ classItem }: StudentListDialogProps) {
       {filteredStudents.length > 0 && (
         <div className="px-4 sm:px-6 py-3 border-t bg-muted/20">
           <p className="text-sm text-muted-foreground">
-            Showing {filteredStudents.length} of {classItem.students.length}{' '}
-            {filteredStudents.length === 1 ? 'student' : 'students'}
+            Memapar {filteredStudents.length} daripada {classItem.students.length}{' '}
+            {filteredStudents.length === 1 ? 'murid' : 'murid'}
           </p>
         </div>
       )}

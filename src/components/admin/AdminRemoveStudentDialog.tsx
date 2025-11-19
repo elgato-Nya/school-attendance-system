@@ -83,9 +83,9 @@ export function AdminRemoveStudentDialog({
     <Dialog open={open} onOpenChange={handleCancel}>
       <DialogContent className="max-w-md sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Remove Student</DialogTitle>
+          <DialogTitle>Buang Murid</DialogTitle>
           <DialogDescription>
-            Choose how to remove <strong>{studentName}</strong> from the system.
+            Pilih cara untuk membuang <strong>{studentName}</strong> daripada sistem.
           </DialogDescription>
         </DialogHeader>
 
@@ -106,10 +106,10 @@ export function AdminRemoveStudentDialog({
                 <div className="flex-1 space-y-1">
                   <div className="flex items-center gap-2">
                     <Archive className="h-4 w-4 text-orange-600" />
-                    <span className="font-semibold text-sm">Archive (Recommended)</span>
+                    <span className="font-semibold text-sm">Arkib (Disyorkan)</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Preserves all data. Can be restored anytime.
+                    Memelihara semua data. Boleh dipulihkan bila-bila masa.
                   </p>
                 </div>
               </label>
@@ -127,10 +127,10 @@ export function AdminRemoveStudentDialog({
                 <div className="flex-1 space-y-1">
                   <div className="flex items-center gap-2">
                     <Trash2 className="h-4 w-4 text-destructive" />
-                    <span className="font-semibold text-sm">Permanent Delete</span>
+                    <span className="font-semibold text-sm">Padam Kekal</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Cannot be undone. All data will be lost.
+                    Tidak boleh dibatalkan. Semua data akan hilang.
                   </p>
                 </div>
               </label>
@@ -142,28 +142,28 @@ export function AdminRemoveStudentDialog({
             <div className="space-y-3 p-3 bg-muted/50 rounded-lg">
               <div className="space-y-2">
                 <Label htmlFor="archive-reason" className="text-sm">
-                  Reason <span className="text-destructive">*</span>
+                  Sebab <span className="text-destructive">*</span>
                 </Label>
                 <Select value={reason} onValueChange={(value) => setReason(value as ArchiveReason)}>
                   <SelectTrigger id="archive-reason">
-                    <SelectValue placeholder="Select reason" />
+                    <SelectValue placeholder="Pilih sebab" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Transferred">Transferred</SelectItem>
-                    <SelectItem value="Graduated">Graduated</SelectItem>
-                    <SelectItem value="Withdrawn">Withdrawn</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
+                    <SelectItem value="Transferred">Berpindah</SelectItem>
+                    <SelectItem value="Graduated">Tamat Pengajian</SelectItem>
+                    <SelectItem value="Withdrawn">Berhenti Sekolah</SelectItem>
+                    <SelectItem value="Other">Lain-lain</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="archive-details" className="text-sm">
-                  Details {reason === 'Other' && <span className="text-destructive">*</span>}
+                  Butiran {reason === 'Other' && <span className="text-destructive">*</span>}
                 </Label>
                 <Textarea
                   id="archive-details"
-                  placeholder={reason === 'Other' ? 'Required...' : 'Optional notes...'}
+                  placeholder={reason === 'Other' ? 'Diperlukan...' : 'Catatan pilihan...'}
                   value={reasonDetails}
                   onChange={(e) => setReasonDetails(e.target.value)}
                   rows={2}
@@ -176,7 +176,7 @@ export function AdminRemoveStudentDialog({
 
         <DialogFooter className="gap-2">
           <Button variant="outline" onClick={handleCancel} disabled={isSubmitting}>
-            Cancel
+            Batal
           </Button>
           <Button
             onClick={handleConfirm}
@@ -186,11 +186,11 @@ export function AdminRemoveStudentDialog({
           >
             {isSubmitting
               ? action === 'archive'
-                ? 'Archiving...'
-                : 'Deleting...'
+                ? 'Mengarkib...'
+                : 'Memadam...'
               : action === 'archive'
-                ? 'Archive'
-                : 'Delete'}
+                ? 'Arkib'
+                : 'Padam'}
           </Button>
         </DialogFooter>
       </DialogContent>

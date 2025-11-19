@@ -165,7 +165,7 @@ export default function CalendarPage() {
       setLoadedMonths((prev) => new Set([...prev, monthKey]));
     } catch (error) {
       console.error(`Load attendance for month ${monthKey} error:`, error);
-      toast.error('Failed to load attendance data');
+      toast.error('Gagal memuatkan data kehadiran');
     } finally {
       setLoadingMonthData(false);
     }
@@ -180,7 +180,7 @@ export default function CalendarPage() {
         setClasses(classesData);
       } catch (error) {
         console.error('Load calendar data error:', error);
-        toast.error('Failed to load calendar data');
+        toast.error('Gagal memuatkan data kalendar');
       } finally {
         setLoading(false);
       }
@@ -276,7 +276,7 @@ export default function CalendarPage() {
       if (!rangeStart) {
         // First click - set start date
         setRangeStart(dateStr);
-        toast.success(`Start date selected: ${formatDate(parseISO(dateStr), 'MMM dd, yyyy')}`);
+        toast.success(`Tarikh mula dipilih: ${formatDate(parseISO(dateStr), 'dd MMM yyyy')}`);
       } else if (!rangeEnd) {
         // Second click - validate and set end date
         const start = parseISO(rangeStart);
@@ -284,7 +284,7 @@ export default function CalendarPage() {
 
         // Ensure end is after start
         if (isBefore(end, start)) {
-          toast.error('End date must be after start date. Please select again.');
+          toast.error('Tarikh akhir mesti selepas tarikh mula. Sila pilih semula.');
           setRangeStart(dateStr);
           setRangeEnd(null);
           return;
@@ -293,14 +293,16 @@ export default function CalendarPage() {
         // Check if range is reasonable (max 90 days)
         const daysDiff = Math.abs(end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
         if (daysDiff > 90) {
-          toast.error('Date range cannot exceed 90 days. Please select a shorter range.');
+          toast.error(
+            'Julat tarikh tidak boleh melebihi 90 hari. Sila pilih julat yang lebih pendek.'
+          );
           setRangeStart(null);
           setRangeEnd(null);
           return;
         }
 
         setRangeEnd(dateStr);
-        toast.success(`Range selected: ${daysDiff + 1} days`);
+        toast.success(`Julat dipilih: ${daysDiff + 1} hari`);
 
         // Generate report after short delay for UX
         setTimeout(() => {
@@ -310,7 +312,7 @@ export default function CalendarPage() {
         // Third click - reset and start new selection
         setRangeStart(dateStr);
         setRangeEnd(null);
-        toast.info('Starting new range selection');
+        toast.info('Memulakan pemilihan julat baharu');
       }
     },
     [rangeStart, rangeEnd]
@@ -361,7 +363,7 @@ export default function CalendarPage() {
       });
     } catch (error) {
       console.error('Generate day report error:', error);
-      toast.error('Failed to generate day report');
+      toast.error('Gagal menjana laporan harian');
     }
   };
 
@@ -408,7 +410,7 @@ export default function CalendarPage() {
 
       if (latestAttendance.length === 0) {
         toast.dismiss();
-        toast.error('No attendance data found for this date range');
+        toast.error('Tiada data kehadiran dijumpai untuk julat tarikh ini');
         setRangeMode(false);
         setRangeStart(null);
         setRangeEnd(null);
@@ -532,11 +534,11 @@ export default function CalendarPage() {
       setRangeModalOpen(true);
 
       toast.dismiss();
-      toast.success('Range report generated successfully!');
+      toast.success('Laporan julat berjaya dijana!');
     } catch (error) {
       console.error('Generate range report error:', error);
       toast.dismiss();
-      toast.error('Failed to generate range report');
+      toast.error('Gagal menjana laporan julat');
     } finally {
       // Reset range selection
       setRangeMode(false);
@@ -555,7 +557,7 @@ export default function CalendarPage() {
     setRangeMode(false);
     setRangeStart(null);
     setRangeEnd(null);
-    toast.info('Range selection cancelled');
+    toast.info('Pemilihan julat dibatalkan');
   }, []);
 
   if (loading) {
@@ -564,14 +566,14 @@ export default function CalendarPage() {
         className="flex items-center justify-center min-h-[60vh]"
         role="status"
         aria-live="polite"
-        aria-label="Loading calendar"
+        aria-label="Memuatkan kalendar"
       >
         <div className="text-center">
           <div
             className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"
             aria-hidden="true"
           ></div>
-          <p className="text-muted-foreground">Loading calendar...</p>
+          <p className="text-muted-foreground">Memuatkan kalendar...</p>
         </div>
       </div>
     );

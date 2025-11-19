@@ -20,9 +20,9 @@ export function HolidayList({ holidays, onEdit, onDelete, onAddNew }: HolidayLis
     return (
       <EmptyState
         icon={Calendar}
-        title="No holidays found"
-        description="Add holidays manually or import Malaysia 2025 holidays"
-        actionLabel="Add Holiday"
+        title="Tiada cuti dijumpai"
+        description="Tambah cuti secara manual atau import cuti Malaysia 2025"
+        actionLabel="Tambah Cuti"
         onAction={onAddNew}
       />
     );

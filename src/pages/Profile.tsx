@@ -81,7 +81,7 @@ export function Profile() {
       // Refresh user data from Firestore
       await refreshUser();
 
-      toast.success('Profile updated successfully');
+      toast.success('Profil berjaya dikemas kini');
       setIsEditing(false);
     } catch (error) {
       console.error('Profile update error:', error);
@@ -104,12 +104,12 @@ export function Profile() {
 
     // Validate passwords
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      toast.error('New passwords do not match');
+      toast.error('Kata laluan baharu tidak sepadan');
       return;
     }
 
     if (passwordData.newPassword.length < 6) {
-      toast.error('Password must be at least 6 characters long');
+      toast.error('Kata laluan mesti sekurang-kurangnya 6 aksara');
       return;
     }
 
@@ -121,7 +121,7 @@ export function Profile() {
       // Then change the password
       await changePassword(passwordData.newPassword);
 
-      toast.success('Password changed successfully');
+      toast.success('Kata laluan berjaya ditukar');
       setIsPasswordDialogOpen(false);
       setPasswordData({
         currentPassword: '',
@@ -176,27 +176,31 @@ export function Profile() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
               <User className="h-8 w-8" aria-hidden="true" />
-              My Profile
+              Profil Saya
             </h1>
-            <p className="text-muted-foreground mt-2">View and manage your account information</p>
+            <p className="text-muted-foreground mt-2">Lihat dan urus maklumat akaun anda</p>
           </div>
           {!isEditing ? (
-            <Button onClick={() => setIsEditing(true)} variant="outline" aria-label="Edit profile">
+            <Button
+              onClick={() => setIsEditing(true)}
+              variant="outline"
+              aria-label="Sunting profil"
+            >
               <Edit className="h-4 w-4 mr-2" aria-hidden="true" />
-              Edit Profile
+              Sunting Profil
             </Button>
           ) : (
             <div className="flex gap-2">
-              <Button onClick={handleSave} disabled={isSaving} aria-label="Save changes">
+              <Button onClick={handleSave} disabled={isSaving} aria-label="Simpan perubahan">
                 {isSaving ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" aria-hidden="true" />
-                    Saving...
+                    Menyimpan...
                   </>
                 ) : (
                   <>
                     <Save className="h-4 w-4 mr-2" aria-hidden="true" />
-                    Save Changes
+                    Simpan Perubahan
                   </>
                 )}
               </Button>
@@ -204,10 +208,10 @@ export function Profile() {
                 onClick={handleCancel}
                 variant="outline"
                 disabled={isSaving}
-                aria-label="Cancel editing"
+                aria-label="Batal penyuntingan"
               >
                 <X className="h-4 w-4 mr-2" aria-hidden="true" />
-                Cancel
+                Batal
               </Button>
             </div>
           )}
@@ -216,8 +220,8 @@ export function Profile() {
         {/* Profile Information Card */}
         <Card role="region" aria-labelledby="personal-info-title">
           <CardHeader>
-            <CardTitle id="personal-info-title">Personal Information</CardTitle>
-            <CardDescription>Your basic account details and contact information</CardDescription>
+            <CardTitle id="personal-info-title">Maklumat Peribadi</CardTitle>
+            <CardDescription>Butiran akaun asas dan maklumat hubungan anda</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Profile Avatar Section */}
@@ -252,19 +256,19 @@ export function Profile() {
               <div className="space-y-2">
                 <Label htmlFor="name" className="flex items-center gap-2">
                   <User className="h-4 w-4" aria-hidden="true" />
-                  Full Name
+                  Nama Penuh
                 </Label>
                 {isEditing ? (
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Enter your full name"
+                    placeholder="Masukkan nama penuh anda"
                     aria-required="true"
                   />
                 ) : (
                   <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md">
-                    {user.name || 'Not set'}
+                    {user.name || 'Tidak ditetapkan'}
                   </div>
                 )}
               </div>
@@ -272,7 +276,7 @@ export function Profile() {
               <div className="space-y-2">
                 <Label htmlFor="email" className="flex items-center gap-2">
                   <Mail className="h-4 w-4" aria-hidden="true" />
-                  Email Address
+                  Alamat Emel
                 </Label>
                 {isEditing ? (
                   <Input
@@ -280,12 +284,12 @@ export function Profile() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="Enter your email"
+                    placeholder="Masukkan emel anda"
                     aria-required="true"
                   />
                 ) : (
                   <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md">
-                    {user.email || 'Not set'}
+                    {user.email || 'Tidak ditetapkan'}
                   </div>
                 )}
               </div>
@@ -293,13 +297,13 @@ export function Profile() {
               <div className="space-y-2">
                 <Label className="flex items-center gap-2">
                   <Shield className="h-4 w-4" aria-hidden="true" />
-                  Role
+                  Peranan
                 </Label>
                 <div className="text-sm text-muted-foreground p-2 bg-muted rounded-md capitalize">
-                  {user.role || 'Not set'}
+                  {user.role || 'Tidak ditetapkan'}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Your role cannot be changed. Contact an administrator for role modifications.
+                  Peranan anda tidak boleh diubah. Hubungi pentadbir untuk pengubahsuaian peranan.
                 </p>
               </div>
             </form>
@@ -309,8 +313,8 @@ export function Profile() {
         {/* Account Activity Card */}
         <Card role="region" aria-labelledby="activity-title">
           <CardHeader>
-            <CardTitle id="activity-title">Account Activity</CardTitle>
-            <CardDescription>Recent activity and usage statistics</CardDescription>
+            <CardTitle id="activity-title">Aktiviti Akaun</CardTitle>
+            <CardDescription>Aktiviti terkini dan statistik penggunaan</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -322,11 +326,11 @@ export function Profile() {
                   <Calendar className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <dt className="text-sm font-medium">Member Since</dt>
+                  <dt className="text-sm font-medium">Ahli Sejak</dt>
                   <dd className="text-xs text-muted-foreground">
                     {user.createdAt
                       ? new Date(user.createdAt.toDate()).toLocaleDateString()
-                      : 'N/A'}
+                      : 'T/A'}
                   </dd>
                 </div>
               </div>
@@ -339,8 +343,8 @@ export function Profile() {
                   <Clock className="h-5 w-5 text-success" />
                 </div>
                 <div>
-                  <dt className="text-sm font-medium">Last Active</dt>
-                  <dd className="text-xs text-muted-foreground">Just now</dd>
+                  <dt className="text-sm font-medium">Aktif Terakhir</dt>
+                  <dd className="text-xs text-muted-foreground">Baru sahaja</dd>
                 </div>
               </div>
 
@@ -353,10 +357,10 @@ export function Profile() {
                     <GraduationCap className="h-5 w-5 text-accent" />
                   </div>
                   <div>
-                    <dt className="text-sm font-medium">Assigned Classes</dt>
+                    <dt className="text-sm font-medium">Kelas Ditugaskan</dt>
                     <dd className="text-xs text-muted-foreground">
                       {user.assignedClasses.length}{' '}
-                      {user.assignedClasses.length === 1 ? 'class' : 'classes'}
+                      {user.assignedClasses.length === 1 ? 'kelas' : 'kelas'}
                     </dd>
                   </div>
                 </div>
@@ -368,36 +372,36 @@ export function Profile() {
         {/* Security Card */}
         <Card role="region" aria-labelledby="security-title">
           <CardHeader>
-            <CardTitle id="security-title">Security</CardTitle>
-            <CardDescription>Manage your password and security settings</CardDescription>
+            <CardTitle id="security-title">Keselamatan</CardTitle>
+            <CardDescription>Urus kata laluan dan tetapan keselamatan anda</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <dl>
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <dt className="text-sm font-medium">Password</dt>
+                  <dt className="text-sm font-medium">Kata Laluan</dt>
                   <dd className="text-sm text-muted-foreground">
-                    Keep your account secure with a strong password
+                    Pastikan akaun anda selamat dengan kata laluan yang kukuh
                   </dd>
                 </div>
                 <Dialog open={isPasswordDialogOpen} onOpenChange={setIsPasswordDialogOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline" size="sm">
                       <Lock className="h-4 w-4 mr-2" />
-                      Change Password
+                      Tukar Kata Laluan
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="w-[calc(100%-2rem)] max-w-md sm:max-w-lg">
                     <DialogHeader>
-                      <DialogTitle>Change Password</DialogTitle>
+                      <DialogTitle>Tukar Kata Laluan</DialogTitle>
                       <DialogDescription>
-                        Enter your current password and choose a new password.
+                        Masukkan kata laluan semasa anda dan pilih kata laluan baharu.
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       {/* Current Password */}
                       <div className="space-y-2">
-                        <Label htmlFor="current-password">Current Password</Label>
+                        <Label htmlFor="current-password">Kata Laluan Semasa</Label>
                         <div className="relative">
                           <Input
                             id="current-password"
@@ -406,7 +410,7 @@ export function Profile() {
                             onChange={(e) =>
                               setPasswordData({ ...passwordData, currentPassword: e.target.value })
                             }
-                            placeholder="Enter current password"
+                            placeholder="Masukkan kata laluan semasa"
                             disabled={isChangingPassword}
                           />
                           <Button
@@ -428,7 +432,7 @@ export function Profile() {
 
                       {/* New Password */}
                       <div className="space-y-2">
-                        <Label htmlFor="new-password">New Password</Label>
+                        <Label htmlFor="new-password">Kata Laluan Baharu</Label>
                         <div className="relative">
                           <Input
                             id="new-password"
@@ -437,7 +441,7 @@ export function Profile() {
                             onChange={(e) =>
                               setPasswordData({ ...passwordData, newPassword: e.target.value })
                             }
-                            placeholder="Enter new password"
+                            placeholder="Masukkan kata laluan baharu"
                             disabled={isChangingPassword}
                           />
                           <Button
@@ -456,13 +460,13 @@ export function Profile() {
                           </Button>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          Password must be at least 6 characters long
+                          Kata laluan mesti sekurang-kurangnya 6 aksara
                         </p>
                       </div>
 
                       {/* Confirm Password */}
                       <div className="space-y-2">
-                        <Label htmlFor="confirm-password">Confirm New Password</Label>
+                        <Label htmlFor="confirm-password">Sahkan Kata Laluan Baharu</Label>
                         <div className="relative">
                           <Input
                             id="confirm-password"
@@ -471,7 +475,7 @@ export function Profile() {
                             onChange={(e) =>
                               setPasswordData({ ...passwordData, confirmPassword: e.target.value })
                             }
-                            placeholder="Confirm new password"
+                            placeholder="Sahkan kata laluan baharu"
                             disabled={isChangingPassword}
                           />
                           <Button
@@ -498,7 +502,7 @@ export function Profile() {
                         onClick={() => setIsPasswordDialogOpen(false)}
                         disabled={isChangingPassword}
                       >
-                        Cancel
+                        Batal
                       </Button>
                       <Button
                         type="button"
@@ -513,10 +517,10 @@ export function Profile() {
                         {isChangingPassword ? (
                           <>
                             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            Changing...
+                            Menukar...
                           </>
                         ) : (
-                          'Change Password'
+                          'Tukar Kata Laluan'
                         )}
                       </Button>
                     </DialogFooter>
@@ -526,11 +530,13 @@ export function Profile() {
               <Separator className="my-4" />
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <dt className="text-sm font-medium">Two-Factor Authentication</dt>
-                  <dd className="text-sm text-muted-foreground">Add an extra layer of security</dd>
+                  <dt className="text-sm font-medium">Pengesahan Dua Faktor</dt>
+                  <dd className="text-sm text-muted-foreground">
+                    Tambah lapisan keselamatan tambahan
+                  </dd>
                 </div>
                 <Button variant="outline" size="sm" disabled aria-disabled="true">
-                  Enable 2FA (Coming Soon)
+                  Aktifkan 2FA (Tidak Lama Lagi)
                 </Button>
               </div>
             </dl>

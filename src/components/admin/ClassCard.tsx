@@ -21,19 +21,19 @@ export function ClassCard({ classItem, teachers, onViewStudents, onDelete }: Cla
         <div className="flex items-start justify-between">
           <div>
             <CardTitle className="text-lg">{classItem.name}</CardTitle>
-            <p className="text-sm text-muted-foreground">Form {classItem.grade}</p>
+            <p className="text-sm text-muted-foreground">Tingkatan {classItem.grade}</p>
           </div>
           <Badge className="bg-accent text-accent-foreground shadow-elevation-sm">
-            {classItem.students.length} students
+            {classItem.students.length} murid
           </Badge>
         </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           <div className="text-sm bg-muted/50 p-3 rounded-lg">
-            <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">Teacher</p>
+            <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">Guru</p>
             <p className="font-medium text-foreground">
-              {teachers.find((t) => t.id === classItem.teacherRep)?.name || 'N/A'}
+              {teachers.find((t) => t.id === classItem.teacherRep)?.name || 'T/A'}
             </p>
           </div>
 
@@ -44,11 +44,11 @@ export function ClassCard({ classItem, teachers, onViewStudents, onDelete }: Cla
               className="flex-1"
               onClick={() => onViewStudents(classItem)}
             >
-              View Students
+              Lihat Murid
             </Button>
 
             <Button variant="destructive" size="sm" onClick={() => onDelete(classItem.id)}>
-              Delete
+              Padam
             </Button>
           </div>
         </div>

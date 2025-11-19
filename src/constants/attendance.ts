@@ -37,13 +37,13 @@ export const EDIT_REASON_MIN_LENGTH = 10;
 export const EDIT_REASON_MAX_LENGTH = 500;
 
 export const EDIT_REASONS_PRESETS = [
-  'Correcting marking error',
-  'Student provided late excuse letter',
-  'Attendance marked incorrectly',
-  'Student was present but marked absent',
-  'Technical error during initial marking',
-  'Administrative correction',
-  'Other (specify below)',
+  'Membetulkan kesilapan pemarkahan',
+  'Murid memberikan surat tunjuk sebab lewat',
+  'Kehadiran ditandakan salah',
+  'Murid hadir tetapi ditandakan tidak hadir',
+  'Kesilapan teknikal semasa pemarkahan awal',
+  'Pembetulan pentadbiran',
+  'Lain-lain (nyatakan di bawah)',
 ] as const;
 
 // Date Formats

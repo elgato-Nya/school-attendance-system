@@ -20,28 +20,28 @@ export function StudentStats({
 }: StudentStatsProps) {
   const stats = [
     {
-      label: 'Active Students',
+      label: 'Murid Aktif',
       value: totalActive,
       icon: Users,
-      ariaLabel: `${totalActive} active students`,
+      ariaLabel: `${totalActive} murid aktif`,
     },
     {
-      label: 'Archived',
+      label: 'Diarkibkan',
       value: totalArchived,
       icon: Archive,
-      ariaLabel: `${totalArchived} archived students`,
+      ariaLabel: `${totalArchived} murid diarkibkan`,
     },
     {
-      label: 'Filtered Results',
+      label: 'Hasil Ditapis',
       value: filteredCount,
       icon: Search,
-      ariaLabel: `${filteredCount} students matching current filters`,
+      ariaLabel: `${filteredCount} murid sepadan dengan tapisan semasa`,
     },
     {
-      label: 'Total Classes',
+      label: 'Jumlah Kelas',
       value: classCount,
       icon: BookOpen,
-      ariaLabel: `${classCount} classes in the system`,
+      ariaLabel: `${classCount} kelas dalam sistem`,
     },
   ];
 

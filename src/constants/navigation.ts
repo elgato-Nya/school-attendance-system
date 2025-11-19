@@ -7,29 +7,29 @@ import { LayoutDashboard, Users, GraduationCap, Calendar, History, UserCog } fro
 // Admin Navigation Groups
 export const ADMIN_NAV_GROUPS = [
   {
-    label: 'Dashboard',
-    items: [{ path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard }],
+    label: 'Papan Pemuka',
+    items: [{ path: '/admin/dashboard', label: 'Papan Pemuka', icon: LayoutDashboard }],
   },
   {
-    label: 'Management',
+    label: 'Pengurusan',
     items: [
-      { path: '/admin/classes', label: 'Classes', icon: GraduationCap },
-      { path: '/admin/students', label: 'Students', icon: Users },
-      { path: '/admin/users', label: 'Users', icon: UserCog },
-      { path: '/admin/holidays', label: 'Holidays', icon: Calendar },
+      { path: '/admin/classes', label: 'Kelas', icon: GraduationCap },
+      { path: '/admin/students', label: 'Murid', icon: Users },
+      { path: '/admin/users', label: 'Pengguna', icon: UserCog },
+      { path: '/admin/holidays', label: 'Cuti', icon: Calendar },
     ],
   },
   {
-    label: 'Attendance',
-    items: [{ path: '/admin/calendar', label: 'Calendar', icon: Calendar }],
+    label: 'Kehadiran',
+    items: [{ path: '/admin/calendar', label: 'Kalendar', icon: Calendar }],
   },
   {
-    label: 'Teacher Portal',
+    label: 'Portal Guru',
     items: [
-      { path: '/teacher/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-      { path: '/teacher/classes', label: 'Classes', icon: GraduationCap },
-      { path: '/teacher/students', label: 'Students', icon: Users },
-      { path: '/teacher/history', label: 'History', icon: History },
+      { path: '/teacher/dashboard', label: 'Papan Pemuka', icon: LayoutDashboard },
+      { path: '/teacher/classes', label: 'Kelas', icon: GraduationCap },
+      { path: '/teacher/students', label: 'Murid', icon: Users },
+      { path: '/teacher/history', label: 'Sejarah', icon: History },
     ],
   },
 ] as const;
@@ -37,40 +37,40 @@ export const ADMIN_NAV_GROUPS = [
 // Teacher Navigation Groups
 export const TEACHER_NAV_GROUPS = [
   {
-    label: 'Dashboard',
-    items: [{ path: '/teacher/dashboard', label: 'Dashboard', icon: LayoutDashboard }],
+    label: 'Papan Pemuka',
+    items: [{ path: '/teacher/dashboard', label: 'Papan Pemuka', icon: LayoutDashboard }],
   },
   {
-    label: 'Teaching',
+    label: 'Pengajaran',
     items: [
-      { path: '/teacher/classes', label: 'Classes', icon: GraduationCap },
-      { path: '/teacher/students', label: 'Students', icon: Users },
-      { path: '/teacher/manage-students', label: 'Manage Students', icon: UserCog },
+      { path: '/teacher/classes', label: 'Kelas', icon: GraduationCap },
+      { path: '/teacher/students', label: 'Murid', icon: Users },
+      { path: '/teacher/manage-students', label: 'Urus Murid', icon: UserCog },
     ],
   },
   {
-    label: 'Attendance',
+    label: 'Kehadiran',
     items: [
-      { path: '/teacher/history', label: 'History', icon: History },
-      { path: '/teacher/calendar', label: 'Calendar', icon: Calendar },
+      { path: '/teacher/history', label: 'Sejarah', icon: History },
+      { path: '/teacher/calendar', label: 'Kalendar', icon: Calendar },
     ],
   },
 ] as const;
 
 // Legacy flat arrays for backward compatibility
 export const ADMIN_NAV_ITEMS = [
-  { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/admin/classes', label: 'Classes', icon: GraduationCap },
-  { path: '/admin/users', label: 'Users', icon: Users },
-  { path: '/admin/holidays', label: 'Holidays', icon: Calendar },
-  { path: '/admin/calendar', label: 'Calendar', icon: Calendar },
+  { path: '/admin/dashboard', label: 'Papan Pemuka', icon: LayoutDashboard },
+  { path: '/admin/classes', label: 'Kelas', icon: GraduationCap },
+  { path: '/admin/users', label: 'Pengguna', icon: Users },
+  { path: '/admin/holidays', label: 'Cuti', icon: Calendar },
+  { path: '/admin/calendar', label: 'Kalendar', icon: Calendar },
 ] as const;
 
 export const TEACHER_NAV_ITEMS = [
-  { path: '/teacher/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/teacher/classes', label: 'Classes', icon: GraduationCap },
-  { path: '/teacher/students', label: 'Students', icon: Users },
-  { path: '/teacher/manage-students', label: 'Manage Students', icon: UserCog },
-  { path: '/teacher/history', label: 'History', icon: History },
-  { path: '/teacher/calendar', label: 'Calendar', icon: Calendar },
+  { path: '/teacher/dashboard', label: 'Papan Pemuka', icon: LayoutDashboard },
+  { path: '/teacher/classes', label: 'Kelas', icon: GraduationCap },
+  { path: '/teacher/students', label: 'Murid', icon: Users },
+  { path: '/teacher/manage-students', label: 'Urus Murid', icon: UserCog },
+  { path: '/teacher/history', label: 'Sejarah', icon: History },
+  { path: '/teacher/calendar', label: 'Kalendar', icon: Calendar },
 ] as const;

@@ -17,10 +17,10 @@ export function CalendarHeader({ rangeMode, onToggleRangeMode }: CalendarHeaderP
           <div className="p-1.5 sm:p-2 rounded-lg bg-primary/10 shrink-0" aria-hidden="true">
             <CalendarIcon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-foreground" />
           </div>
-          <span className="truncate">Attendance Calendar</span>
+          <span className="truncate">Kalendar Kehadiran</span>
         </h1>
         <p className="text-sm sm:text-base text-muted-foreground mt-1 sm:mt-2">
-          View attendance patterns and generate reports
+          Lihat corak kehadiran dan jana laporan
         </p>
       </div>
 
@@ -30,10 +30,10 @@ export function CalendarHeader({ rangeMode, onToggleRangeMode }: CalendarHeaderP
         className="shrink-0 w-full sm:w-auto"
         size="sm"
         aria-pressed={rangeMode}
-        aria-label={rangeMode ? 'Exit range selection mode' : 'Enter range selection mode'}
+        aria-label={rangeMode ? 'Keluar dari mod pemilihan julat' : 'Masuk mod pemilihan julat'}
       >
         <CalendarRange className="h-4 w-4 mr-2" aria-hidden="true" />
-        <span className="sm:inline">{rangeMode ? 'Exit Range' : 'Range Report'}</span>
+        <span className="sm:inline">{rangeMode ? 'Keluar Julat' : 'Laporan Julat'}</span>
       </Button>
     </header>
   );

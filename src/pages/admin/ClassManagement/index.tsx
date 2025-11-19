@@ -93,7 +93,7 @@ export function ClassManagement() {
       setTeachers(teachersData);
 
       if (teachersData.length === 0) {
-        toast.warning('No teachers available. Please create teacher accounts first.');
+        toast.warning('Tiada guru tersedia. Sila cipta akaun guru terlebih dahulu.');
       }
     } catch (error) {
       console.error('Load data error:', error);
@@ -118,7 +118,7 @@ export function ClassManagement() {
       return;
     }
 
-    const loadingToast = toast.loading('Creating class...');
+    const loadingToast = toast.loading('Mencipta kelas...');
 
     try {
       await createClass(classForm);
@@ -162,7 +162,7 @@ export function ClassManagement() {
       return;
     }
 
-    const loadingToast = toast.loading('Updating class...');
+    const loadingToast = toast.loading('Mengemaskini kelas...');
 
     try {
       const result = await updateClassWithCascade(
@@ -174,19 +174,17 @@ export function ClassManagement() {
       toast.dismiss(loadingToast);
 
       if (!result.success) {
-        toast.error(result.error || 'Failed to update class');
+        toast.error(result.error || 'Gagal mengemaskini kelas');
         return;
       }
 
       // Build success message with details
-      let message = 'Class updated successfully!';
+      let message = 'Kelas berjaya dikemaskini!';
       if (result.attendanceRecordsUpdated > 0) {
-        message += ` ${result.attendanceRecordsUpdated} attendance record${
-          result.attendanceRecordsUpdated !== 1 ? 's' : ''
-        } updated.`;
+        message += ` ${result.attendanceRecordsUpdated} rekod kehadiran dikemaskini.`;
       }
       if (result.teacherUpdated) {
-        message += ' Teacher assignments updated.';
+        message += ' Tugasan guru dikemaskini.';
       }
 
       toast.success(message);
@@ -208,12 +206,12 @@ export function ClassManagement() {
   const confirmArchiveClass = async (reason: string) => {
     if (!classToArchive || !user) return;
 
-    const loadingToast = toast.loading('Archiving class...');
+    const loadingToast = toast.loading('Mengarkibkan kelas...');
 
     try {
       await archiveClass(classToArchive.id, user.id!, reason);
       toast.dismiss(loadingToast);
-      toast.success('Class archived successfully!');
+      toast.success('Kelas berjaya diarkibkan!');
       setArchiveDialogOpen(false);
       setClassToArchive(null);
       loadData();
@@ -225,12 +223,12 @@ export function ClassManagement() {
   };
 
   const handleRestoreClass = async (classId: string) => {
-    const loadingToast = toast.loading('Restoring class...');
+    const loadingToast = toast.loading('Memulihkan kelas...');
 
     try {
       await restoreClass(classId);
       toast.dismiss(loadingToast);
-      toast.success('Class restored successfully!');
+      toast.success('Kelas berjaya dipulihkan!');
       loadData();
     } catch (error) {
       toast.dismiss(loadingToast);
@@ -248,14 +246,14 @@ export function ClassManagement() {
   const confirmDeleteClass = async () => {
     if (!classToDelete) return;
 
-    const loadingToast = toast.loading('Deleting class...');
+    const loadingToast = toast.loading('Memadam kelas...');
 
     try {
       // For archived classes, permanently delete
       if (currentTab === 'archived') {
         await permanentlyDeleteClass(classToDelete);
         toast.dismiss(loadingToast);
-        toast.success('Class permanently deleted!');
+        toast.success('Kelas dipadam secara kekal!');
       } else {
         // For active classes, normal delete (will fail if attendance exists)
         await deleteClass(classToDelete);
@@ -305,7 +303,7 @@ export function ClassManagement() {
   });
 
   if (loading) {
-    return <LoadingSpinner message="Loading classes..." />;
+    return <LoadingSpinner message="Memuatkan kelas..." />;
   }
 
   return (
@@ -313,9 +311,9 @@ export function ClassManagement() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Class Management</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Pengurusan Kelas</h1>
           <p className="text-sm text-muted-foreground">
-            Manage classes, assign teachers, and add students
+            Urus kelas, tugaskan guru, dan tambah murid
           </p>
         </div>
         <Button
@@ -326,7 +324,7 @@ export function ClassManagement() {
           className="w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
-          Add Class
+          Tambah Kelas
         </Button>
       </div>
 
@@ -335,13 +333,9 @@ export function ClassManagement() {
         value={currentTab}
         onValueChange={(value) => setCurrentTab(value as 'active' | 'archived')}
       >
-        <TabsList className="w-full sm:w-auto">
-          <TabsTrigger value="active" className="flex-1 sm:flex-none">
-            Active Classes ({activeClasses.length})
-          </TabsTrigger>
-          <TabsTrigger value="archived" className="flex-1 sm:flex-none">
-            Archived Classes ({archivedClasses.length})
-          </TabsTrigger>
+        <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsTrigger value="active">Kelas Aktif ({activeClasses.length})</TabsTrigger>
+          <TabsTrigger value="archived">Kelas Diarkibkan ({archivedClasses.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="active" className="space-y-4 mt-4">
@@ -456,11 +450,11 @@ export function ClassManagement() {
           setDeleteDialogOpen(false);
           setClassToDelete(null);
         }}
-        title={currentTab === 'archived' ? 'Permanently Delete Class' : 'Delete Class'}
+        title={currentTab === 'archived' ? 'Padam Kelas Secara Kekal' : 'Padam Kelas'}
         description={
           currentTab === 'archived'
-            ? 'Are you sure you want to permanently delete this archived class? This action cannot be undone and all data will be lost forever.'
-            : 'Are you sure you want to delete this class? This action cannot be undone. All student assignments and attendance records will be removed permanently. Consider archiving instead to preserve historical data.'
+            ? 'Adakah anda pasti mahu memadam kelas yang diarkibkan ini secara kekal? Tindakan ini tidak boleh dibatalkan dan semua data akan hilang selama-lamanya.'
+            : 'Adakah anda pasti mahu memadam kelas ini? Tindakan ini tidak boleh dibatalkan. Semua tugasan murid dan rekod kehadiran akan dibuang secara kekal. Pertimbangkan untuk mengarkibkan sebaliknya untuk menyimpan data sejarah.'
         }
       />
     </div>

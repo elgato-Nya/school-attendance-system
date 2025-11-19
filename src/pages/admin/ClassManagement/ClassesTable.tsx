@@ -46,16 +46,16 @@ export function ClassesTable({
     return (
       <div className="flex flex-col items-center justify-center py-12 px-4 border rounded-lg bg-muted/20">
         <GraduationCap className="h-12 w-12 text-muted-foreground mb-4" />
-        <h3 className="text-lg font-medium mb-2">No classes found</h3>
+        <h3 className="text-lg font-medium mb-2">Tiada kelas dijumpai</h3>
         <p className="text-sm text-muted-foreground text-center mb-4">
           {searchQuery || gradeFilter !== 'all'
-            ? 'Try adjusting your search or filters'
-            : 'Get started by creating your first class'}
+            ? 'Cuba laraskan carian atau penapis anda'
+            : 'Mulakan dengan mencipta kelas pertama anda'}
         </p>
         {!searchQuery && gradeFilter === 'all' && (
           <Button onClick={onCreateFirstClass}>
             <Plus className="h-4 w-4 mr-2" />
-            Create First Class
+            Cipta Kelas Pertama
           </Button>
         )}
       </div>
@@ -69,11 +69,11 @@ export function ClassesTable({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Class Name</TableHead>
-                <TableHead className="hidden sm:table-cell">Grade</TableHead>
-                <TableHead className="hidden md:table-cell">Teacher</TableHead>
-                <TableHead className="text-center">Students</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>Nama Kelas</TableHead>
+                <TableHead className="hidden sm:table-cell">Tingkatan</TableHead>
+                <TableHead className="hidden md:table-cell">Guru</TableHead>
+                <TableHead className="text-center">Murid</TableHead>
+                <TableHead className="text-right">Tindakan</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -87,12 +87,12 @@ export function ClassesTable({
                     className="cursor-pointer hover:bg-accent/50 transition-colors"
                     onClick={() => onClassClick(classItem.id!)}
                   >
-                    <TableCell onClick={(e) => e.stopPropagation()}>
+                    <TableCell>
                       <div onClick={() => onClassClick(classItem.id!)}>
                         <p className="font-medium">{classItem.name}</p>
                         <div className="sm:hidden mt-1 space-y-1">
                           <Badge variant="secondary" className="text-xs">
-                            Form {classItem.grade}
+                            Tingkatan {classItem.grade}
                           </Badge>
                           {teacher && (
                             <p className="text-xs text-muted-foreground">{teacher.name}</p>
@@ -101,13 +101,13 @@ export function ClassesTable({
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
-                      <Badge variant="secondary">Form {classItem.grade}</Badge>
+                      <Badge variant="secondary">Tingkatan {classItem.grade}</Badge>
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
                       {teacher ? (
                         <span className="text-sm">{teacher.name}</span>
                       ) : (
-                        <span className="text-sm text-muted-foreground">Unassigned</span>
+                        <span className="text-sm text-muted-foreground">Belum Ditetapkan</span>
                       )}
                     </TableCell>
                     <TableCell className="text-center">
@@ -134,32 +134,32 @@ export function ClassesTable({
                           variant="ghost"
                           size="sm"
                           onClick={() => onAddStudent(classItem.id!)}
-                          title="Add students"
-                          aria-label={`Add students to ${classItem.name}`}
+                          title="Tambah murid"
+                          aria-label={`Tambah murid ke ${classItem.name}`}
                         >
                           <UserPlus className="h-4 w-4" />
-                          <span className="sr-only">Add Students</span>
+                          <span className="sr-only">Tambah Murid</span>
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => onEditClass(classItem)}
-                          title="Edit class"
-                          aria-label={`Edit ${classItem.name}`}
+                          title="Sunting kelas"
+                          aria-label={`Sunting ${classItem.name}`}
                         >
                           <Edit className="h-4 w-4" />
-                          <span className="sr-only">Edit</span>
+                          <span className="sr-only">Sunting</span>
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => onDeleteClass(classItem.id!)}
                           className="text-destructive hover:text-destructive"
-                          title="Delete class"
-                          aria-label={`Delete ${classItem.name}`}
+                          title="Padam kelas"
+                          aria-label={`Padam ${classItem.name}`}
                         >
                           <Trash2 className="h-4 w-4" />
-                          <span className="sr-only">Delete</span>
+                          <span className="sr-only">Padam</span>
                         </Button>
                       </div>
                     </TableCell>
@@ -173,7 +173,8 @@ export function ClassesTable({
 
       {/* Summary */}
       <div className="text-sm text-muted-foreground">
-        Showing {classes.length} of {allClasses.length} {classes.length === 1 ? 'class' : 'classes'}
+        Menunjukkan {classes.length} daripada {allClasses.length}{' '}
+        {classes.length === 1 ? 'kelas' : 'kelas'}
       </div>
     </>
   );

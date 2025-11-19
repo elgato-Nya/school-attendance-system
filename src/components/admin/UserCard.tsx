@@ -37,7 +37,7 @@ export function UserCard({ user, onEdit, onDelete }: UserCardProps) {
               variant={user.role === 'admin' ? 'default' : 'secondary'}
               className="shadow-elevation-sm"
             >
-              {user.role === 'admin' ? 'Admin' : 'Teacher'}
+              {user.role === 'admin' ? 'Admin' : 'Guru'}
             </Badge>
           )}
         </div>
@@ -47,22 +47,22 @@ export function UserCard({ user, onEdit, onDelete }: UserCardProps) {
           {user.role === 'teacher' && (
             <div className="text-sm bg-muted/50 p-3 rounded-lg">
               <p className="text-muted-foreground text-xs uppercase tracking-wide mb-1">
-                Assigned Classes
+                Kelas Ditugaskan
               </p>
               <p className="font-medium text-foreground">
                 {user.assignedClasses.length > 0
-                  ? `${user.assignedClasses.length} classes`
-                  : 'No classes assigned'}
+                  ? `${user.assignedClasses.length} kelas`
+                  : 'Tiada kelas ditugaskan'}
               </p>
             </div>
           )}
 
           <div className="flex gap-2">
             <Button variant="outline" size="sm" className="flex-1" onClick={() => onEdit(user)}>
-              Edit
+              Sunting
             </Button>
             <Button variant="destructive" size="sm" onClick={() => onDelete(user.id)}>
-              Delete
+              Padam
             </Button>
           </div>
         </div>

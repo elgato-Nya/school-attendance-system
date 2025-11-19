@@ -92,7 +92,9 @@ export function UserManagement() {
       return;
     }
 
-    const loadingToast = toast.loading(isEditing ? 'Updating user...' : 'Creating user...');
+    const loadingToast = toast.loading(
+      isEditing ? 'Mengemaskini pengguna...' : 'Mencipta pengguna...'
+    );
     try {
       if (isEditing && editingUserId) {
         await updateUser(editingUserId, {
@@ -139,7 +141,7 @@ export function UserManagement() {
   const confirmDeleteUser = async () => {
     if (!userToDelete) return;
 
-    const loadingToast = toast.loading('Deleting user...');
+    const loadingToast = toast.loading('Memadam pengguna...');
     try {
       await deleteUser(userToDelete);
       toast.dismiss(loadingToast);
@@ -177,7 +179,7 @@ export function UserManagement() {
   });
 
   if (loading) {
-    return <LoadingSpinner message="Loading users..." />;
+    return <LoadingSpinner message="Memuatkan pengguna..." />;
   }
 
   return (
@@ -185,8 +187,8 @@ export function UserManagement() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">User Management</h1>
-          <p className="text-sm text-muted-foreground">Manage teachers and administrators</p>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Pengurusan Pengguna</h1>
+          <p className="text-sm text-muted-foreground">Urus guru dan pentadbir</p>
         </div>
         <Button
           onClick={() => {
@@ -196,7 +198,7 @@ export function UserManagement() {
           className="w-full sm:w-auto"
         >
           <UserPlus className="h-4 w-4 mr-2" />
-          Add User
+          Tambah Pengguna
         </Button>
       </div>
 
@@ -205,24 +207,24 @@ export function UserManagement() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by name or email..."
+            placeholder="Cari mengikut nama atau emel..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
-            aria-label="Search users"
+            aria-label="Cari pengguna"
           />
         </div>
         <Select value={roleFilter} onValueChange={(value: any) => setRoleFilter(value)}>
           <SelectTrigger className="w-full sm:w-[180px]">
-            <SelectValue placeholder="Filter by role" />
+            <SelectValue placeholder="Tapis mengikut peranan" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Users ({users.length})</SelectItem>
+            <SelectItem value="all">Semua Pengguna ({users.length})</SelectItem>
             <SelectItem value="admin">
-              Admins ({users.filter((u) => u.role === ROLES.ADMIN).length})
+              Pentadbir ({users.filter((u) => u.role === ROLES.ADMIN).length})
             </SelectItem>
             <SelectItem value="teacher">
-              Teachers ({users.filter((u) => u.role === ROLES.TEACHER).length})
+              Guru ({users.filter((u) => u.role === ROLES.TEACHER).length})
             </SelectItem>
           </SelectContent>
         </Select>
@@ -232,11 +234,11 @@ export function UserManagement() {
       {filteredUsers.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 px-4 border rounded-lg bg-muted/20">
           <Users className="h-12 w-12 text-muted-foreground mb-4" />
-          <h3 className="text-lg font-medium mb-2">No users found</h3>
+          <h3 className="text-lg font-medium mb-2">Tiada pengguna dijumpai</h3>
           <p className="text-sm text-muted-foreground text-center mb-4">
             {searchQuery || roleFilter !== 'all'
-              ? 'Try adjusting your search or filters'
-              : 'Get started by creating your first user'}
+              ? 'Cuba laraskan carian atau penapis anda'
+              : 'Mulakan dengan mencipta pengguna pertama anda'}
           </p>
           {!searchQuery && roleFilter === 'all' && (
             <Button
@@ -246,7 +248,7 @@ export function UserManagement() {
               }}
             >
               <UserPlus className="h-4 w-4 mr-2" />
-              Add First User
+              Tambah Pengguna Pertama
             </Button>
           )}
         </div>
@@ -256,11 +258,11 @@ export function UserManagement() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[200px] sm:w-auto">Name</TableHead>
-                  <TableHead className="hidden sm:table-cell">Email</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead className="hidden md:table-cell text-center">Classes</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="w-[200px] sm:w-auto">Nama</TableHead>
+                  <TableHead className="hidden sm:table-cell">Emel</TableHead>
+                  <TableHead>Peranan</TableHead>
+                  <TableHead className="hidden md:table-cell text-center">Kelas</TableHead>
+                  <TableHead className="text-right">Tindakan</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -277,11 +279,11 @@ export function UserManagement() {
                             variant={user.role === ROLES.ADMIN ? 'default' : 'secondary'}
                             className="text-xs"
                           >
-                            {user.role === ROLES.ADMIN ? 'Super Admin' : 'Teacher'}
+                            {user.role === ROLES.ADMIN ? 'Pentadbir Utama' : 'Guru'}
                           </Badge>
                           <span className="text-xs text-muted-foreground ml-2">
                             {user.assignedClasses?.length || 0}{' '}
-                            {user.assignedClasses?.length === 1 ? 'class' : 'classes'}
+                            {user.assignedClasses?.length === 1 ? 'kelas' : 'kelas'}
                           </span>
                         </div>
                       </div>
@@ -294,13 +296,13 @@ export function UserManagement() {
                         variant={user.role === ROLES.ADMIN ? 'default' : 'secondary'}
                         className="text-xs"
                       >
-                        {user.role === ROLES.ADMIN ? 'Super Admin' : 'Teacher'}
+                        {user.role === ROLES.ADMIN ? 'Pentadbir Utama' : 'Guru'}
                       </Badge>
                     </TableCell>
                     <TableCell className="hidden md:table-cell text-center">
                       <span className="text-sm">
                         {user.assignedClasses?.length || 0}{' '}
-                        {user.assignedClasses?.length === 1 ? 'class' : 'classes'}
+                        {user.assignedClasses?.length === 1 ? 'kelas' : 'kelas'}
                       </span>
                     </TableCell>
                     <TableCell className="text-right">
@@ -309,20 +311,20 @@ export function UserManagement() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleEditUser(user)}
-                          aria-label={`Edit ${user.name}`}
+                          aria-label={`Sunting ${user.name}`}
                         >
                           <Edit className="h-4 w-4" />
-                          <span className="sr-only sm:not-sr-only sm:ml-2">Edit</span>
+                          <span className="sr-only sm:not-sr-only sm:ml-2">Sunting</span>
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDeleteUser(user.id)}
                           className="text-destructive hover:text-destructive"
-                          aria-label={`Delete ${user.name}`}
+                          aria-label={`Padam ${user.name}`}
                         >
                           <Trash2 className="h-4 w-4" />
-                          <span className="sr-only">Delete</span>
+                          <span className="sr-only">Padam</span>
                         </Button>
                       </div>
                     </TableCell>
@@ -351,19 +353,19 @@ export function UserManagement() {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent className="w-[calc(100%-2rem)] max-w-md sm:max-w-lg">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete User</AlertDialogTitle>
+            <AlertDialogTitle>Padam Pengguna</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this user? This action cannot be undone and will
-              permanently remove the user account.
+              Adakah anda pasti mahu memadam pengguna ini? Tindakan ini tidak boleh dibatalkan dan
+              akan membuang akaun pengguna secara kekal.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setUserToDelete(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setUserToDelete(null)}>Batal</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDeleteUser}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              Delete
+              Padam
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

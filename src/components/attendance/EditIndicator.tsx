@@ -29,17 +29,15 @@ export function EditIndicator({ record, variant = 'badge', className }: EditIndi
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Edit2 className={`h-4 w-4 text-orange-600 ${className}`} aria-label="Edited" />
+            <Edit2 className={`h-4 w-4 text-orange-600 ${className}`} aria-label="Disunting" />
           </TooltipTrigger>
           <TooltipContent>
             <div className="space-y-1 text-xs">
-              <p className="font-semibold">
-                Edited {editCount} time{editCount > 1 ? 's' : ''}
-              </p>
+              <p className="font-semibold">Disunting {editCount} kali</p>
               {lastEditor && (
                 <>
-                  <p>Last edited by: {lastEditor.name}</p>
-                  <p>On: {format(lastEditor.timestamp, 'dd/MM/yyyy HH:mm')}</p>
+                  <p>Disunting terakhir oleh: {lastEditor.name}</p>
+                  <p>Pada: {format(lastEditor.timestamp, 'dd/MM/yyyy HH:mm')}</p>
                   <p className="italic text-muted-foreground">"{lastEditor.reason}"</p>
                 </>
               )}
@@ -55,12 +53,11 @@ export function EditIndicator({ record, variant = 'badge', className }: EditIndi
       <div className={`flex items-center gap-2 text-sm ${className}`}>
         <AlertCircle className="h-4 w-4 text-orange-600" />
         <div>
-          <p className="font-medium">
-            Edited {editCount} time{editCount > 1 ? 's' : ''}
-          </p>
+          <p className="font-medium">Disunting {editCount} kali</p>
           {lastEditor && (
             <p className="text-xs text-muted-foreground">
-              Last by {lastEditor.name} on {format(lastEditor.timestamp, 'dd/MM/yyyy HH:mm')}
+              Terakhir oleh {lastEditor.name} pada{' '}
+              {format(lastEditor.timestamp, 'dd/MM/yyyy HH:mm')}
             </p>
           )}
         </div>
@@ -75,25 +72,25 @@ export function EditIndicator({ record, variant = 'badge', className }: EditIndi
         <TooltipTrigger asChild>
           <Badge variant="outline" className={`gap-1 ${className}`}>
             <History className="h-3 w-3" />
-            {editCount} {editCount === 1 ? 'Edit' : 'Edits'}
+            {editCount} {editCount === 1 ? 'Suntingan' : 'Suntingan'}
           </Badge>
         </TooltipTrigger>
         <TooltipContent>
           <div className="space-y-1 text-xs max-w-xs">
-            <p className="font-semibold">Edit History</p>
+            <p className="font-semibold">Sejarah Suntingan</p>
             {lastEditor && (
               <>
                 <p>
-                  Last edited by: <span className="font-medium">{lastEditor.name}</span>
+                  Disunting terakhir oleh: <span className="font-medium">{lastEditor.name}</span>
                 </p>
-                <p>On: {format(lastEditor.timestamp, 'dd/MM/yyyy HH:mm:ss')}</p>
+                <p>Pada: {format(lastEditor.timestamp, 'dd/MM/yyyy HH:mm:ss')}</p>
                 <p className="italic text-muted-foreground pt-1 border-t border-border">
                   "{lastEditor.reason}"
                 </p>
               </>
             )}
             <p className="text-muted-foreground pt-1 border-t border-border">
-              Click to view full audit trail
+              Klik untuk lihat jejak audit penuh
             </p>
           </div>
         </TooltipContent>
@@ -123,25 +120,25 @@ export function EditWarningBanner({ record, className }: EditWarningBannerProps)
         <AlertCircle className="h-5 w-5 text-orange-600 flex-shrink-0 mt-0.5" />
         <div className="flex-1 space-y-1">
           <p className="font-medium text-sm text-orange-900 dark:text-orange-100">
-            This attendance record has been edited {editCount} time{editCount > 1 ? 's' : ''}
+            Rekod kehadiran ini telah disunting {editCount} kali
           </p>
           {lastEditor && (
             <div className="text-xs text-orange-700 dark:text-orange-300 space-y-0.5">
               <p>
-                <span className="font-medium">Last edited by:</span> {lastEditor.name}
+                <span className="font-medium">Disunting terakhir oleh:</span> {lastEditor.name}
               </p>
               <p>
-                <span className="font-medium">Date:</span>{' '}
+                <span className="font-medium">Tarikh:</span>{' '}
                 {format(lastEditor.timestamp, 'dd MMMM yyyy, HH:mm:ss')}
               </p>
               <p>
-                <span className="font-medium">Reason:</span>{' '}
+                <span className="font-medium">Sebab:</span>{' '}
                 <span className="italic">"{lastEditor.reason}"</span>
               </p>
             </div>
           )}
           <p className="text-xs text-muted-foreground pt-2 border-t border-orange-200 dark:border-orange-800">
-            Original submission by {record.submittedByName} on{' '}
+            Penghantaran asal oleh {record.submittedByName} pada{' '}
             {format(record.timestamp.toDate(), 'dd MMMM yyyy, HH:mm:ss')}
           </p>
         </div>

@@ -50,9 +50,9 @@ export function DeleteStudentDialog({
           >
             <Trash2 className="h-6 w-6 text-destructive" />
           </div>
-          <AlertDialogTitle className="text-center">Delete Student Permanently?</AlertDialogTitle>
+          <AlertDialogTitle className="text-center">Padam Murid Secara Kekal?</AlertDialogTitle>
           <AlertDialogDescription className="sr-only">
-            Confirm permanent deletion of student record
+            Sahkan pemadaman kekal rekod murid
           </AlertDialogDescription>
           <div className="text-center space-y-3">
             <div className="space-y-1">
@@ -61,29 +61,31 @@ export function DeleteStudentDialog({
             </div>
 
             <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20">
-              <p className="text-sm font-medium text-destructive mb-2">⚠️ This cannot be undone</p>
+              <p className="text-sm font-medium text-destructive mb-2">
+                ⚠️ Tindakan tidak boleh dibatalkan
+              </p>
               <p className="text-sm text-muted-foreground">
-                All student data will be permanently removed from the system.
+                Semua data murid akan dipadam secara kekal daripada sistem.
               </p>
             </div>
 
             <div className="p-3 rounded-lg bg-orange-500/10 border border-orange-500/20 text-left">
               <p className="text-sm font-medium text-orange-600 dark:text-orange-400 mb-1">
-                💡 Consider archiving instead
+                💡 Pertimbangkan untuk mengarkib sebaliknya
               </p>
               <p className="text-xs text-muted-foreground">
-                Keeps all data safe and can be restored anytime
+                Kekalkan semua data dengan selamat dan boleh dipulihkan bila-bila masa
               </p>
             </div>
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex-row justify-end gap-4">
-          <AlertDialogCancel className="w-auto">Cancel</AlertDialogCancel>
+          <AlertDialogCancel className="w-auto">Batal</AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
             className="w-auto bg-destructive hover:bg-destructive/90"
           >
-            Delete Permanently
+            Padam Secara Kekal
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

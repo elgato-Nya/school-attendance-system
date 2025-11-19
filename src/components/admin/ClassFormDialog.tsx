@@ -38,15 +38,15 @@ export function ClassFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[calc(100%-2rem)] max-w-md sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Create New Class</DialogTitle>
-          <DialogDescription>Enter class details and assign a class teacher.</DialogDescription>
+          <DialogTitle>Cipta Kelas Baharu</DialogTitle>
+          <DialogDescription>Masukkan butiran kelas dan tugaskan guru kelas.</DialogDescription>
         </DialogHeader>
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Class Name</Label>
+            <Label htmlFor="name">Nama Kelas</Label>
             <Input
               id="name"
-              placeholder="e.g., Science A, Mathematics B"
+              placeholder="cth., Sains A, Matematik B"
               value={formData.name}
               onChange={(e) => onChange({ ...formData, name: e.target.value })}
             />
@@ -54,32 +54,32 @@ export function ClassFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="grade">Grade/Form (Number)</Label>
+            <Label htmlFor="grade">Tingkatan (Nombor)</Label>
             <select
               id="grade"
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               value={formData.grade || ''}
               onChange={(e) => onChange({ ...formData, grade: parseInt(e.target.value) || 0 })}
             >
-              <option value="">Select grade...</option>
-              <option value="1">Form 1</option>
-              <option value="2">Form 2</option>
-              <option value="3">Form 3</option>
-              <option value="4">Form 4</option>
-              <option value="5">Form 5</option>
+              <option value="">Pilih tingkatan...</option>
+              <option value="1">Tingkatan 1</option>
+              <option value="2">Tingkatan 2</option>
+              <option value="3">Tingkatan 3</option>
+              <option value="4">Tingkatan 4</option>
+              <option value="5">Tingkatan 5</option>
             </select>
             {formErrors.grade && <p className="text-sm text-destructive">{formErrors.grade}</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="teacherRep">Class Teacher</Label>
+            <Label htmlFor="teacherRep">Guru Kelas</Label>
             <select
               id="teacherRep"
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               value={formData.teacherRep}
               onChange={(e) => onChange({ ...formData, teacherRep: e.target.value })}
             >
-              <option value="">Select teacher...</option>
+              <option value="">Pilih guru...</option>
               {teachers.map((teacher) => (
                 <option key={teacher.id} value={teacher.id}>
                   {teacher.name}
@@ -91,13 +91,13 @@ export function ClassFormDialog({
             )}
             {teachers.length === 0 && (
               <p className="text-sm text-amber-600">
-                ⚠️ No teachers available. Please create a teacher account first.
+                ⚠️ Tiada guru tersedia. Sila cipta akaun guru terlebih dahulu.
               </p>
             )}
           </div>
 
           <Button type="submit" className="w-full" disabled={teachers.length === 0}>
-            Create Class
+            Cipta Kelas
           </Button>
         </form>
       </DialogContent>

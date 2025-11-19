@@ -20,10 +20,10 @@ export type ClassStatus = (typeof CLASS_STATUS)[keyof typeof CLASS_STATUS];
 
 // Student Archive Reasons
 export const ARCHIVE_REASONS = {
-  TRANSFERRED: 'Transferred',
-  GRADUATED: 'Graduated',
-  WITHDRAWN: 'Withdrawn',
-  OTHER: 'Other',
+  TRANSFERRED: 'Dipindahkan',
+  GRADUATED: 'Tamat Pengajian',
+  WITHDRAWN: 'Ditarik Balik',
+  OTHER: 'Lain-lain',
 } as const;
 
 export type ArchiveReason = (typeof ARCHIVE_REASONS)[keyof typeof ARCHIVE_REASONS];

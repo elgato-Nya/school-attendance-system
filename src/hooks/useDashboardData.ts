@@ -136,13 +136,16 @@ export function useDashboardData(dateFilter?: DateFilter) {
         allRecords.push({ id: doc.id, ...doc.data() } as Attendance);
       });
 
+      // Create a Set of active class IDs for quick lookup
+      const activeClassIds = new Set(allClasses.map((cls) => cls.id));
+
       // Process all data using shared queries
       // Use startDate/endDate for stats (user-selected range only)
       // Use chartStartDate/chartEndDate for chart (includes prev/next day for single date)
       processStats(allClasses, allRecords, today, startDate, endDate);
-      processChartData(allRecords, chartStartDate, chartEndDate);
-      processAlerts(allRecords, today);
-      await loadRecentActivity(); // Needs ordering, keep separate
+      processChartData(allRecords, chartStartDate, chartEndDate, activeClassIds);
+      processAlerts(allRecords, today, activeClassIds);
+      await loadRecentActivity(activeClassIds); // Needs ordering, keep separate
     } catch (error) {
       console.error('Error loading dashboard data:', error);
       toast.error('Failed to load dashboard data');
@@ -161,8 +164,14 @@ export function useDashboardData(dateFilter?: DateFilter) {
     const totalClasses = classes.length;
     const totalStudents = classes.reduce((sum, cls) => sum + (cls.students?.length || 0), 0);
 
+    // Create a Set of active class IDs for quick lookup
+    const activeClassIds = new Set(classes.map((cls) => cls.id));
+
+    // Filter out records from archived classes
+    const activeRecords = allRecords.filter((r) => activeClassIds.has(r.classId));
+
     // Get today's records for submission count
-    const todayRecords = allRecords.filter((r) => r.date === today);
+    const todayRecords = activeRecords.filter((r) => r.date === today);
     const latestTodayRecords = getLatestVersions(todayRecords);
 
     // Count unique classes that submitted today
@@ -179,7 +188,7 @@ export function useDashboardData(dateFilter?: DateFilter) {
     setTodaySubmissions(todaySubmissionDetails);
 
     // Calculate stats for the USER-SELECTED date range only (not including prev/next day)
-    const dateRangeRecords = allRecords.filter((r) => r.date >= startDate && r.date <= endDate);
+    const dateRangeRecords = activeRecords.filter((r) => r.date >= startDate && r.date <= endDate);
     const latestRecords = getLatestVersions(dateRangeRecords);
 
     let totalPresent = 0;
@@ -208,14 +217,22 @@ export function useDashboardData(dateFilter?: DateFilter) {
     });
   };
 
-  const processChartData = (allRecords: Attendance[], startDate: string, endDate: string) => {
+  const processChartData = (
+    allRecords: Attendance[],
+    startDate: string,
+    endDate: string,
+    activeClassIds: Set<string>
+  ) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
     const daysDiff = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
+    // Filter out records from archived classes
+    const activeRecords = allRecords.filter((r) => activeClassIds.has(r.classId));
+
     // Group records by date
     const recordsByDate = new Map<string, Attendance[]>();
-    allRecords.forEach((record) => {
+    activeRecords.forEach((record) => {
       const dateStr = record.date;
       if (!recordsByDate.has(dateStr)) {
         recordsByDate.set(dateStr, []);
@@ -259,8 +276,10 @@ export function useDashboardData(dateFilter?: DateFilter) {
     setChartData(data);
   };
 
-  const processAlerts = (allRecords: Attendance[], today: string) => {
-    const todayRecords = allRecords.filter((r) => r.date === today);
+  const processAlerts = (allRecords: Attendance[], today: string, activeClassIds: Set<string>) => {
+    // Filter out records from archived classes
+    const activeRecords = allRecords.filter((r) => activeClassIds.has(r.classId));
+    const todayRecords = activeRecords.filter((r) => r.date === today);
     const latestRecords = getLatestVersions(todayRecords);
 
     const lowAttendanceAlerts: Alert[] = [];
@@ -294,42 +313,48 @@ export function useDashboardData(dateFilter?: DateFilter) {
     setAlerts(lowAttendanceAlerts);
   };
 
-  const loadRecentActivity = async () => {
+  const loadRecentActivity = async (activeClassIds: Set<string>) => {
     try {
       const attendanceQuery = query(
         collection(db, 'attendance'),
         orderBy('timestamp', 'desc'),
-        limit(10)
+        limit(50) // Fetch more to ensure we get 10 active class records
       );
       const snapshot = await getDocs(attendanceQuery);
 
       const activities: Attendance[] = [];
       snapshot.forEach((doc) => {
         const data = doc.data();
-        activities.push({
-          id: doc.id,
-          classId: data.classId || '',
-          className: data.className || '',
-          date: data.date || '',
-          submittedBy: data.submittedBy || '',
-          submittedByName: data.submittedByName || '',
-          timestamp: data.timestamp,
-          records: data.records || [],
-          summary: {
-            total: data.summary?.total || 0,
-            present: data.summary?.present || 0,
-            late: data.summary?.late || 0,
-            absent: data.summary?.absent || 0,
-            excused: data.summary?.excused || 0,
-            rate: data.summary?.rate || 0,
-          },
-          telegramSent: data.telegramSent || false,
-          editHistory: data.editHistory || [],
-          updatedAt: data.updatedAt || undefined,
-        } as Attendance);
+        const classId = data.classId || '';
+
+        // Only include records from active classes
+        if (activeClassIds.has(classId)) {
+          activities.push({
+            id: doc.id,
+            classId,
+            className: data.className || '',
+            date: data.date || '',
+            submittedBy: data.submittedBy || '',
+            submittedByName: data.submittedByName || '',
+            timestamp: data.timestamp,
+            records: data.records || [],
+            summary: {
+              total: data.summary?.total || 0,
+              present: data.summary?.present || 0,
+              late: data.summary?.late || 0,
+              absent: data.summary?.absent || 0,
+              excused: data.summary?.excused || 0,
+              rate: data.summary?.rate || 0,
+            },
+            telegramSent: data.telegramSent || false,
+            editHistory: data.editHistory || [],
+            updatedAt: data.updatedAt || undefined,
+          } as Attendance);
+        }
       });
 
-      setRecentActivity(activities);
+      // Limit to 10 after filtering
+      setRecentActivity(activities.slice(0, 10));
     } catch (error) {
       console.error('Error loading recent activity:', error);
       throw error;

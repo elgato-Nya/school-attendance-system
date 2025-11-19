@@ -1,0 +1,161 @@
+<svg viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for depth -->
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#003893;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#001F5C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DAA520;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5F5F5;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#CC0000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B0000;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer decorative frame -->
+  <path d="M110 5 L35 38 L35 105 Q35 170 110 225 Q185 170 185 105 L185 38 Z" 
+        fill="url(#goldGrad)" opacity="0.3"/>
+  
+  <!-- Main shield with ornate border -->
+  <path d="M110 10 L40 40 L40 105 Q40 165 110 215 Q180 165 180 105 L180 40 Z" 
+        fill="url(#shieldGrad)" stroke="url(#goldGrad)" stroke-width="4"/>
+  
+  <!-- Decorative gold border pattern -->
+  <path d="M110 10 L40 40 L40 105 Q40 165 110 215 Q180 165 180 105 L180 40 Z" 
+        fill="none" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.6"/>
+  
+  <!-- Inner shield -->
+  <path d="M110 28 L55 52 L55 105 Q55 152 110 195 Q165 152 165 105 L165 52 Z" 
+        fill="url(#centerGlow)" stroke="#003893" stroke-width="1"/>
+  
+  <!-- Decorative corner emblems -->
+  <g transform="translate(60, 60)">
+    <path d="M0 0 L-3 -6 L3 -6 Z" fill="url(#goldGrad)"/>
+  </g>
+  <g transform="translate(160, 60)">
+    <path d="M0 0 L-3 -6 L3 -6 Z" fill="url(#goldGrad)"/>
+  </g>
+  
+  <!-- 14-pointed star (Malaysian federal star) -->
+  <g transform="translate(110, 60)">
+    <path d="M0 -12 L1.5 -3.5 L6 -6 L3 -1.5 L10 -2 L4.5 1.5 L9 6 L3 3.5 L4 10 L0 5 L-4 10 L-3 3.5 L-9 6 L-4.5 1.5 L-10 -2 L-3 -1.5 L-6 -6 L-1.5 -3.5 Z" 
+          fill="url(#goldGrad)" stroke="#B8860B" stroke-width="0.5"/>
+    <circle cx="0" cy="0" r="2" fill="#003893"/>
+  </g>
+  
+  <!-- Ornate book with detailed pages -->
+  <g transform="translate(110, 100)">
+    <!-- Book shadow -->
+    <ellipse cx="0" cy="25" rx="32" ry="4" fill="#000000" opacity="0.1"/>
+    
+    <!-- Left page with depth -->
+    <path d="M-30 -18 Q-30 -22 -26 -23 L-3 -23 L-3 20 L-26 18 Q-30 17 -30 13 Z" 
+          fill="#003893" stroke="#001F5C" stroke-width="1"/>
+    <path d="M-28 -20 Q-28 -21 -26 -21 L-5 -21 L-5 18 L-26 16 Q-28 16 -28 14 Z" 
+          fill="#FFFFFF" opacity="0.9"/>
+    
+    <!-- Right page with depth -->
+    <path d="M3 -23 L26 -23 Q30 -22 30 -18 L30 13 Q30 17 26 18 L3 20 Z" 
+          fill="#003893" stroke="#001F5C" stroke-width="1"/>
+    <path d="M5 -21 L26 -21 Q28 -21 28 -20 L28 14 Q28 16 26 16 L5 18 Z" 
+          fill="#FFFFFF" opacity="0.9"/>
+    
+    <!-- Book spine with detail -->
+    <rect x="-3" y="-23" width="6" height="43" fill="#001F5C" stroke="#000033" stroke-width="0.5"/>
+    <line x1="0" y1="-23" x2="0" y2="20" stroke="url(#goldGrad)" stroke-width="0.5"/>
+    
+    <!-- Detailed page lines left -->
+    <line x1="-25" y1="-15" x2="-8" y2="-15" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="-25" y1="-10" x2="-8" y2="-10" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="-25" y1="-5" x2="-8" y2="-5" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="-25" y1="0" x2="-8" y2="0" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="-25" y1="5" x2="-8" y2="5" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="-25" y1="10" x2="-8" y2="10" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    
+    <!-- Detailed page lines right -->
+    <line x1="8" y1="-15" x2="25" y2="-15" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="8" y1="-10" x2="25" y2="-10" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="8" y1="-5" x2="25" y2="-5" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="8" y1="0" x2="25" y2="0" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="8" y1="5" x2="25" y2="5" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+    <line x1="8" y1="10" x2="25" y2="10" stroke="#003893" stroke-width="0.5" opacity="0.4"/>
+  </g>
+  
+  <!-- Elegant torch of knowledge -->
+  <g transform="translate(110, 145)">
+    <!-- Torch handle with detail -->
+    <path d="M-4 2 L-3 35 L3 35 L4 2 Z" fill="#8B4513" stroke="#654321" stroke-width="0.8"/>
+    <rect x="-3" y="2" width="6" height="33" fill="url(#goldGrad)" opacity="0.2"/>
+    <line x1="0" y1="2" x2="0" y2="35" stroke="#654321" stroke-width="0.5" opacity="0.5"/>
+    
+    <!-- Ornate torch bowl -->
+    <ellipse cx="0" cy="2" rx="9" ry="5" fill="url(#goldGrad)" stroke="#B8860B" stroke-width="1"/>
+    <ellipse cx="0" cy="1" rx="7" ry="3" fill="#FFD700" opacity="0.6"/>
+    
+    <!-- Detailed flame -->
+    <path d="M0 -5 Q-5 -14 -2 -24 Q0 -20 0 -18 Q0 -20 2 -24 Q5 -14 0 -5 Z" 
+          fill="#FF6B00" opacity="0.9"/>
+    <path d="M0 -8 Q-3 -15 -1 -22 Q0 -19 0 -18 Q0 -19 1 -22 Q3 -15 0 -8 Z" 
+          fill="#FF8C00"/>
+    <path d="M0 -10 Q-2 -16 0 -20 Q2 -16 0 -10 Z" 
+          fill="#FFD700"/>
+    <path d="M0 -12 Q-1 -16 0 -18 Q1 -16 0 -12 Z" 
+          fill="#FFFF99"/>
+  </g>
+  
+  <!-- Elaborate laurel wreaths -->
+  <g transform="translate(0, 0)">
+    <!-- Left wreath with leaves -->
+    <path d="M70 115 Q62 125 60 138 Q60 145 63 148" 
+          fill="none" stroke="#2D5016" stroke-width="3" stroke-linecap="round"/>
+    <path d="M75 120 Q69 128 68 137 Q68 142 70 144" 
+          fill="none" stroke="#3D6026" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Leaf details left -->
+    <ellipse cx="66" cy="122" rx="3" ry="5" fill="#2D5016" transform="rotate(-30 66 122)"/>
+    <ellipse cx="63" cy="130" rx="3" ry="5" fill="#2D5016" transform="rotate(-20 63 130)"/>
+    <ellipse cx="62" cy="140" rx="3" ry="5" fill="#2D5016" transform="rotate(-10 62 140)"/>
+    
+    <!-- Right wreath with leaves -->
+    <path d="M150 115 Q158 125 160 138 Q160 145 157 148" 
+          fill="none" stroke="#2D5016" stroke-width="3" stroke-linecap="round"/>
+    <path d="M145 120 Q151 128 152 137 Q152 142 150 144" 
+          fill="none" stroke="#3D6026" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Leaf details right -->
+    <ellipse cx="154" cy="122" rx="3" ry="5" fill="#2D5016" transform="rotate(30 154 122)"/>
+    <ellipse cx="157" cy="130" rx="3" ry="5" fill="#2D5016" transform="rotate(20 157 130)"/>
+    <ellipse cx="158" cy="140" rx="3" ry="5" fill="#2D5016" transform="rotate(10 158 140)"/>
+  </g>
+  
+  <!-- Ornate ribbon banner -->
+  <g transform="translate(110, 190)">
+    <!-- Banner shadow -->
+    <path d="M-45 2 L-55 -6 L55 -6 L45 2 L55 10 L-55 10 Z" 
+          fill="#000000" opacity="0.15"/>
+    <!-- Main banner -->
+    <path d="M-45 0 L-55 -8 L55 -8 L45 0 L55 8 L-55 8 Z" 
+          fill="url(#ribbonGrad)" stroke="#660000" stroke-width="1"/>
+    <!-- Banner fold details -->
+    <path d="M-55 -8 L-50 -4 L-55 0" fill="#8B0000" opacity="0.5"/>
+    <path d="M55 -8 L50 -4 L55 0" fill="#8B0000" opacity="0.5"/>
+    <path d="M-55 8 L-50 4 L-55 0" fill="#660000" opacity="0.5"/>
+    <path d="M55 8 L50 4 L55 0" fill="#660000" opacity="0.5"/>
+    <!-- Center line detail -->
+    <path d="M-45 0 L45 0" stroke="#990000" stroke-width="1"/>
+    <!-- Decorative border -->
+    <path d="M-53 -6 L53 -6" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.6"/>
+    <path d="M-53 6 L53 6" stroke="url(#goldGrad)" stroke-width="0.5" opacity="0.6"/>
+  </g>
+  
+  <!-- Motto in elegant serif font -->
+  <text x="110" y="195" font-family="Georgia, serif" font-size="10" font-weight="bold" 
+        fill="#FFFFFF" text-anchor="middle" letter-spacing="1">ILMU AMAL BAKTI</text>
+  <text x="110" y="195" font-family="Georgia, serif" font-size="10" font-weight="bold" 
+        fill="url(#goldGrad)" text-anchor="middle" letter-spacing="1" opacity="0.3">ILMU AMAL BAKTI</text>
+</svg>

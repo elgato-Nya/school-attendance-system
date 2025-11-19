@@ -45,9 +45,10 @@ export function HolidayFormDialog({
         aria-describedby="holiday-form-desc"
       >
         <DialogHeader>
-          <DialogTitle>{isEditing ? 'Edit Holiday' : 'Add New Holiday'}</DialogTitle>
+          <DialogTitle>{isEditing ? 'Sunting Cuti' : 'Tambah Cuti Baharu'}</DialogTitle>
           <p id="holiday-form-desc" className="text-sm text-muted-foreground">
-            Fill holiday date, name and type. You can mark it recurring if it repeats annually.
+            Isi tarikh cuti, nama dan jenis. Anda boleh tandakan berulang jika ia berulang setiap
+            tahun.
           </p>
         </DialogHeader>
 
@@ -59,7 +60,7 @@ export function HolidayFormDialog({
           className="grid gap-4 py-2"
         >
           <div className="grid gap-2">
-            <Label htmlFor="holiday-date">Date *</Label>
+            <Label htmlFor="holiday-date">Tarikh *</Label>
             <Input
               id="holiday-date"
               type="date"
@@ -76,10 +77,10 @@ export function HolidayFormDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="holiday-name">Name *</Label>
+            <Label htmlFor="holiday-name">Nama *</Label>
             <Input
               id="holiday-name"
-              placeholder="e.g., Hari Raya Aidilfitri"
+              placeholder="cth., Hari Raya Aidilfitri"
               value={formData.name}
               onChange={(e) => onChange({ ...formData, name: e.target.value })}
               aria-invalid={!!formErrors.name}
@@ -93,7 +94,7 @@ export function HolidayFormDialog({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="holiday-type">Type *</Label>
+            <Label htmlFor="holiday-type">Jenis *</Label>
             <Select
               value={formData.type}
               onValueChange={(value: 'public' | 'school' | 'event') =>
@@ -101,12 +102,12 @@ export function HolidayFormDialog({
               }
             >
               <SelectTrigger id="holiday-type" aria-invalid={!!formErrors.type}>
-                <SelectValue placeholder="Select type" />
+                <SelectValue placeholder="Pilih jenis" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="public">Public Holiday</SelectItem>
-                <SelectItem value="school">School Holiday</SelectItem>
-                <SelectItem value="event">School Event</SelectItem>
+                <SelectItem value="public">Cuti Umum</SelectItem>
+                <SelectItem value="school">Cuti Sekolah</SelectItem>
+                <SelectItem value="event">Acara Sekolah</SelectItem>
               </SelectContent>
             </Select>
             {formErrors.type && <p className="text-sm text-destructive">{formErrors.type}</p>}
@@ -119,18 +120,18 @@ export function HolidayFormDialog({
               onCheckedChange={(checked) =>
                 onChange({ ...formData, isRecurring: checked as boolean })
               }
-              aria-label="Recurring annually"
+              aria-label="Berulang setiap tahun"
             />
             <Label htmlFor="isRecurring" className="text-sm font-normal cursor-pointer">
-              Recurring annually (e.g., Merdeka Day)
+              Berulang setiap tahun (cth., Hari Merdeka)
             </Label>
           </div>
 
           <DialogFooter>
             <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
-              Cancel
+              Batal
             </Button>
-            <Button type="submit">{isEditing ? 'Update Holiday' : 'Add Holiday'}</Button>
+            <Button type="submit">{isEditing ? 'Kemaskini Cuti' : 'Tambah Cuti'}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

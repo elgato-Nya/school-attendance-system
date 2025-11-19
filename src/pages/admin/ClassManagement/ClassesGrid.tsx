@@ -56,11 +56,11 @@ export function ClassesGrid({
     return (
       <div className="flex flex-col items-center justify-center py-12 px-4 border rounded-lg bg-muted/20">
         <GraduationCap className="h-12 w-12 text-muted-foreground mb-4" />
-        <h3 className="text-lg font-medium mb-2">No classes found</h3>
+        <h3 className="text-lg font-medium mb-2">Tiada kelas dijumpai</h3>
         <p className="text-sm text-muted-foreground text-center mb-4">
           {searchQuery || gradeFilter !== 'all'
-            ? 'Try adjusting your search or filters'
-            : 'Get started by creating your first class'}
+            ? 'Cuba laraskan carian atau penapis anda'
+            : 'Mulakan dengan mencipta kelas pertama anda'}
         </p>
         {!searchQuery && gradeFilter === 'all' && (
           <Button onClick={onCreateFirstClass}>
@@ -84,9 +84,9 @@ export function ClassesGrid({
             name={classItem.name}
             grade={classItem.grade}
             studentCount={studentCount}
-            teacherName={teacher?.name || 'Unassigned'}
+            teacherName={teacher?.name || 'Tidak Ditugaskan'}
             primaryAction={{
-              label: 'View Students',
+              label: 'Lihat Pelajar',
               onClick: () => onViewStudents(classItem),
               variant: 'outline',
             }}
@@ -100,7 +100,7 @@ export function ClassesGrid({
                     onClick={(e) => e.stopPropagation()}
                   >
                     <MoreVertical className="h-4 w-4" />
-                    <span className="sr-only">Open menu</span>
+                    <span className="sr-only">Buka menu</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -112,7 +112,7 @@ export function ClassesGrid({
                       }}
                     >
                       <Edit className="h-4 w-4 mr-2" aria-hidden="true" />
-                      Edit Class
+                      Sunting Kelas
                     </DropdownMenuItem>
                   )}
 
@@ -125,7 +125,7 @@ export function ClassesGrid({
                       className="text-orange-500 focus:text-orange-600"
                     >
                       <Archive className="h-4 w-4 mr-2" aria-hidden="true" />
-                      Archive Class
+                      Arkib Kelas
                     </DropdownMenuItem>
                   )}
 
@@ -138,7 +138,7 @@ export function ClassesGrid({
                       className="text-green-500 focus:text-green-600"
                     >
                       <ArchiveRestore className="h-4 w-4 mr-2" aria-hidden="true" />
-                      Restore Class
+                      Pulihkan Kelas
                     </DropdownMenuItem>
                   )}
 
@@ -154,7 +154,7 @@ export function ClassesGrid({
                     className="text-destructive focus:text-destructive"
                   >
                     <Trash2 className="h-4 w-4 mr-2" aria-hidden="true" />
-                    {isArchived ? 'Permanently Delete' : 'Delete Class'}
+                    {isArchived ? 'Padam Kekal' : 'Padam Kelas'}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

@@ -82,7 +82,7 @@ export function HolidayManagement() {
       setHolidays(data);
     } catch (error) {
       console.error('Load holidays error:', error);
-      toast.error('Failed to load holidays');
+      toast.error('Gagal memuatkan cuti');
     } finally {
       setLoading(false);
     }
@@ -92,15 +92,15 @@ export function HolidayManagement() {
     const errors: Record<string, string> = {};
 
     if (!formData.date) {
-      errors.date = 'Date is required';
+      errors.date = 'Tarikh diperlukan';
     }
 
     if (!formData.name.trim()) {
-      errors.name = 'Holiday name is required';
+      errors.name = 'Nama cuti diperlukan';
     }
 
     if (!formData.type) {
-      errors.type = 'Type is required';
+      errors.type = 'Jenis diperlukan';
     }
 
     setFormErrors(errors);
@@ -109,21 +109,21 @@ export function HolidayManagement() {
 
   const handleSubmit = async () => {
     if (!validateForm()) {
-      toast.error('Please fix form errors');
+      toast.error('Sila betulkan ralat borang');
       return;
     }
 
-    const loadingToast = toast.loading(isEditing ? 'Updating holiday...' : 'Creating holiday...');
+    const loadingToast = toast.loading(isEditing ? 'Mengemaskini cuti...' : 'Mencipta cuti...');
 
     try {
       if (isEditing && editingId) {
         await updateHoliday(editingId, formData);
         toast.dismiss(loadingToast);
-        toast.success('Holiday updated successfully!');
+        toast.success('Cuti berjaya dikemaskini!');
       } else {
         await createHoliday(formData);
         toast.dismiss(loadingToast);
-        toast.success('Holiday created successfully!');
+        toast.success('Cuti berjaya dicipta!');
       }
 
       setFormOpen(false);
@@ -156,12 +156,12 @@ export function HolidayManagement() {
   const confirmDelete = async () => {
     if (!holidayToDelete) return;
 
-    const loadingToast = toast.loading('Deleting holiday...');
+    const loadingToast = toast.loading('Memadam cuti...');
 
     try {
       await deleteHoliday(holidayToDelete);
       toast.dismiss(loadingToast);
-      toast.success('Holiday deleted successfully!');
+      toast.success('Cuti berjaya dipadam!');
       setDeleteDialogOpen(false);
       setHolidayToDelete(null);
       loadHolidays();
@@ -173,7 +173,7 @@ export function HolidayManagement() {
   };
 
   const handleImportJSON = async () => {
-    const loadingToast = toast.loading('Importing holidays from JSON...');
+    const loadingToast = toast.loading('Mengimport cuti dari JSON...');
 
     try {
       const response = await fetch('/data/malaysia-holidays-2025.json');
@@ -197,12 +197,12 @@ export function HolidayManagement() {
       }
 
       toast.dismiss(loadingToast);
-      toast.success('Holidays imported successfully!');
+      toast.success('Cuti berjaya diimport!');
       loadHolidays();
     } catch (error) {
       toast.dismiss(loadingToast);
       console.error('Import holidays error:', error);
-      toast.error('Failed to import holidays');
+      toast.error('Gagal mengimport cuti');
     }
   };
 
@@ -253,7 +253,7 @@ export function HolidayManagement() {
   };
 
   if (loading) {
-    return <LoadingSpinner message="Loading holidays..." />;
+    return <LoadingSpinner message="Memuatkan cuti..." />;
   }
 
   return (
@@ -261,23 +261,21 @@ export function HolidayManagement() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Holiday Management</h1>
-          <p className="text-sm text-muted-foreground">
-            Manage school holidays and public holidays
-          </p>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Pengurusan Cuti</h1>
+          <p className="text-sm text-muted-foreground">Urus cuti sekolah dan cuti umum</p>
         </div>
         <div className="flex flex-wrap gap-2 w-full sm:w-auto">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="flex-1 sm:flex-initial">
                 <MoreVertical className="h-4 w-4 mr-2" />
-                More
+                Lagi
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={handleImportJSON}>
                 <Upload className="h-4 w-4 mr-2" />
-                Import from JSON
+                Import dari JSON
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -289,7 +287,7 @@ export function HolidayManagement() {
             className="flex-1 sm:flex-initial"
           >
             <Plus className="h-4 w-4 mr-2" />
-            Add Holiday
+            Tambah Cuti
           </Button>
         </div>
       </div>
@@ -299,20 +297,20 @@ export function HolidayManagement() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search holidays..."
+            placeholder="Cari cuti..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
-            aria-label="Search holidays"
+            aria-label="Cari cuti"
           />
         </div>
         <div className="flex gap-2">
           <Select value={filterYear} onValueChange={setFilterYear}>
             <SelectTrigger className="w-full sm:w-[140px]">
-              <SelectValue placeholder="Year" />
+              <SelectValue placeholder="Tahun" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Years</SelectItem>
+              <SelectItem value="all">Semua Tahun</SelectItem>
               {availableYears.map((year) => (
                 <SelectItem key={year} value={year}>
                   {year}
@@ -322,13 +320,13 @@ export function HolidayManagement() {
           </Select>
           <Select value={filterType} onValueChange={setFilterType}>
             <SelectTrigger className="w-full sm:w-[140px]">
-              <SelectValue placeholder="Type" />
+              <SelectValue placeholder="Jenis" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Types</SelectItem>
-              <SelectItem value="public">Public</SelectItem>
-              <SelectItem value="school">School</SelectItem>
-              <SelectItem value="event">Event</SelectItem>
+              <SelectItem value="all">Semua Jenis</SelectItem>
+              <SelectItem value="public">Umum</SelectItem>
+              <SelectItem value="school">Sekolah</SelectItem>
+              <SelectItem value="event">Acara</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -338,11 +336,11 @@ export function HolidayManagement() {
       {filteredHolidays.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 px-4 border rounded-lg bg-muted/20">
           <CalendarDays className="h-12 w-12 text-muted-foreground mb-4" />
-          <h3 className="text-lg font-medium mb-2">No holidays found</h3>
+          <h3 className="text-lg font-medium mb-2">Tiada cuti dijumpai</h3>
           <p className="text-sm text-muted-foreground text-center mb-4">
             {searchQuery || filterYear !== 'all' || filterType !== 'all'
-              ? 'Try adjusting your search or filters'
-              : 'Get started by adding your first holiday'}
+              ? 'Cuba laraskan carian atau penapis anda'
+              : 'Mulakan dengan menambah cuti pertama anda'}
           </p>
           {!searchQuery && filterYear === 'all' && filterType === 'all' && (
             <Button
@@ -352,7 +350,7 @@ export function HolidayManagement() {
               }}
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add First Holiday
+              Tambah Cuti Pertama
             </Button>
           )}
         </div>
@@ -362,13 +360,13 @@ export function HolidayManagement() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[120px]">Date</TableHead>
-                  <TableHead>Holiday Name</TableHead>
-                  <TableHead className="hidden sm:table-cell w-[120px]">Type</TableHead>
+                  <TableHead className="w-[120px]">Tarikh</TableHead>
+                  <TableHead>Nama Cuti</TableHead>
+                  <TableHead className="hidden sm:table-cell w-[120px]">Jenis</TableHead>
                   <TableHead className="hidden md:table-cell text-center w-[100px]">
-                    Recurring
+                    Berulang
                   </TableHead>
-                  <TableHead className="text-right w-[100px]">Actions</TableHead>
+                  <TableHead className="text-right w-[100px]">Tindakan</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -398,10 +396,10 @@ export function HolidayManagement() {
                     <TableCell className="hidden md:table-cell text-center">
                       {holiday.isRecurring ? (
                         <Badge variant="outline" className="text-xs">
-                          Yes
+                          Ya
                         </Badge>
                       ) : (
-                        <span className="text-xs text-muted-foreground">No</span>
+                        <span className="text-xs text-muted-foreground">Tidak</span>
                       )}
                     </TableCell>
                     <TableCell className="text-right">
@@ -410,20 +408,20 @@ export function HolidayManagement() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleEdit(holiday)}
-                          aria-label={`Edit ${holiday.name}`}
+                          aria-label={`Sunting ${holiday.name}`}
                         >
                           <Edit className="h-4 w-4" />
-                          <span className="sr-only">Edit</span>
+                          <span className="sr-only">Sunting</span>
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(holiday.id!)}
                           className="text-destructive hover:text-destructive"
-                          aria-label={`Delete ${holiday.name}`}
+                          aria-label={`Padam ${holiday.name}`}
                         >
                           <Trash2 className="h-4 w-4" />
-                          <span className="sr-only">Delete</span>
+                          <span className="sr-only">Padam</span>
                         </Button>
                       </div>
                     </TableCell>
@@ -438,8 +436,8 @@ export function HolidayManagement() {
       {/* Summary */}
       {filteredHolidays.length > 0 && (
         <div className="text-sm text-muted-foreground">
-          Showing {filteredHolidays.length} of {holidays.length}{' '}
-          {filteredHolidays.length === 1 ? 'holiday' : 'holidays'}
+          Menunjukkan {filteredHolidays.length} daripada {holidays.length}{' '}
+          {filteredHolidays.length === 1 ? 'cuti' : 'cuti'}
         </div>
       )}
 
@@ -459,18 +457,18 @@ export function HolidayManagement() {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent className="w-[calc(100%-2rem)] max-w-md sm:max-w-lg">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Holiday</AlertDialogTitle>
+            <AlertDialogTitle>Padam Cuti</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this holiday? This action cannot be undone.
+              Adakah anda pasti mahu memadam cuti ini? Tindakan ini tidak boleh dibatalkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setHolidayToDelete(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setHolidayToDelete(null)}>Batal</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              Delete
+              Padam
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

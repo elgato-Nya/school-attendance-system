@@ -58,21 +58,21 @@ export function AttendanceHistoryFilters({
         {/* Row 1: Grade, Class, Date Filter */}
         <div className="flex flex-col md:flex-row gap-4 md:items-end">
           <div className="flex-1 space-y-2">
-            <Label htmlFor="grade-filter">Grade / Form</Label>
+            <Label htmlFor="grade-filter">Tingkatan</Label>
             <Select value={selectedGrade} onValueChange={setSelectedGrade}>
               <SelectTrigger id="grade-filter">
-                <SelectValue placeholder="All Grades" />
+                <SelectValue placeholder="Semua Tingkatan" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4" />
-                    All Grades
+                    Semua Tingkatan
                   </div>
                 </SelectItem>
                 {uniqueGrades.map((grade) => (
                   <SelectItem key={grade} value={grade.toString()}>
-                    Form {grade}
+                    Tingkatan {grade}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -80,16 +80,16 @@ export function AttendanceHistoryFilters({
           </div>
 
           <div className="flex-1 space-y-2">
-            <Label htmlFor="class-filter">Class</Label>
+            <Label htmlFor="class-filter">Kelas</Label>
             <Select value={selectedClass} onValueChange={setSelectedClass}>
               <SelectTrigger id="class-filter">
-                <SelectValue placeholder="Select class" />
+                <SelectValue placeholder="Pilih kelas" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4" />
-                    All Classes
+                    Semua Kelas
                   </div>
                 </SelectItem>
                 {filteredClasses.map((cls) => (
@@ -102,18 +102,18 @@ export function AttendanceHistoryFilters({
           </div>
 
           <div className="flex-1 space-y-2">
-            <Label>Date Range</Label>
+            <Label>Julat Tarikh</Label>
             <DateFilter value={dateFilter} onChange={onDateChange} onReset={onDateReset} />
           </div>
         </div>
 
         {/* Row 2: Search */}
         <div className="space-y-2">
-          <Label htmlFor="search">Search</Label>
+          <Label htmlFor="search">Cari</Label>
           <Input
             id="search"
             type="text"
-            placeholder="Search by class, date, or submitter..."
+            placeholder="Cari mengikut kelas, tarikh, atau penyerah..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

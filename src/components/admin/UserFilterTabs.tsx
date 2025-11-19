@@ -14,9 +14,9 @@ interface UserFilterTabsProps {
 
 export function UserFilterTabs({ activeFilter, onFilterChange, counts }: UserFilterTabsProps) {
   const tabs = [
-    { id: 'all' as const, label: 'All Users', count: counts.all },
-    { id: 'admin' as const, label: 'Admins', count: counts.admin },
-    { id: 'teacher' as const, label: 'Teachers', count: counts.teacher },
+    { id: 'all' as const, label: 'Semua Pengguna', count: counts.all },
+    { id: 'admin' as const, label: 'Admin', count: counts.admin },
+    { id: 'teacher' as const, label: 'Guru', count: counts.teacher },
   ];
 
   return (

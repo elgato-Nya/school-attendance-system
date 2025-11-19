@@ -39,15 +39,15 @@ export function StudentFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[calc(100%-2rem)] max-w-md sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Add Student to {className}</DialogTitle>
-          <DialogDescription>Enter student information and guardian details.</DialogDescription>
+          <DialogTitle>Tambah Murid ke {className}</DialogTitle>
+          <DialogDescription>Masukkan maklumat murid dan butiran penjaga.</DialogDescription>
         </DialogHeader>
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="studentName">Student Name</Label>
+            <Label htmlFor="studentName">Nama Murid</Label>
             <Input
               id="studentName"
-              placeholder="Full name"
+              placeholder="Nama penuh"
               value={formData.name}
               onChange={(e) => onChange({ ...formData, name: e.target.value })}
             />
@@ -55,7 +55,7 @@ export function StudentFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="icNumber">IC Number</Label>
+            <Label htmlFor="icNumber">Nombor IC</Label>
             <Input
               id="icNumber"
               placeholder="XXXXXX-XX-XXXX"
@@ -68,7 +68,7 @@ export function StudentFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="dob">Date of Birth</Label>
+            <Label htmlFor="dob">Tarikh Lahir</Label>
             <DatePicker
               date={formData.dob ? new Date(formData.dob) : undefined}
               onDateChange={(date) => {
@@ -77,7 +77,7 @@ export function StudentFormDialog({
                   dob: date ? format(date, 'yyyy-MM-dd') : '',
                 });
               }}
-              placeholder="Select date of birth"
+              placeholder="Pilih tarikh lahir"
               closeOnSelect={true}
               captionLayout="dropdown"
               fromYear={1990}
@@ -87,10 +87,10 @@ export function StudentFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="guardianName">Guardian Name</Label>
+            <Label htmlFor="guardianName">Nama Penjaga</Label>
             <Input
               id="guardianName"
-              placeholder="Parent/Guardian name"
+              placeholder="Nama ibu bapa/penjaga"
               value={formData.guardianName}
               onChange={(e) => onChange({ ...formData, guardianName: e.target.value })}
             />
@@ -100,7 +100,7 @@ export function StudentFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="guardianContact">Guardian Contact</Label>
+            <Label htmlFor="guardianContact">Hubungan Penjaga</Label>
             <Input
               id="guardianContact"
               placeholder="012-3456789"
@@ -113,17 +113,17 @@ export function StudentFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="address">Address (Optional)</Label>
+            <Label htmlFor="address">Alamat (Pilihan)</Label>
             <Input
               id="address"
-              placeholder="Home address"
+              placeholder="Alamat rumah"
               value={formData.address}
               onChange={(e) => onChange({ ...formData, address: e.target.value })}
             />
           </div>
 
           <Button type="submit" className="w-full">
-            Add Student
+            Tambah Murid
           </Button>
         </form>
       </DialogContent>

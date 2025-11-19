@@ -51,9 +51,9 @@ export function EditClassDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[calc(100%-2rem)] max-w-md sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Class</DialogTitle>
+          <DialogTitle>Sunting Kelas</DialogTitle>
           <DialogDescription>
-            Update class information. Changes will be reflected across all records.
+            Kemaskini maklumat kelas. Perubahan akan diterapkan ke semua rekod.
           </DialogDescription>
         </DialogHeader>
 
@@ -65,11 +65,11 @@ export function EditClassDialog({
                 <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
-                    Class Name Change Detected
+                    Perubahan Nama Kelas Dikesan
                   </p>
                   <p className="text-sm text-amber-700 dark:text-amber-300">
-                    This will update <strong>{attendanceRecordCount}</strong> attendance record
-                    {attendanceRecordCount !== 1 ? 's' : ''} with the new class name.
+                    Ini akan mengemaskini <strong>{attendanceRecordCount}</strong> rekod kehadiran
+                    dengan nama kelas baharu.
                   </p>
                 </div>
               </div>
@@ -83,11 +83,10 @@ export function EditClassDialog({
                 <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-500 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                    Teacher Assignment Change
+                    Perubahan Tugasan Guru
                   </p>
                   <p className="text-sm text-blue-700 dark:text-blue-300">
-                    The class will be removed from the previous teacher's assignments and added to
-                    the new teacher.
+                    Kelas akan dibuang dari tugasan guru sebelum dan ditambah kepada guru baharu.
                   </p>
                 </div>
               </div>
@@ -96,10 +95,10 @@ export function EditClassDialog({
 
           {/* Form Fields */}
           <div className="space-y-2">
-            <Label htmlFor="edit-name">Class Name</Label>
+            <Label htmlFor="edit-name">Nama Kelas</Label>
             <Input
               id="edit-name"
-              placeholder="e.g., Science A, Mathematics B"
+              placeholder="cth., Sains A, Matematik B"
               value={formData.name}
               onChange={(e) => {
                 onChange({ ...formData, name: e.target.value });
@@ -109,25 +108,25 @@ export function EditClassDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="edit-grade">Grade/Form (Number)</Label>
+            <Label htmlFor="edit-grade">Tingkatan (Nombor)</Label>
             <select
               id="edit-grade"
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               value={formData.grade || ''}
               onChange={(e) => onChange({ ...formData, grade: parseInt(e.target.value) || 0 })}
             >
-              <option value="">Select grade...</option>
-              <option value="1">Form 1</option>
-              <option value="2">Form 2</option>
-              <option value="3">Form 3</option>
-              <option value="4">Form 4</option>
-              <option value="5">Form 5</option>
+              <option value="">Pilih tingkatan...</option>
+              <option value="1">Tingkatan 1</option>
+              <option value="2">Tingkatan 2</option>
+              <option value="3">Tingkatan 3</option>
+              <option value="4">Tingkatan 4</option>
+              <option value="5">Tingkatan 5</option>
             </select>
             {formErrors.grade && <p className="text-sm text-destructive">{formErrors.grade}</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="edit-teacherRep">Class Teacher</Label>
+            <Label htmlFor="edit-teacherRep">Guru Kelas</Label>
             <select
               id="edit-teacherRep"
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -136,11 +135,11 @@ export function EditClassDialog({
                 onChange({ ...formData, teacherRep: e.target.value });
               }}
             >
-              <option value="">Select teacher...</option>
+              <option value="">Pilih guru...</option>
               {teachers.map((teacher) => (
                 <option key={teacher.id} value={teacher.id}>
                   {teacher.name}
-                  {teacher.id === classData?.teacherRep && ' (Current)'}
+                  {teacher.id === classData?.teacherRep && ' (Semasa)'}
                 </option>
               ))}
             </select>
@@ -156,10 +155,10 @@ export function EditClassDialog({
               onClick={() => onOpenChange(false)}
               className="w-full sm:w-auto"
             >
-              Cancel
+              Batal
             </Button>
             <Button type="submit" className="w-full sm:w-auto" disabled={!hasChanges}>
-              {hasChanges ? 'Update Class' : 'No Changes'}
+              {hasChanges ? 'Kemaskini Kelas' : 'Tiada Perubahan'}
             </Button>
           </DialogFooter>
         </form>

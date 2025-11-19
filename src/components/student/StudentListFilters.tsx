@@ -65,8 +65,8 @@ export default function StudentListFilters({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Filters</CardTitle>
-        <CardDescription>Search and filter students</CardDescription>
+        <CardTitle className="text-lg">Penapis</CardTitle>
+        <CardDescription>Cari dan tapis murid</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Row 1: Date Range Filters */}
@@ -75,15 +75,15 @@ export default function StudentListFilters({
           <div className="space-y-2">
             <Label htmlFor="view-mode" className="flex items-center gap-2">
               <CalendarIcon className="h-4 w-4" />
-              Date Range
+              Julat Tarikh
             </Label>
             <Select value={viewMode} onValueChange={(value: ViewMode) => onViewModeChange(value)}>
               <SelectTrigger id="view-mode">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="single">Single Day</SelectItem>
-                <SelectItem value="range">Date Range</SelectItem>
+                <SelectItem value="single">Hari Tunggal</SelectItem>
+                <SelectItem value="range">Julat Tarikh</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -92,16 +92,16 @@ export default function StudentListFilters({
           {viewMode === 'single' && (
             <>
               <div className="space-y-2">
-                <Label htmlFor="single-date">Select Date</Label>
+                <Label htmlFor="single-date">Pilih Tarikh</Label>
                 <DatePicker
                   date={singleDate}
                   onDateChange={onSingleDateChange}
-                  placeholder="Pick a date"
+                  placeholder="Pilih tarikh"
                   closeOnSelect={true}
                 />
               </div>
               <div className="md:col-span-2 space-y-2">
-                <Label htmlFor="student-search">Search Students</Label>
+                <Label htmlFor="student-search">Cari Murid</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -109,9 +109,9 @@ export default function StudentListFilters({
                     type="search"
                     value={searchQuery}
                     onChange={(e) => onSearchQueryChange(e.target.value)}
-                    placeholder="Search by name or IC..."
+                    placeholder="Cari dengan nama atau IC..."
                     className="pl-9"
-                    aria-label="Search students by name or IC number"
+                    aria-label="Cari murid dengan nama atau nombor IC"
                   />
                 </div>
               </div>
@@ -122,25 +122,25 @@ export default function StudentListFilters({
           {viewMode === 'range' && (
             <>
               <div className="space-y-2">
-                <Label htmlFor="start-date">Start Date</Label>
+                <Label htmlFor="start-date">Tarikh Mula</Label>
                 <DatePicker
                   date={startDate}
                   onDateChange={onStartDateChange}
-                  placeholder="Pick start date"
+                  placeholder="Pilih tarikh mula"
                   closeOnSelect={true}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="end-date">End Date</Label>
+                <Label htmlFor="end-date">Tarikh Akhir</Label>
                 <DatePicker
                   date={endDate}
                   onDateChange={onEndDateChange}
-                  placeholder="Pick end date"
+                  placeholder="Pilih tarikh akhir"
                   closeOnSelect={true}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="student-search">Search Students</Label>
+                <Label htmlFor="student-search">Cari Murid</Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -148,9 +148,9 @@ export default function StudentListFilters({
                     type="search"
                     value={searchQuery}
                     onChange={(e) => onSearchQueryChange(e.target.value)}
-                    placeholder="Search by name or IC..."
+                    placeholder="Cari dengan nama atau IC..."
                     className="pl-9"
-                    aria-label="Search students by name or IC number"
+                    aria-label="Cari murid dengan nama atau nombor IC"
                   />
                 </div>
               </div>
@@ -162,7 +162,7 @@ export default function StudentListFilters({
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Grade Filter */}
           <div className="space-y-2">
-            <Label htmlFor="grade-filter">Filter by Grade</Label>
+            <Label htmlFor="grade-filter">Tapis mengikut Tingkatan</Label>
             <div className="relative">
               <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none z-10" />
               <Select
@@ -175,15 +175,15 @@ export default function StudentListFilters({
                 <SelectTrigger
                   id="grade-filter"
                   className="pl-9"
-                  aria-label="Filter students by grade"
+                  aria-label="Tapis murid mengikut tingkatan"
                 >
-                  <SelectValue placeholder="Select grade" />
+                  <SelectValue placeholder="Pilih tingkatan" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Grades</SelectItem>
+                  <SelectItem value="all">Semua Tingkatan</SelectItem>
                   {uniqueGrades.map((grade) => (
                     <SelectItem key={grade} value={String(grade)}>
-                      Grade {grade}
+                      Tingkatan {grade}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -193,14 +193,16 @@ export default function StudentListFilters({
 
           {/* Class Filter */}
           <div className="space-y-2">
-            <Label htmlFor="class-filter">Filter by Class</Label>
+            <Label htmlFor="class-filter">Tapis mengikut Kelas</Label>
             <Select value={selectedClass} onValueChange={onSelectedClassChange}>
-              <SelectTrigger id="class-filter" aria-label="Filter students by class">
-                <SelectValue placeholder="Select class" />
+              <SelectTrigger id="class-filter" aria-label="Tapis murid mengikut kelas">
+                <SelectValue placeholder="Pilih kelas" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">
-                  {selectedGrade === 'all' ? 'All Classes' : `All Grade ${selectedGrade} Classes`}
+                  {selectedGrade === 'all'
+                    ? 'Semua Kelas'
+                    : `Semua Kelas Tingkatan ${selectedGrade}`}
                 </SelectItem>
                 {filteredClasses.map((cls) => (
                   <SelectItem key={cls.id} value={cls.id}>
@@ -211,22 +213,24 @@ export default function StudentListFilters({
             </Select>
             {selectedGrade !== 'all' && filteredClasses.length > 0 && (
               <p className="text-xs text-muted-foreground">
-                Showing {filteredClasses.length} class(es) in Grade {selectedGrade}
+                Memapar {filteredClasses.length} kelas dalam Tingkatan {selectedGrade}
               </p>
             )}
           </div>
 
           {/* Sort */}
           <div className="space-y-2">
-            <Label htmlFor="sort-by">Sort By</Label>
+            <Label htmlFor="sort-by">Susun mengikut</Label>
             <Select value={sortBy} onValueChange={(value: SortOption) => onSortByChange(value)}>
-              <SelectTrigger id="sort-by" aria-label="Sort students">
+              <SelectTrigger id="sort-by" aria-label="Susun murid">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="name">Name (A-Z)</SelectItem>
-                <SelectItem value="attendance">Attendance Rate (High to Low)</SelectItem>
-                <SelectItem value="attendanceLowToHigh">Attendance Rate (Low to High)</SelectItem>
+                <SelectItem value="name">Nama (A-Z)</SelectItem>
+                <SelectItem value="attendance">Kadar Kehadiran (Tinggi ke Rendah)</SelectItem>
+                <SelectItem value="attendanceLowToHigh">
+                  Kadar Kehadiran (Rendah ke Tinggi)
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -234,7 +238,7 @@ export default function StudentListFilters({
           {/* Late Filter - Only show in single day mode */}
           {viewMode === 'single' && (
             <div className="space-y-2">
-              <Label htmlFor="late-filter">Show Late Only</Label>
+              <Label htmlFor="late-filter">Papar Lewat Sahaja</Label>
               <Button
                 id="late-filter"
                 variant={showLateOnly ? 'default' : 'outline'}
@@ -242,7 +246,7 @@ export default function StudentListFilters({
                 onClick={() => onShowLateOnlyChange(!showLateOnly)}
               >
                 <Clock className="h-4 w-4 mr-2" />
-                {showLateOnly ? 'Showing Late Only' : 'Show All'}
+                {showLateOnly ? 'Memapar Lewat Sahaja' : 'Papar Semua'}
               </Button>
             </div>
           )}

@@ -31,11 +31,11 @@ export function StudentTable({
   onArchiveClick,
   onDeleteClick,
   onViewDetails,
-  emptyMessage = 'No students found',
+  emptyMessage = 'Tiada murid dijumpai',
 }: StudentTableProps) {
   const getClassName = (classId: string) => {
     const classData = classes.find((c) => c.id === classId);
-    return classData?.name || 'Unknown Class';
+    return classData?.name || 'Kelas Tidak Diketahui';
   };
 
   const getStudentData = (item: Student | ArchivedStudent) => {
@@ -84,13 +84,13 @@ export function StudentTable({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="min-w-[150px]">Name</TableHead>
-                <TableHead className="min-w-[140px]">IC Number</TableHead>
-                <TableHead className="min-w-[120px]">Class</TableHead>
-                <TableHead className="min-w-[150px]">Guardian</TableHead>
-                <TableHead className="min-w-[130px]">Contact</TableHead>
-                <TableHead className="min-w-[100px]">Status</TableHead>
-                <TableHead className="text-right min-w-[100px]">Actions</TableHead>
+                <TableHead className="min-w-[150px]">Nama</TableHead>
+                <TableHead className="min-w-[140px]">Nombor IC</TableHead>
+                <TableHead className="min-w-[120px]">Kelas</TableHead>
+                <TableHead className="min-w-[150px]">Penjaga</TableHead>
+                <TableHead className="min-w-[130px]">Telefon</TableHead>
+                <TableHead className="min-w-[100px]">Status Kehadiran</TableHead>
+                <TableHead className="text-right min-w-[100px]">Tindakan</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -105,9 +105,9 @@ export function StudentTable({
                     <TableCell>{data.guardianContact}</TableCell>
                     <TableCell>
                       {data.isArchived ? (
-                        <Badge variant="secondary">Archived</Badge>
+                        <Badge variant="secondary">Diarkibkan</Badge>
                       ) : (
-                        <Badge variant="default">Active</Badge>
+                        <Badge variant="default">Aktif</Badge>
                       )}
                     </TableCell>
                     <TableCell className="text-right">
@@ -117,7 +117,7 @@ export function StudentTable({
                             variant="ghost"
                             size="sm"
                             onClick={() => onViewDetails(student)}
-                            aria-label={`View ${data.name} details`}
+                            aria-label={`Lihat butiran ${data.name}`}
                           >
                             <Eye className="h-4 w-4" aria-hidden="true" />
                           </Button>
@@ -127,7 +127,7 @@ export function StudentTable({
                           size="sm"
                           onClick={() => onArchiveClick(student)}
                           aria-label={
-                            data.isArchived ? `Restore ${data.name}` : `Archive ${data.name}`
+                            data.isArchived ? `Pulihkan ${data.name}` : `Arkibkan ${data.name}`
                           }
                         >
                           {data.isArchived ? (
@@ -141,7 +141,7 @@ export function StudentTable({
                           size="sm"
                           onClick={() => onDeleteClick(student)}
                           className="text-destructive hover:text-destructive"
-                          aria-label={`Delete ${data.name} permanently`}
+                          aria-label={`Padam ${data.name} secara kekal`}
                         >
                           <Trash2 className="h-4 w-4" aria-hidden="true" />
                         </Button>
@@ -171,7 +171,7 @@ export function StudentTable({
                   variant={data.isArchived ? 'secondary' : 'default'}
                   className="shrink-0 text-xs"
                 >
-                  {data.isArchived ? 'Archived' : 'Active'}
+                  {data.isArchived ? 'Diarkibkan' : 'Aktif'}
                 </Badge>
               </div>
 
@@ -189,10 +189,10 @@ export function StudentTable({
                       onViewDetails(student);
                     }}
                     className="flex-1 h-8 text-xs"
-                    aria-label={`View ${data.name} details`}
+                    aria-label={`Lihat butiran ${data.name}`}
                   >
                     <Eye className="h-3 w-3 mr-1" aria-hidden="true" />
-                    View
+                    Lihat
                   </Button>
                 )}
                 <Button
@@ -203,17 +203,17 @@ export function StudentTable({
                     onArchiveClick(student);
                   }}
                   className="flex-1 h-8 text-xs"
-                  aria-label={data.isArchived ? `Restore ${data.name}` : `Archive ${data.name}`}
+                  aria-label={data.isArchived ? `Pulihkan ${data.name}` : `Arkibkan ${data.name}`}
                 >
                   {data.isArchived ? (
                     <>
                       <ArchiveRestore className="h-3 w-3 mr-1" aria-hidden="true" />
-                      Restore
+                      Pulihkan
                     </>
                   ) : (
                     <>
                       <Archive className="h-3 w-3 mr-1" aria-hidden="true" />
-                      Archive
+                      Arkib
                     </>
                   )}
                 </Button>
@@ -225,7 +225,7 @@ export function StudentTable({
                     onDeleteClick(student);
                   }}
                   className="h-8 px-2 text-xs text-destructive hover:text-destructive"
-                  aria-label={`Delete ${data.name} permanently`}
+                  aria-label={`Padam ${data.name} secara kekal`}
                 >
                   <Trash2 className="h-3 w-3" aria-hidden="true" />
                 </Button>

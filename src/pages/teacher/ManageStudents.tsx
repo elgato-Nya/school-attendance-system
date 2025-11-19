@@ -150,7 +150,7 @@ export default function ManageStudents() {
     e.preventDefault();
 
     if (!selectedClassId) {
-      toast.error('Please select a class first');
+      toast.error('Sila pilih kelas terlebih dahulu');
       return;
     }
 
@@ -167,7 +167,7 @@ export default function ManageStudents() {
       if (isEditing && editingStudentIndex !== null) {
         await updateStudent(selectedClassId, editingStudentIndex, studentForm);
         toast.dismiss(loadingToast);
-        toast.success(SUCCESS_MESSAGES.STUDENT_UPDATED || 'Student updated successfully');
+        toast.success(SUCCESS_MESSAGES.STUDENT_UPDATED || 'Murid berjaya dikemaskini');
       } else {
         await addStudentToClass(selectedClassId, studentForm);
         toast.dismiss(loadingToast);
@@ -211,7 +211,7 @@ export default function ManageStudents() {
       await removeStudentFromClass(selectedClassId, studentToDelete.index);
 
       toast.dismiss(loadingToast);
-      toast.success('Student archived successfully with attendance history preserved');
+      toast.success('Murid berjaya diarkibkan dengan sejarah kehadiran dipelihara');
       setDeleteDialogOpen(false);
       setStudentToDelete(null);
       await loadSelectedClass();
@@ -235,7 +235,7 @@ export default function ManageStudents() {
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading classes...</p>
+          <p className="text-muted-foreground">Memuatkan kelas...</p>
         </div>
       </div>
     );
@@ -246,8 +246,10 @@ export default function ManageStudents() {
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
           <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No Classes Assigned</h3>
-          <p className="text-sm text-muted-foreground">You don't have any classes assigned yet.</p>
+          <h3 className="text-lg font-semibold mb-2">Tiada Kelas Ditugaskan</h3>
+          <p className="text-sm text-muted-foreground">
+            Anda belum mempunyai kelas yang ditugaskan lagi.
+          </p>
         </div>
       </div>
     );
@@ -258,8 +260,8 @@ export default function ManageStudents() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Manage Students</h2>
-          <p className="text-muted-foreground">Add, edit, or remove students from your classes</p>
+          <h2 className="text-3xl font-bold tracking-tight">Urus Murid</h2>
+          <p className="text-muted-foreground">Tambah, sunting, atau buang murid dari kelas anda</p>
         </div>
       </div>
 
@@ -268,38 +270,38 @@ export default function ManageStudents() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <CardTitle>Select Class</CardTitle>
-              <CardDescription>Choose a class to manage students</CardDescription>
+              <CardTitle>Pilih Kelas</CardTitle>
+              <CardDescription>Pilih kelas untuk mengurus murid</CardDescription>
             </div>
             <Button onClick={handleAddStudent} disabled={!selectedClassId}>
               <UserPlus className="h-4 w-4 mr-2" />
-              Add Student
+              Tambah Murid
             </Button>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label>Class</Label>
+              <Label>Kelas</Label>
               <Select value={selectedClassId} onValueChange={setSelectedClassId}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a class" />
+                  <SelectValue placeholder="Pilih kelas" />
                 </SelectTrigger>
                 <SelectContent>
                   {classes.map((cls) => (
                     <SelectItem key={cls.id} value={cls.id}>
-                      {cls.name} ({cls.students.length} students)
+                      {cls.name} ({cls.students.length} murid)
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Search Students</Label>
+              <Label>Cari Murid</Label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search by name or IC number"
+                  placeholder="Cari mengikut nama atau nombor IC"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
@@ -311,12 +313,14 @@ export default function ManageStudents() {
           {selectedClass && (
             <div className="pt-4 border-t">
               <div className="flex items-center gap-4 text-sm">
-                <Badge variant="outline">Grade {selectedClass.grade}</Badge>
+                <Badge variant="outline">Tingkatan {selectedClass.grade}</Badge>
                 <span className="text-muted-foreground">
-                  Total Students: {selectedClass.students.length}
+                  Jumlah Murid: {selectedClass.students.length}
                 </span>
                 {filteredStudents.length !== selectedClass.students.length && (
-                  <span className="text-muted-foreground">Showing: {filteredStudents.length}</span>
+                  <span className="text-muted-foreground">
+                    Memaparkan: {filteredStudents.length}
+                  </span>
                 )}
               </div>
             </div>
@@ -328,7 +332,7 @@ export default function ManageStudents() {
       {selectedClass && (
         <Card>
           <CardHeader>
-            <CardTitle>Students in {selectedClass.name}</CardTitle>
+            <CardTitle>Murid dalam {selectedClass.name}</CardTitle>
           </CardHeader>
           <CardContent>
             {filteredStudents.length === 0 ? (
@@ -336,8 +340,8 @@ export default function ManageStudents() {
                 <Users className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
                 <p className="text-muted-foreground">
                   {searchQuery
-                    ? 'No students found matching your search'
-                    : 'No students in this class yet'}
+                    ? 'Tiada murid dijumpai yang sepadan dengan carian anda'
+                    : 'Tiada murid dalam kelas ini lagi'}
                 </p>
               </div>
             ) : (
@@ -345,12 +349,12 @@ export default function ManageStudents() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>IC Number</TableHead>
-                      <TableHead>Date of Birth</TableHead>
-                      <TableHead>Guardian</TableHead>
-                      <TableHead>Contact</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>Nama</TableHead>
+                      <TableHead>Nombor IC</TableHead>
+                      <TableHead>Tarikh Lahir</TableHead>
+                      <TableHead>Penjaga</TableHead>
+                      <TableHead>Hubungan</TableHead>
+                      <TableHead className="text-right">Tindakan</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>

@@ -67,10 +67,10 @@ export function AttendanceDetailDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <FileEdit className="h-5 w-5" />
-            Attendance Record Details
+            Butiran Rekod Kehadiran
           </DialogTitle>
           <DialogDescription>
-            View complete attendance information, student records, and edit history
+            Lihat maklumat kehadiran lengkap, rekod murid, dan sejarah suntingan
           </DialogDescription>
         </DialogHeader>
 
@@ -80,10 +80,10 @@ export function AttendanceDetailDialog({
           className="flex-1 flex flex-col min-h-0"
         >
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="students">Students ({attendance.records.length})</TabsTrigger>
+            <TabsTrigger value="overview">Gambaran</TabsTrigger>
+            <TabsTrigger value="students">Murid ({attendance.records.length})</TabsTrigger>
             <TabsTrigger value="history">
-              Edit History ({attendance.editHistory.length})
+              Sejarah Suntingan ({attendance.editHistory.length})
             </TabsTrigger>
           </TabsList>
 
@@ -94,51 +94,60 @@ export function AttendanceDetailDialog({
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
-                    Basic Information
+                    Maklumat Asas
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-4 md:grid-cols-2">
                   <div>
-                    <p className="text-sm text-muted-foreground">Date</p>
+                    <p className="text-sm text-muted-foreground">Tarikh</p>
                     <p className="text-lg font-medium">
-                      {format(new Date(attendance.date), 'EEEE, MMMM d, yyyy')}
+                      {new Date(attendance.date).toLocaleDateString('ms-MY', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Class</p>
+                    <p className="text-sm text-muted-foreground">Kelas</p>
                     <p className="text-lg font-medium">{attendance.className}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Submitted By</p>
+                    <p className="text-sm text-muted-foreground">Diserahkan Oleh</p>
                     <p className="text-lg font-medium flex items-center gap-2">
                       <User className="h-4 w-4" />
                       {attendance.submittedByName}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Submitted At</p>
+                    <p className="text-sm text-muted-foreground">Diserahkan Pada</p>
                     <p className="text-lg font-medium flex items-center gap-2">
                       <Clock className="h-4 w-4" />
-                      {format(attendance.timestamp.toDate(), 'h:mm a')}
+                      {attendance.timestamp.toDate().toLocaleTimeString('ms-MY', {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true,
+                      })}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Status</p>
+                    <p className="text-sm text-muted-foreground">Status Rekod</p>
                     <div className="mt-1">
                       {attendance.editHistory.length > 0 ? (
                         <Badge variant="warning">
-                          Edited {attendance.editHistory.length} time(s)
+                          Disunting {attendance.editHistory.length} kali
                         </Badge>
                       ) : (
-                        <Badge variant="outline">Original</Badge>
+                        <Badge variant="outline">Asal</Badge>
                       )}
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Telegram Notification</p>
+                    <p className="text-sm text-muted-foreground">Pemberitahuan Telegram</p>
                     <div className="mt-1">
                       <Badge variant={attendance.telegramSent ? 'success' : 'secondary'}>
-                        {attendance.telegramSent ? 'Sent' : 'Not Sent'}
+                        {attendance.telegramSent ? 'Dihantar' : 'Tidak Dihantar'}
                       </Badge>
                     </div>
                   </div>
@@ -150,7 +159,7 @@ export function AttendanceDetailDialog({
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
                     <TrendingUp className="h-4 w-4" />
-                    Attendance Summary
+                    Ringkasan Kehadiran
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -158,40 +167,40 @@ export function AttendanceDetailDialog({
                     <div className="text-center p-3 rounded-lg bg-muted">
                       <Users className="h-5 w-5 mx-auto mb-2 text-muted-foreground" />
                       <p className="text-2xl font-bold">{attendance.summary.total}</p>
-                      <p className="text-xs text-muted-foreground">Total</p>
+                      <p className="text-xs text-muted-foreground">Jumlah</p>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-green-50 dark:bg-green-950/20">
                       <CheckCircle2 className="h-5 w-5 mx-auto mb-2 text-green-600 dark:text-green-400" />
                       <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                         {attendance.summary.present}
                       </p>
-                      <p className="text-xs text-muted-foreground">Present</p>
+                      <p className="text-xs text-muted-foreground">Hadir</p>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-yellow-50 dark:bg-yellow-950/20">
                       <Timer className="h-5 w-5 mx-auto mb-2 text-yellow-600 dark:text-yellow-400" />
                       <p className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
                         {attendance.summary.late}
                       </p>
-                      <p className="text-xs text-muted-foreground">Late</p>
+                      <p className="text-xs text-muted-foreground">Lewat</p>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-red-50 dark:bg-red-950/20">
                       <XCircle className="h-5 w-5 mx-auto mb-2 text-red-600 dark:text-red-400" />
                       <p className="text-2xl font-bold text-red-600 dark:text-red-400">
                         {attendance.summary.absent}
                       </p>
-                      <p className="text-xs text-muted-foreground">Absent</p>
+                      <p className="text-xs text-muted-foreground">Tidak Hadir</p>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20">
                       <AlertCircle className="h-5 w-5 mx-auto mb-2 text-blue-600 dark:text-blue-400" />
                       <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                         {attendance.summary.excused}
                       </p>
-                      <p className="text-xs text-muted-foreground">Excused</p>
+                      <p className="text-xs text-muted-foreground">Dimaafkan</p>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-primary/10">
                       <TrendingUp className="h-5 w-5 mx-auto mb-2 text-primary" />
                       <p className="text-2xl font-bold">{attendance.summary.rate}%</p>
-                      <p className="text-xs text-muted-foreground">Rate</p>
+                      <p className="text-xs text-muted-foreground">Kadar</p>
                     </div>
                   </div>
                 </CardContent>
@@ -202,7 +211,7 @@ export function AttendanceDetailDialog({
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">
-                    Student Records ({attendance.records.length})
+                    Rekod Murid ({attendance.records.length})
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -217,7 +226,7 @@ export function AttendanceDetailDialog({
                           <p className="text-sm text-muted-foreground">{record.icNumber}</p>
                           {record.remarks && (
                             <p className="text-sm text-muted-foreground italic mt-1">
-                              Note: {record.remarks}
+                              Nota: {record.remarks}
                             </p>
                           )}
                         </div>
@@ -227,7 +236,7 @@ export function AttendanceDetailDialog({
                               <p className="text-sm font-medium">{record.lateTime}</p>
                               {record.minutesLate && (
                                 <p className="text-xs text-muted-foreground">
-                                  {record.minutesLate} min late
+                                  {record.minutesLate} min lewat
                                 </p>
                               )}
                             </div>
@@ -260,8 +269,8 @@ export function AttendanceDetailDialog({
                 <Card>
                   <CardContent className="py-12 text-center">
                     <History className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
-                    <h3 className="text-lg font-semibold mb-2">No Edit History</h3>
-                    <p className="text-muted-foreground">This record has never been edited</p>
+                    <h3 className="text-lg font-semibold mb-2">Tiada Sejarah Suntingan</h3>
+                    <p className="text-muted-foreground">Rekod ini tidak pernah disunting</p>
                   </CardContent>
                 </Card>
               ) : (
@@ -273,10 +282,21 @@ export function AttendanceDetailDialog({
                           <div>
                             <CardTitle className="text-base flex items-center gap-2">
                               <FileEdit className="h-4 w-4" />
-                              Edit #{attendance.editHistory.length - index}
+                              Suntingan #{attendance.editHistory.length - index}
                             </CardTitle>
                             <p className="text-sm text-muted-foreground mt-1">
-                              {format(edit.editedAt.toDate(), "EEEE, MMMM d, yyyy 'at' h:mm a")}
+                              {edit.editedAt.toDate().toLocaleDateString('ms-MY', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                              })}{' '}
+                              pada{' '}
+                              {edit.editedAt.toDate().toLocaleTimeString('ms-MY', {
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true,
+                              })}
                             </p>
                           </div>
                           <Badge variant="outline" className="flex items-center gap-1">
@@ -287,7 +307,7 @@ export function AttendanceDetailDialog({
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div>
-                          <p className="text-sm font-medium mb-1">Reason for Edit:</p>
+                          <p className="text-sm font-medium mb-1">Sebab Suntingan:</p>
                           <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
                             {edit.reason}
                           </p>
@@ -296,39 +316,39 @@ export function AttendanceDetailDialog({
                         <Separator />
 
                         <div>
-                          <p className="text-sm font-medium mb-3">Previous Summary:</p>
+                          <p className="text-sm font-medium mb-3">Ringkasan Sebelum:</p>
                           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                             <div className="text-center p-2 rounded-lg bg-muted text-sm">
                               <p className="font-bold">{edit.previousSummary.total}</p>
-                              <p className="text-xs text-muted-foreground">Total</p>
+                              <p className="text-xs text-muted-foreground">Jumlah</p>
                             </div>
                             <div className="text-center p-2 rounded-lg bg-green-50 dark:bg-green-950/20 text-sm">
                               <p className="font-bold text-green-600 dark:text-green-400">
                                 {edit.previousSummary.present}
                               </p>
-                              <p className="text-xs text-muted-foreground">Present</p>
+                              <p className="text-xs text-muted-foreground">Hadir</p>
                             </div>
                             <div className="text-center p-2 rounded-lg bg-yellow-50 dark:bg-yellow-950/20 text-sm">
                               <p className="font-bold text-yellow-600 dark:text-yellow-400">
                                 {edit.previousSummary.late}
                               </p>
-                              <p className="text-xs text-muted-foreground">Late</p>
+                              <p className="text-xs text-muted-foreground">Lewat</p>
                             </div>
                             <div className="text-center p-2 rounded-lg bg-red-50 dark:bg-red-950/20 text-sm">
                               <p className="font-bold text-red-600 dark:text-red-400">
                                 {edit.previousSummary.absent}
                               </p>
-                              <p className="text-xs text-muted-foreground">Absent</p>
+                              <p className="text-xs text-muted-foreground">Tidak Hadir</p>
                             </div>
                             <div className="text-center p-2 rounded-lg bg-blue-50 dark:bg-blue-950/20 text-sm">
                               <p className="font-bold text-blue-600 dark:text-blue-400">
                                 {edit.previousSummary.excused}
                               </p>
-                              <p className="text-xs text-muted-foreground">Excused</p>
+                              <p className="text-xs text-muted-foreground">Dimaafkan</p>
                             </div>
                             <div className="text-center p-2 rounded-lg bg-primary/10 text-sm">
                               <p className="font-bold">{edit.previousSummary.rate}%</p>
-                              <p className="text-xs text-muted-foreground">Rate</p>
+                              <p className="text-xs text-muted-foreground">Kadar</p>
                             </div>
                           </div>
                         </div>
@@ -343,48 +363,46 @@ export function AttendanceDetailDialog({
                         <div>
                           <CardTitle className="text-base flex items-center gap-2">
                             <CheckCircle2 className="h-4 w-4" />
-                            Current Summary
+                            Ringkasan Semasa
                           </CardTitle>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            Active attendance data
-                          </p>
+                          <p className="text-sm text-muted-foreground mt-1">Data kehadiran aktif</p>
                         </div>
-                        <Badge variant="success">Current</Badge>
+                        <Badge variant="success">Semasa</Badge>
                       </div>
                     </CardHeader>
                     <CardContent>
                       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                         <div className="text-center p-2 rounded-lg bg-muted text-sm">
                           <p className="font-bold">{attendance.summary.total}</p>
-                          <p className="text-xs text-muted-foreground">Total</p>
+                          <p className="text-xs text-muted-foreground">Jumlah</p>
                         </div>
                         <div className="text-center p-2 rounded-lg bg-green-50 dark:bg-green-950/20 text-sm">
                           <p className="font-bold text-green-600 dark:text-green-400">
                             {attendance.summary.present}
                           </p>
-                          <p className="text-xs text-muted-foreground">Present</p>
+                          <p className="text-xs text-muted-foreground">Hadir</p>
                         </div>
                         <div className="text-center p-2 rounded-lg bg-yellow-50 dark:bg-yellow-950/20 text-sm">
                           <p className="font-bold text-yellow-600 dark:text-yellow-400">
                             {attendance.summary.late}
                           </p>
-                          <p className="text-xs text-muted-foreground">Late</p>
+                          <p className="text-xs text-muted-foreground">Lewat</p>
                         </div>
                         <div className="text-center p-2 rounded-lg bg-red-50 dark:bg-red-950/20 text-sm">
                           <p className="font-bold text-red-600 dark:text-red-400">
                             {attendance.summary.absent}
                           </p>
-                          <p className="text-xs text-muted-foreground">Absent</p>
+                          <p className="text-xs text-muted-foreground">Tidak Hadir</p>
                         </div>
                         <div className="text-center p-2 rounded-lg bg-blue-50 dark:bg-blue-950/20 text-sm">
                           <p className="font-bold text-blue-600 dark:text-blue-400">
                             {attendance.summary.excused}
                           </p>
-                          <p className="text-xs text-muted-foreground">Excused</p>
+                          <p className="text-xs text-muted-foreground">Dimaafkan</p>
                         </div>
                         <div className="text-center p-2 rounded-lg bg-primary/10 text-sm">
                           <p className="font-bold">{attendance.summary.rate}%</p>
-                          <p className="text-xs text-muted-foreground">Rate</p>
+                          <p className="text-xs text-muted-foreground">Kadar</p>
                         </div>
                       </div>
                     </CardContent>

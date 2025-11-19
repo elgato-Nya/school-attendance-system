@@ -6,7 +6,7 @@ interface LoadingSpinnerProps {
   message?: string;
 }
 
-export function LoadingSpinner({ message = 'Loading...' }: LoadingSpinnerProps) {
+export function LoadingSpinner({ message = 'Memuatkan...' }: LoadingSpinnerProps) {
   return (
     <div className="flex items-center justify-center min-h-96">
       <div className="text-center">

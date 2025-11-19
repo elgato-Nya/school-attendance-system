@@ -34,11 +34,11 @@ export function HolidayFilters({
     <div className="flex flex-col md:flex-row gap-3 md:gap-4 md:items-center">
       <div className="flex-1 min-w-0">
         <Select value={filterYear} onValueChange={onYearChange}>
-          <SelectTrigger aria-label="Filter by year" className="w-full">
-            <SelectValue placeholder="Filter by year" />
+          <SelectTrigger aria-label="Tapis mengikut tahun" className="w-full">
+            <SelectValue placeholder="Tapis mengikut tahun" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Years</SelectItem>
+            <SelectItem value="all">Semua Tahun</SelectItem>
             {availableYears.map((year) => (
               <SelectItem key={year} value={year}>
                 {year}
@@ -50,20 +50,20 @@ export function HolidayFilters({
 
       <div className="flex-1 min-w-0">
         <Select value={filterType} onValueChange={onTypeChange}>
-          <SelectTrigger aria-label="Filter by type" className="w-full">
-            <SelectValue placeholder="Filter by type" />
+          <SelectTrigger aria-label="Tapis mengikut jenis" className="w-full">
+            <SelectValue placeholder="Tapis mengikut jenis" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Types</SelectItem>
-            <SelectItem value="public">Public Holiday</SelectItem>
-            <SelectItem value="school">School Holiday</SelectItem>
-            <SelectItem value="event">School Event</SelectItem>
+            <SelectItem value="all">Semua Jenis</SelectItem>
+            <SelectItem value="public">Cuti Umum</SelectItem>
+            <SelectItem value="school">Cuti Sekolah</SelectItem>
+            <SelectItem value="event">Acara Sekolah</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="text-xs md:text-sm text-muted-foreground text-center md:text-left md:whitespace-nowrap">
-        Showing {filteredCount} of {totalHolidays} holidays
+        Menunjukkan {filteredCount} daripada {totalHolidays} cuti
       </div>
     </div>
   );

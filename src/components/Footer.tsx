@@ -46,7 +46,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-foreground mb-3">Quick Links</h3>
+            <h3 className="font-semibold text-foreground mb-3">Pautan Pantas</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <a
@@ -55,7 +55,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors inline-flex items-center gap-1"
                 >
-                  Ministry of Education
+                  Kementerian Pendidikan Malaysia
                   <ExternalLink className="h-3 w-3" aria-hidden="true" />
                 </a>
               </li>
@@ -67,7 +67,7 @@ export function Footer() {
                     e.preventDefault(); /* TODO: Add privacy policy */
                   }}
                 >
-                  Privacy Policy
+                  Dasar Privasi
                 </a>
               </li>
               <li>
@@ -78,7 +78,7 @@ export function Footer() {
                     e.preventDefault(); /* TODO: Add terms */
                   }}
                 >
-                  Terms of Service
+                  Terma Perkhidmatan
                 </a>
               </li>
               <li>
@@ -86,7 +86,7 @@ export function Footer() {
                   href="mailto:support@smktm.edu.my"
                   className="hover:text-foreground transition-colors"
                 >
-                  Technical Support
+                  Sokongan Teknikal
                 </a>
               </li>
             </ul>
@@ -94,17 +94,17 @@ export function Footer() {
 
           {/* System Information */}
           <div>
-            <h3 className="font-semibold text-foreground mb-3">System Information</h3>
+            <h3 className="font-semibold text-foreground mb-3">Maklumat Sistem</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>
-                <span className="font-medium text-foreground">Attendance Management System</span>
+                <span className="font-medium text-foreground">Sistem Pengurusan Kehadiran</span>
               </p>
-              <p>Version 1.0.0 (Beta)</p>
-              <p>Last Updated: November 2025</p>
+              <p>Versi 1.0.0 (Beta)</p>
+              <p>Kemas Kini Terakhir: November 2025</p>
               <div className="pt-2">
                 <p className="text-xs">
-                  Designed for seamless attendance tracking and reporting. For assistance, contact
-                  the IT Department.
+                  Direka untuk penjejakan dan pelaporan kehadiran yang lancar. Untuk bantuan,
+                  hubungi Jabatan IT.
                 </p>
               </div>
             </div>
@@ -116,15 +116,9 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-muted-foreground">
           <p className="flex items-center gap-1.5 text-center sm:text-left">
-            © {currentYear} SMK Taman Melawati. All rights reserved.
-            <span className="hidden sm:inline">•</span>
-            <span className="flex items-center gap-1">
-              Made with{' '}
-              <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500 inline" aria-label="love" />{' '}
-              by IT Team
-            </span>
+            © {currentYear} SMK Taman Melawati. Hak cipta terpelihara.
           </p>
-          <p className="text-xs">Powered by React, TypeScript & Firebase</p>
+          <p className="text-xs">Dikuasakan oleh React, TypeScript & Firebase</p>
         </div>
       </div>
     </footer>

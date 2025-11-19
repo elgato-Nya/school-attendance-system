@@ -99,7 +99,7 @@ export default function AttendanceHistory() {
       setClasses(data);
     } catch (error) {
       console.error('Error loading classes:', error);
-      toast.error('Failed to load classes');
+      toast.error('Gagal memuatkan kelas');
     }
   };
 
@@ -178,7 +178,7 @@ export default function AttendanceHistory() {
       setCurrentPage(1); // Reset to first page
     } catch (error) {
       console.error('Error loading attendance history:', error);
-      toast.error('Failed to load attendance history');
+      toast.error('Gagal memuatkan sejarah kehadiran');
       setRecords([]);
     } finally {
       setLoading(false);
@@ -280,14 +280,14 @@ export default function AttendanceHistory() {
     if (selectedClass === 'all') {
       const fileName =
         selectedGrade === 'all'
-          ? `All_Classes_Attendance_${dateRangeText}.csv`
-          : `Grade_${selectedGrade}_Attendance_${dateRangeText}.csv`;
+          ? `Semua_Kelas_Kehadiran_${dateRangeText}.csv`
+          : `Tingkatan_${selectedGrade}_Kehadiran_${dateRangeText}.csv`;
 
       exportAllClassesCSV(filteredAndSortedRecords, fileName);
     } else {
       const selectedClassData = classes.find((c) => c.id === selectedClass);
       if (!selectedClassData) {
-        toast.error('Please select a class first');
+        toast.error('Sila pilih kelas terlebih dahulu');
         return;
       }
       exportAttendanceToCSV(filteredAndSortedRecords, selectedClassData, startDateStr, endDateStr);
@@ -296,21 +296,21 @@ export default function AttendanceHistory() {
 
   const exportAllClassesCSV = (records: Attendance[], fileName: string) => {
     if (records.length === 0) {
-      toast.error('No records to export');
+      toast.error('Tiada rekod untuk dieksport');
       return;
     }
 
     const headers = [
-      'Date',
-      'Class',
-      'Grade',
-      'Total',
-      'Present',
-      'Late',
-      'Absent',
-      'Excused',
-      'Rate (%)',
-      'Submitted By',
+      'Tarikh',
+      'Kelas',
+      'Tingkatan',
+      'Jumlah',
+      'Hadir',
+      'Lewat',
+      'Tidak Hadir',
+      'Dimaafkan',
+      'Kadar (%)',
+      'Diserahkan Oleh',
     ];
     const rows = records.map((r) => [
       r.date,
@@ -332,7 +332,7 @@ export default function AttendanceHistory() {
     link.href = URL.createObjectURL(blob);
     link.download = fileName;
     link.click();
-    toast.success('CSV exported successfully!');
+    toast.success('CSV berjaya dieksport!');
   };
 
   const getDateRangeDisplay = () => {
@@ -347,7 +347,7 @@ export default function AttendanceHistory() {
 
     // Check if it's the default "All Time" range (3 years)
     if (daysDiff > 365) {
-      return 'All Time';
+      return 'Sepanjang Masa';
     }
 
     return `${format(dateFilter.from, 'MMM d')} - ${format(dateFilter.to, 'MMM d, yyyy')}`;
@@ -360,10 +360,10 @@ export default function AttendanceHistory() {
     // For "All Time", show actual record count
     if (days > 365) {
       const uniqueDates = Array.from(new Set(filteredAndSortedRecords.map((r) => r.date))).length;
-      return `${uniqueDates} days with data`;
+      return `${uniqueDates} hari dengan data`;
     }
 
-    return `${days} ${days === 1 ? 'day' : 'days'} tracked`;
+    return `${days} ${days === 1 ? 'hari' : 'hari'} dijejak`;
   };
 
   return (
@@ -371,18 +371,18 @@ export default function AttendanceHistory() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground">Attendance History</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground">Sejarah Kehadiran</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            View and export historical attendance records
+            Lihat dan eksport rekod kehadiran yang lalu
           </p>
         </div>
         <Button
           onClick={handleExport}
           disabled={filteredAndSortedRecords.length === 0}
-          aria-label="Export attendance history to CSV"
+          aria-label="Eksport sejarah kehadiran ke CSV"
         >
           <Download className="w-4 h-4 mr-2" aria-hidden="true" />
-          Export to CSV
+          Eksport ke CSV
         </Button>
       </div>
 
@@ -402,57 +402,57 @@ export default function AttendanceHistory() {
 
       {/* Summary Cards */}
       {filteredAndSortedRecords.length > 0 && (
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Summary statistics">
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Statistik ringkasan">
           <AttendanceStatCard
-            title="Total Records"
+            title="Jumlah Rekod"
             value={filteredAndSortedRecords.length}
             icon={FileText}
           />
           <AttendanceStatCard
-            title="Average Attendance"
+            title="Purata Kehadiran"
             value={`${calculateAverageRate()}%`}
             icon={TrendingUp}
           />
           <AttendanceStatCard
-            title="Date Range"
+            title="Julat Tarikh"
             value={getDateRangeDisplay()}
             icon={Calendar}
             description={getDaysTracked()}
           />
           <AttendanceStatCard
-            title={selectedClass === 'all' ? 'Classes' : 'Selected Class'}
+            title={selectedClass === 'all' ? 'Kelas' : 'Kelas Dipilih'}
             value={
               selectedClass === 'all'
-                ? `${selectedGrade === 'all' ? 'Grades' : `Grade ${selectedGrade}`}`
-                : classes.find((c) => c.id === selectedClass)?.name || 'N/A'
+                ? `${selectedGrade === 'all' ? 'Tingkatan' : `Tingkatan ${selectedGrade}`}`
+                : classes.find((c) => c.id === selectedClass)?.name || 'T/A'
             }
             icon={Filter}
             description={
               selectedClass === 'all'
                 ? `${
                     Array.from(new Set(filteredAndSortedRecords.map((r) => r.classId))).length
-                  } classes`
-                : `Grade ${classes.find((c) => c.id === selectedClass)?.grade}`
+                  } kelas`
+                : `Tingkatan ${classes.find((c) => c.id === selectedClass)?.grade}`
             }
           />
         </section>
       )}
 
       {/* Records Table or Empty States */}
-      <section aria-label="Attendance records">
+      <section aria-label="Rekod kehadiran">
         {loading ? (
-          <LoadingState message="Loading attendance history..." />
+          <LoadingState message="Memuatkan sejarah kehadiran..." />
         ) : filteredAndSortedRecords.length === 0 ? (
           <EmptyState
             icon={Calendar}
-            title="No Records Found"
-            description="No attendance records found for the selected filters"
+            title="Tiada Rekod Dijumpai"
+            description="Tiada rekod kehadiran dijumpai untuk penapis yang dipilih"
           />
         ) : (
           <Card>
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-2">
-                <Label htmlFor="items-per-page">Show</Label>
+                <Label htmlFor="items-per-page">Papar</Label>
                 <Select
                   value={itemsPerPage.toString()}
                   onValueChange={(value) => {
@@ -471,7 +471,7 @@ export default function AttendanceHistory() {
                     ))}
                   </SelectContent>
                 </Select>
-                <span className="text-sm text-muted-foreground">per page</span>
+                <span className="text-sm text-muted-foreground">setiap halaman</span>
               </div>
             </div>
 

@@ -20,18 +20,18 @@ interface MonthYearPickerProps {
 }
 
 const MONTHS = [
-  'January',
-  'February',
-  'March',
+  'Januari',
+  'Februari',
+  'Mac',
   'April',
-  'May',
-  'June',
-  'July',
-  'August',
+  'Mei',
+  'Jun',
+  'Julai',
+  'Ogos',
   'September',
-  'October',
+  'Oktober',
   'November',
-  'December',
+  'Disember',
 ];
 
 export function MonthYearPicker({
@@ -64,9 +64,9 @@ export function MonthYearPicker({
       <Select value={currentMonth.toString()} onValueChange={handleMonthChange}>
         <SelectTrigger
           className="w-[130px] h-9 bg-background border-border"
-          aria-label="Select month"
+          aria-label="Pilih bulan"
         >
-          <SelectValue placeholder="Month" />
+          <SelectValue placeholder="Bulan" />
         </SelectTrigger>
         <SelectContent>
           {MONTHS.map((month, index) => (
@@ -81,9 +81,9 @@ export function MonthYearPicker({
       <Select value={currentYear.toString()} onValueChange={handleYearChange}>
         <SelectTrigger
           className="w-[100px] h-9 bg-background border-border"
-          aria-label="Select year"
+          aria-label="Pilih tahun"
         >
-          <SelectValue placeholder="Year" />
+          <SelectValue placeholder="Tahun" />
         </SelectTrigger>
         <SelectContent>
           {years.reverse().map((year) => (

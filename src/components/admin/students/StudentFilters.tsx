@@ -52,11 +52,11 @@ export function StudentFilters({
         />
         <Input
           type="search"
-          placeholder="Search by name or IC number..."
+          placeholder="Cari mengikut nama atau nombor IC..."
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
           className="pl-9"
-          aria-label="Search students by name or IC number"
+          aria-label="Cari murid mengikut nama atau nombor IC"
         />
       </div>
 
@@ -64,25 +64,28 @@ export function StudentFilters({
       {showFilters && (
         <div className="flex flex-col sm:flex-row gap-3">
           <Select value={selectedGrade} onValueChange={onGradeChange}>
-            <SelectTrigger className="w-full sm:w-[180px]" aria-label="Filter students by grade">
-              <SelectValue placeholder="Filter by grade" />
+            <SelectTrigger
+              className="w-full sm:w-[180px]"
+              aria-label="Tapis murid mengikut tingkatan"
+            >
+              <SelectValue placeholder="Tapis mengikut tingkatan" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Grades</SelectItem>
+              <SelectItem value="all">Semua Tingkatan</SelectItem>
               {availableGrades.map((grade) => (
                 <SelectItem key={grade} value={String(grade)}>
-                  Form {grade}
+                  Tingkatan {grade}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
 
           <Select value={selectedClass} onValueChange={onClassChange}>
-            <SelectTrigger className="w-full sm:w-[200px]" aria-label="Filter students by class">
-              <SelectValue placeholder="Filter by class" />
+            <SelectTrigger className="w-full sm:w-[200px]" aria-label="Tapis murid mengikut kelas">
+              <SelectValue placeholder="Tapis mengikut kelas" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Classes</SelectItem>
+              <SelectItem value="all">Semua Kelas</SelectItem>
               {filteredClasses.map((classData) => (
                 <SelectItem key={classData.id} value={classData.id}>
                   {classData.name}

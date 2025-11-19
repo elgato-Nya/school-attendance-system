@@ -44,16 +44,18 @@ export function AlertCard({ alerts }: AlertCardProps) {
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-success/10 mb-4 shadow-elevation-sm">
               <AlertTriangle className="h-8 w-8 text-success" aria-hidden="true" />
             </div>
-            <p className="text-base font-semibold text-foreground mb-2">All classes doing well!</p>
+            <p className="text-base font-semibold text-foreground mb-2">
+              Semua kelas berjalan lancar!
+            </p>
             <p className="text-sm text-muted-foreground max-w-[200px]">
-              No attendance alerts at this time
+              Tiada amaran kehadiran pada masa ini
             </p>
           </div>
         ) : (
           <div
             className="space-y-3 max-h-[400px] overflow-y-auto"
             role="list"
-            aria-label="Low attendance alerts"
+            aria-label="Amaran kehadiran rendah"
           >
             {alerts.map((alert) => (
               <div

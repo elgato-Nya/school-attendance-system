@@ -32,22 +32,22 @@ export function SearchAndFilters({
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Search by class name or teacher..."
+          placeholder="Cari mengikut nama kelas atau guru..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           className="pl-10"
-          aria-label="Search classes"
+          aria-label="Cari kelas"
         />
       </div>
       <Select value={gradeFilter} onValueChange={onGradeFilterChange}>
         <SelectTrigger className="w-full sm:w-[140px]">
-          <SelectValue placeholder="Grade" />
+          <SelectValue placeholder="Tingkatan" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All Grades</SelectItem>
+          <SelectItem value="all">Semua Tingkatan</SelectItem>
           {availableGrades.map((grade) => (
             <SelectItem key={grade} value={grade.toString()}>
-              Form {grade}
+              Tingkatan {grade}
             </SelectItem>
           ))}
         </SelectContent>

@@ -68,55 +68,55 @@ export function ArchiveStudentDialog({
     <AlertDialog open={open} onOpenChange={handleCancel}>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
-          <AlertDialogTitle>Archive Student</AlertDialogTitle>
+          <AlertDialogTitle>Arkib Murid</AlertDialogTitle>
           <AlertDialogDescription asChild>
             <div className="space-y-4">
               <p>
-                You are about to archive <strong>{studentName}</strong>.
+                Anda akan mengarkib <strong>{studentName}</strong>.
               </p>
 
               <div className="bg-muted p-3 rounded-md text-sm space-y-2">
-                <p className="font-semibold">What happens when you archive:</p>
+                <p className="font-semibold">Apa yang berlaku apabila anda mengarkib:</p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
-                  <li>Student removed from class roster</li>
-                  <li>Complete attendance history preserved</li>
-                  <li>Can be restored by admin if needed</li>
-                  <li>Attendance statistics remain accurate</li>
+                  <li>Murid dikeluarkan daripada senarai kelas</li>
+                  <li>Sejarah kehadiran lengkap dipelihara</li>
+                  <li>Boleh dipulihkan oleh admin jika diperlukan</li>
+                  <li>Statistik kehadiran kekal tepat</li>
                 </ul>
               </div>
 
               <div className="space-y-3 pt-2">
                 <div className="space-y-2">
                   <Label htmlFor="reason" className="text-foreground">
-                    Reason for archiving <span className="text-destructive">*</span>
+                    Sebab mengarkib <span className="text-destructive">*</span>
                   </Label>
                   <Select
                     value={reason}
                     onValueChange={(value) => setReason(value as ArchiveReason)}
                   >
                     <SelectTrigger id="reason">
-                      <SelectValue placeholder="Select reason" />
+                      <SelectValue placeholder="Pilih sebab" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Transferred">Transferred to another school</SelectItem>
-                      <SelectItem value="Graduated">Graduated</SelectItem>
-                      <SelectItem value="Withdrawn">Withdrawn from school</SelectItem>
-                      <SelectItem value="Other">Other</SelectItem>
+                      <SelectItem value="Transferred">Berpindah ke sekolah lain</SelectItem>
+                      <SelectItem value="Graduated">Tamat Pengajian</SelectItem>
+                      <SelectItem value="Withdrawn">Berhenti Sekolah</SelectItem>
+                      <SelectItem value="Other">Lain-lain</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="reasonDetails" className="text-foreground">
-                    Additional details{' '}
+                    Butiran tambahan{' '}
                     {reason === 'Other' && <span className="text-destructive">*</span>}
                   </Label>
                   <Textarea
                     id="reasonDetails"
                     placeholder={
                       reason === 'Other'
-                        ? 'Please provide details...'
-                        : 'Optional: Add any additional notes...'
+                        ? 'Sila berikan butiran...'
+                        : 'Pilihan: Tambah sebarang catatan tambahan...'
                     }
                     value={reasonDetails}
                     onChange={(e) => setReasonDetails(e.target.value)}
@@ -130,14 +130,14 @@ export function ArchiveStudentDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={handleCancel} disabled={isSubmitting}>
-            Cancel
+            Batal
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
             disabled={isSubmitting || !reason || (reason === 'Other' && !reasonDetails.trim())}
             className="bg-orange-600 text-white hover:bg-orange-700"
           >
-            {isSubmitting ? 'Archiving...' : 'Archive Student'}
+            {isSubmitting ? 'Mengarkib...' : 'Arkib Murid'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

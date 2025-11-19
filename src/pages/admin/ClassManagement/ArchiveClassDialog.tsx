@@ -28,10 +28,10 @@ interface ArchiveClassDialogProps {
 }
 
 const ARCHIVE_REASONS = [
-  { value: 'End of Academic Year', label: 'End of Academic Year' },
-  { value: 'Class Restructuring', label: 'Class Restructuring' },
-  { value: 'Low Enrollment', label: 'Low Enrollment' },
-  { value: 'Other', label: 'Other (specify below)' },
+  { value: 'End of Academic Year', label: 'Akhir Tahun Akademik' },
+  { value: 'Class Restructuring', label: 'Penstrukturan Semula Kelas' },
+  { value: 'Low Enrollment', label: 'Enrolmen Rendah' },
+  { value: 'Other', label: 'Lain-lain (nyatakan di bawah)' },
 ] as const;
 
 export function ArchiveClassDialog({
@@ -68,16 +68,16 @@ export function ArchiveClassDialog({
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <Archive className="h-5 w-5 text-orange-500" />
-            Archive Class
+            Arkib Kelas
           </AlertDialogTitle>
           <AlertDialogDescription>
-            You are about to archive <strong>{classData.name}</strong>.
+            Anda akan mengarkibkan <strong>{classData.name}</strong>.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <div className="space-y-4 py-4">
           <div className="space-y-3">
-            <Label className="text-sm font-medium">Reason for archiving:</Label>
+            <Label className="text-sm font-medium">Sebab pengarkiban:</Label>
             <RadioGroup value={reason} onValueChange={setReason}>
               {ARCHIVE_REASONS.map((option) => (
                 <div key={option.value} className="flex items-center space-x-2">
@@ -93,37 +93,37 @@ export function ArchiveClassDialog({
           {reason === 'Other' && (
             <div className="space-y-2">
               <Label htmlFor="customReason" className="text-sm font-medium">
-                Please specify:
+                Sila nyatakan:
               </Label>
               <Textarea
                 id="customReason"
                 value={customReason}
                 onChange={(e) => setCustomReason(e.target.value)}
-                placeholder="Enter reason for archiving..."
+                placeholder="Masukkan sebab pengarkiban..."
                 className="min-h-[80px]"
               />
             </div>
           )}
 
           <div className="rounded-lg bg-muted p-3 space-y-1">
-            <p className="text-sm font-medium">What happens when you archive?</p>
+            <p className="text-sm font-medium">Apa yang berlaku apabila anda mengarkib?</p>
             <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-              <li>Class will be hidden from active lists</li>
-              <li>All attendance records will be preserved</li>
-              <li>Students remain in the system</li>
-              <li>Can be restored anytime from Archived tab</li>
+              <li>Kelas akan disembunyikan daripada senarai aktif</li>
+              <li>Semua rekod kehadiran akan dipelihara</li>
+              <li>Murid kekal dalam sistem</li>
+              <li>Boleh dipulihkan pada bila-bila masa dari tab Arkib</li>
             </ul>
           </div>
         </div>
 
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={handleCancel}>Batal</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
             disabled={reason === 'Other' && !customReason.trim()}
             className="bg-orange-500 hover:bg-orange-600"
           >
-            Archive Class
+            Arkib Kelas
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -51,19 +51,19 @@ export function UserFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[calc(100%-2rem)] max-w-md sm:max-w-lg max-h-[90vh]">
         <DialogHeader>
-          <DialogTitle>{isEditing ? 'Edit User' : 'Create New User'}</DialogTitle>
+          <DialogTitle>{isEditing ? 'Sunting Pengguna' : 'Cipta Pengguna Baharu'}</DialogTitle>
           <DialogDescription>
             {isEditing
-              ? 'Update user information and assigned classes.'
-              : 'Add a new teacher or admin to the system.'}
+              ? 'Kemaskini maklumat pengguna dan kelas yang ditugaskan.'
+              : 'Tambah guru atau admin baharu ke sistem.'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="name">Nama Penuh</Label>
             <Input
               id="name"
-              placeholder="e.g., Ahmad bin Ali"
+              placeholder="cth., Ahmad bin Ali"
               value={formData.name}
               onChange={(e) => onChange({ ...formData, name: e.target.value })}
             />
@@ -71,7 +71,7 @@ export function UserFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Emel</Label>
             <Input
               id="email"
               type="email"
@@ -85,11 +85,11 @@ export function UserFormDialog({
 
           {!isEditing && (
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Kata Laluan</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="Min. 8 characters"
+                placeholder="Min. 8 aksara"
                 value={formData.password || ''}
                 onChange={(e) => onChange({ ...formData, password: e.target.value })}
               />
@@ -100,7 +100,7 @@ export function UserFormDialog({
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="role">Role</Label>
+            <Label htmlFor="role">Peranan</Label>
             <select
               id="role"
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -112,19 +112,19 @@ export function UserFormDialog({
                 })
               }
             >
-              <option value="">Select role...</option>
-              <option value={ROLES.ADMIN}>Admin</option>
-              <option value={ROLES.TEACHER}>Teacher</option>
+              <option value="">Pilih peranan...</option>
+              <option value={ROLES.ADMIN}>Pentadbir</option>
+              <option value={ROLES.TEACHER}>Guru</option>
             </select>
             {formErrors.role && <p className="text-sm text-destructive">{formErrors.role}</p>}
           </div>
 
           {formData.role === ROLES.TEACHER && (
             <div className="space-y-2">
-              <Label htmlFor="assignedClasses">Assigned Classes</Label>
+              <Label htmlFor="assignedClasses">Kelas Ditugaskan</Label>
               {classes.length === 0 ? (
                 <div className="text-sm text-muted-foreground border rounded-md p-4 text-center">
-                  No classes available. Create classes first.
+                  Tiada kelas tersedia. Cipta kelas terlebih dahulu.
                 </div>
               ) : (
                 <>
@@ -142,14 +142,14 @@ export function UserFormDialog({
                             className="text-sm font-medium leading-none cursor-pointer hover:text-primary"
                           >
                             {cls.grade} {cls.name} -{' '}
-                            {cls.grade === 1 ? 'Form 1' : `Form ${cls.grade}`}
+                            {cls.grade === 1 ? 'Tingkatan 1' : `Tingkatan ${cls.grade}`}
                           </label>
                         </div>
                       ))}
                     </div>
                   </ScrollArea>
                   <p className="text-xs text-muted-foreground">
-                    Select one or more classes to assign
+                    Pilih satu atau lebih kelas untuk ditugaskan
                   </p>
                 </>
               )}
@@ -157,7 +157,7 @@ export function UserFormDialog({
           )}
 
           <Button type="submit" className="w-full">
-            {isEditing ? 'Update User' : 'Create User'}
+            {isEditing ? 'Kemaskini Pengguna' : 'Cipta Pengguna'}
           </Button>
         </form>
       </DialogContent>

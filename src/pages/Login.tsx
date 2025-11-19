@@ -54,7 +54,7 @@ export function Login() {
           {/* Loading Text */}
           <div className="space-y-2">
             <p className="text-lg font-medium text-foreground">{SCHOOL_NAME}</p>
-            <p className="text-sm text-muted-foreground">Initializing attendance system...</p>
+            <p className="text-sm text-muted-foreground">Memulakan sistem kehadiran...</p>
           </div>
 
           {/* Loading Animation Dots */}
@@ -75,13 +75,13 @@ export function Login() {
     // Validate email
     const emailValidation = validateEmail(email);
     if (!emailValidation.isValid) {
-      setError(emailValidation.error || 'Invalid email');
+      setError(emailValidation.error || 'Emel tidak sah');
       return;
     }
 
     // Validate password
     if (!password) {
-      setError('Password is required');
+      setError('Kata laluan diperlukan');
       return;
     }
 
@@ -111,7 +111,7 @@ export function Login() {
             <span className="text-3xl">🎓</span>
           </div>
           <CardTitle className="text-2xl font-bold">{SCHOOL_NAME}</CardTitle>
-          <CardDescription>Attendance Management System</CardDescription>
+          <CardDescription>Sistem Pengurusan Kehadiran</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -122,11 +122,11 @@ export function Login() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Emel</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="teacher@school.edu.my"
+                placeholder="guru@sekolah.edu.my"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
@@ -135,7 +135,7 @@ export function Login() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Kata Laluan</Label>
               <Input
                 id="password"
                 type="password"
@@ -148,12 +148,12 @@ export function Login() {
             </div>
 
             <Button type="submit" variant="accent" className="w-full" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? 'Sedang log masuk...' : 'Log Masuk'}
             </Button>
           </form>
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>Need help? Contact your administrator.</p>
+            <p>Perlukan bantuan? Hubungi pentadbir anda.</p>
           </div>
         </CardContent>
       </Card>

@@ -46,7 +46,7 @@ export default function ClassSelection() {
         setTodaySubmissions(submittedToday);
       } catch (error) {
         console.error('Error loading classes:', error);
-        toast.error('Failed to load classes');
+        toast.error('Gagal memuatkan kelas');
       } finally {
         setIsLoading(false);
       }
@@ -82,19 +82,19 @@ export default function ClassSelection() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Select Class</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Pilih Kelas</h1>
         <p className="text-muted-foreground mt-2">
-          Choose a class to mark attendance for today ({new Date().toLocaleDateString('en-MY')})
+          Pilih kelas untuk menandakan kehadiran hari ini ({new Date().toLocaleDateString('ms-MY')})
         </p>
       </div>
 
-      <section aria-label="Search and filter classes">
+      <section aria-label="Cari dan tapis kelas">
         <Card>
           <CardContent className="pt-6">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1 relative">
                 <label htmlFor="class-search" className="sr-only">
-                  Search classes by name or grade
+                  Cari kelas mengikut nama atau tingkatan
                 </label>
                 <Search
                   className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
@@ -103,20 +103,20 @@ export default function ClassSelection() {
                 <Input
                   id="class-search"
                   type="search"
-                  placeholder="Search by class name or grade..."
+                  placeholder="Cari mengikut nama kelas atau tingkatan..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-9"
                   aria-describedby="search-help"
                 />
                 <span id="search-help" className="sr-only">
-                  Start typing to filter classes by name or grade level
+                  Mula menaip untuk menapis kelas mengikut nama atau tingkatan
                 </span>
               </div>
 
               <div className="sm:w-48">
                 <label htmlFor="grade-filter" className="sr-only">
-                  Filter by grade level
+                  Tapis mengikut tingkatan
                 </label>
                 <div className="relative">
                   <Filter
@@ -128,9 +128,9 @@ export default function ClassSelection() {
                     value={selectedGrade}
                     onChange={(e) => setSelectedGrade(e.target.value)}
                     className="w-full h-10 pl-9 pr-4 rounded-md border border-input bg-background text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    aria-label="Filter classes by grade"
+                    aria-label="Tapis kelas mengikut tingkatan"
                   >
-                    <option value="all">All Grades</option>
+                    <option value="all">Semua Tingkatan</option>
                     {uniqueGrades.map((grade) => (
                       <option key={grade} value={grade}>
                         {grade}
@@ -142,7 +142,7 @@ export default function ClassSelection() {
             </div>
 
             <div className="mt-4 text-sm text-muted-foreground" role="status" aria-live="polite">
-              Showing {filteredClasses.length} of {classes.length} classes
+              Menunjukkan {filteredClasses.length} daripada {classes.length} kelas
             </div>
           </CardContent>
         </Card>
@@ -153,10 +153,10 @@ export default function ClassSelection() {
           className="flex items-center justify-center py-12"
           role="status"
           aria-live="polite"
-          aria-label="Loading classes"
+          aria-label="Memuatkan kelas"
         >
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" aria-hidden="true" />
-          <span className="ml-2 text-muted-foreground">Loading classes...</span>
+          <span className="ml-2 text-muted-foreground">Memuatkan kelas...</span>
         </div>
       )}
 
@@ -164,11 +164,11 @@ export default function ClassSelection() {
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <BookOpen className="h-12 w-12 text-muted-foreground mb-4" aria-hidden="true" />
-            <p className="text-lg font-medium mb-2">No classes found</p>
+            <p className="text-lg font-medium mb-2">Tiada kelas dijumpai</p>
             <p className="text-sm text-muted-foreground text-center max-w-md">
               {searchQuery || selectedGrade !== 'all'
-                ? 'Try adjusting your search or filter criteria'
-                : 'No classes available in the system. Please contact your administrator.'}
+                ? 'Cuba laraskan kriteria carian atau penapis anda'
+                : 'Tiada kelas tersedia dalam sistem. Sila hubungi pentadbir anda.'}
             </p>
             {(searchQuery || selectedGrade !== 'all') && (
               <Button
@@ -179,7 +179,7 @@ export default function ClassSelection() {
                 }}
                 className="mt-4"
               >
-                Clear Filters
+                Kosongkan Penapis
               </Button>
             )}
           </CardContent>
@@ -187,7 +187,7 @@ export default function ClassSelection() {
       )}
 
       {!isLoading && filteredClasses.length > 0 && (
-        <section aria-label="Available classes">
+        <section aria-label="Kelas yang tersedia">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" role="list">
             {filteredClasses.map((cls) => {
               const isSubmittedToday = todaySubmissions.has(cls.id);
@@ -201,7 +201,7 @@ export default function ClassSelection() {
                     studentCount={studentCount}
                     statusBadge={<ClassStatusBadge submitted={isSubmittedToday} />}
                     primaryAction={{
-                      label: isSubmittedToday ? 'View / Edit' : 'Mark Attendance',
+                      label: isSubmittedToday ? 'Lihat / Sunting' : 'Tandakan Kehadiran',
                       onClick: () => handleClassClick(cls.id),
                       variant: isSubmittedToday ? 'outline' : 'default',
                     }}
@@ -215,27 +215,27 @@ export default function ClassSelection() {
       )}
 
       {!isLoading && classes.length > 0 && (
-        <aside aria-label="Today's submission statistics">
+        <aside aria-label="Statistik penyerahan hari ini">
           <Card className="bg-muted/50">
             <CardContent className="py-4">
               <div className="flex flex-wrap gap-6 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-green-500" aria-hidden="true" />
                   <span>
-                    <span className="font-medium">{todaySubmissions.size}</span> Submitted
+                    <span className="font-medium">{todaySubmissions.size}</span> Diserahkan
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-orange-500" aria-hidden="true" />
                   <span>
                     <span className="font-medium">{classes.length - todaySubmissions.size}</span>{' '}
-                    Pending
+                    Belum Selesai
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-blue-500" aria-hidden="true" />
                   <span>
-                    <span className="font-medium">{classes.length}</span> Total Classes
+                    <span className="font-medium">{classes.length}</span> Jumlah Kelas
                   </span>
                 </div>
               </div>

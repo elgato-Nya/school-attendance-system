@@ -63,7 +63,7 @@ export function Pagination({
             size="icon"
             onClick={() => onPageChange(1)}
             disabled={currentPage === 1}
-            aria-label="First page"
+            aria-label="Halaman pertama"
             className="h-8 w-8 sm:h-10 sm:w-10"
           >
             <ChevronsLeft className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -75,7 +75,7 @@ export function Pagination({
           size="icon"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          aria-label="Previous page"
+          aria-label="Halaman sebelumnya"
           className="h-8 w-8 sm:h-10 sm:w-10"
         >
           <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -145,7 +145,7 @@ export function Pagination({
           size="icon"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          aria-label="Next page"
+          aria-label="Halaman seterusnya"
           className="h-8 w-8 sm:h-10 sm:w-10"
         >
           <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -158,7 +158,7 @@ export function Pagination({
             size="icon"
             onClick={() => onPageChange(totalPages)}
             disabled={currentPage === totalPages}
-            aria-label="Last page"
+            aria-label="Halaman terakhir"
             className="h-8 w-8 sm:h-10 sm:w-10"
           >
             <ChevronsRight className="h-3 w-3 sm:h-4 sm:w-4" />

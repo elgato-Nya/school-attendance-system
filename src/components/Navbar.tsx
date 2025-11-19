@@ -207,7 +207,7 @@ export function Navbar({
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden shrink-0">
                   <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle menu</span>
+                  <span className="sr-only">Togol menu</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-72 p-0 flex flex-col">
@@ -219,7 +219,7 @@ export function Navbar({
                         {logoText}
                       </SheetTitle>
                       <SheetDescription className="text-xs text-muted-foreground mt-0.5">
-                        Navigation Menu
+                        Menu Navigasi
                       </SheetDescription>
                     </div>
                   </div>
@@ -277,19 +277,19 @@ export function Navbar({
                 <DropdownMenuItem>
                   <Link to={profilePath} className="flex items-center gap-0.5 w-full">
                     <User className="mr-2 h-4 w-4" />
-                    Profile
+                    Profil
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link to={settingsPath} className="flex items-center gap-0.5 w-full">
                     <Settings className="mr-2 h-4 w-4" />
-                    Settings
+                    Tetapan
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="text-destructive">
                   <LogOut className="mr-2 h-4 w-4" />
-                  Logout
+                  Log Keluar
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

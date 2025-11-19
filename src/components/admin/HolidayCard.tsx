@@ -31,7 +31,7 @@ export function HolidayCard({ holiday, onEdit, onDelete }: HolidayCardProps) {
       className="hover:shadow-md transition-shadow border-l-4"
       style={{ borderLeftColor: config.leftBorder }}
       role="article"
-      aria-label={`Holiday: ${holiday.name} on ${format(new Date(holiday.date), 'EEEE, dd MMMM yyyy')}`}
+      aria-label={`Cuti: ${holiday.name} pada ${format(new Date(holiday.date), 'EEEE, dd MMMM yyyy')}`}
     >
       <CardContent className="p-3 md:p-4">
         <div className="flex items-start justify-between gap-2 md:gap-4">
@@ -54,11 +54,11 @@ export function HolidayCard({ holiday, onEdit, onDelete }: HolidayCardProps) {
             <div
               className="flex items-center gap-2 flex-wrap"
               role="group"
-              aria-label="Holiday attributes"
+              aria-label="Atribut cuti"
             >
               <Badge
                 variant={config.badge}
-                aria-label={`Holiday type: ${config.label}`}
+                aria-label={`Jenis cuti: ${config.label}`}
                 className="text-xs"
               >
                 {config.label}
@@ -67,9 +67,9 @@ export function HolidayCard({ holiday, onEdit, onDelete }: HolidayCardProps) {
                 <Badge
                   variant="outline"
                   className="text-xs"
-                  aria-label="This holiday recurs annually"
+                  aria-label="Cuti ini berulang setiap tahun"
                 >
-                  Recurring
+                  Berulang
                 </Badge>
               )}
             </div>
@@ -79,14 +79,14 @@ export function HolidayCard({ holiday, onEdit, onDelete }: HolidayCardProps) {
           <div
             className="hidden sm:flex gap-1 flex-shrink-0"
             role="group"
-            aria-label="Holiday actions"
+            aria-label="Tindakan cuti"
           >
             <Button
               variant="ghost"
               size="icon"
               onClick={() => onEdit(holiday)}
-              aria-label={`Edit ${holiday.name}`}
-              title={`Edit ${holiday.name}`}
+              aria-label={`Sunting ${holiday.name}`}
+              title={`Sunting ${holiday.name}`}
             >
               <Edit className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -94,8 +94,8 @@ export function HolidayCard({ holiday, onEdit, onDelete }: HolidayCardProps) {
               variant="ghost"
               size="icon"
               onClick={() => onDelete(holiday.id!)}
-              aria-label={`Delete ${holiday.name}`}
-              title={`Delete ${holiday.name}`}
+              aria-label={`Padam ${holiday.name}`}
+              title={`Padam ${holiday.name}`}
             >
               <Trash2 className="h-4 w-4 text-destructive" aria-hidden="true" />
             </Button>
@@ -109,7 +109,7 @@ export function HolidayCard({ holiday, onEdit, onDelete }: HolidayCardProps) {
                   variant="ghost"
                   size="icon"
                   className="h-8 w-8"
-                  aria-label={`Actions for ${holiday.name}`}
+                  aria-label={`Tindakan untuk ${holiday.name}`}
                 >
                   <MoreVertical className="h-4 w-4" aria-hidden="true" />
                 </Button>
@@ -117,11 +117,11 @@ export function HolidayCard({ holiday, onEdit, onDelete }: HolidayCardProps) {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => onEdit(holiday)}>
                   <Edit className="h-4 w-4 mr-2" />
-                  Edit
+                  Sunting
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onDelete(holiday.id!)} variant="destructive">
                   <Trash2 className="h-4 w-4 mr-2" />
-                  Delete
+                  Padam
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

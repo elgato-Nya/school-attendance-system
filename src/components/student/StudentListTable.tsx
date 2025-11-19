@@ -43,12 +43,12 @@ interface StudentListTableProps {
 
 function getAttendanceBadge(rate: number) {
   if (rate >= 90) {
-    return { variant: 'default' as const, label: 'Excellent' };
+    return { variant: 'default' as const, label: 'Cemerlang' };
   }
   if (rate >= 75) {
-    return { variant: 'secondary' as const, label: 'Good' };
+    return { variant: 'secondary' as const, label: 'Baik' };
   }
-  return { variant: 'destructive' as const, label: 'At Risk' };
+  return { variant: 'destructive' as const, label: 'Berisiko' };
 }
 
 export default function StudentListTable({
@@ -68,21 +68,21 @@ export default function StudentListTable({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>IC Number</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Class</TableHead>
+            <TableHead>Nombor IC</TableHead>
+            <TableHead>Nama</TableHead>
+            <TableHead>Kelas</TableHead>
             {viewMode === 'single' ? (
               <>
-                <TableHead className="text-right">Status</TableHead>
-                <TableHead className="text-right">Late Info</TableHead>
+                <TableHead className="text-right">Status Kehadiran</TableHead>
+                <TableHead className="text-right">Maklumat Lewat</TableHead>
               </>
             ) : (
               <>
-                <TableHead className="text-right">Days Tracked</TableHead>
-                <TableHead className="text-right">Present</TableHead>
-                <TableHead className="text-right">Late</TableHead>
-                <TableHead className="text-right">Absent</TableHead>
-                <TableHead className="text-right">Attendance Rate</TableHead>
+                <TableHead className="text-right">Hari Dijejak</TableHead>
+                <TableHead className="text-right">Hadir</TableHead>
+                <TableHead className="text-right">Lewat</TableHead>
+                <TableHead className="text-right">Tidak Hadir</TableHead>
+                <TableHead className="text-right">Kadar Kehadiran</TableHead>
               </>
             )}
           </TableRow>
@@ -106,14 +106,14 @@ export default function StudentListTable({
                 <TableCell className="font-medium">{student.icNumber}</TableCell>
                 <TableCell>{student.name}</TableCell>
                 <TableCell className="text-muted-foreground">
-                  {classInfo ? `Grade ${classInfo.grade} - ${classInfo.name}` : 'N/A'}
+                  {classInfo ? `Tingkatan ${classInfo.grade} - ${classInfo.name}` : 'T/A'}
                 </TableCell>
 
                 {viewMode === 'single' ? (
                   <>
                     <TableCell className="text-right">
                       {student.totalDays === 0 ? (
-                        <Badge variant="secondary">No Record</Badge>
+                        <Badge variant="secondary">Tiada Rekod</Badge>
                       ) : isPresent ? (
                         <Badge
                           variant="default"
@@ -122,22 +122,22 @@ export default function StudentListTable({
                             color: 'hsl(var(--success-foreground))',
                           }}
                         >
-                          Present
+                          Hadir
                         </Badge>
                       ) : isAbsent ? (
-                        <Badge variant="destructive">Absent</Badge>
+                        <Badge variant="destructive">Tidak Hadir</Badge>
                       ) : (
-                        <Badge variant="secondary">No Record</Badge>
+                        <Badge variant="secondary">Tiada Rekod</Badge>
                       )}
                     </TableCell>
                     <TableCell className="text-right">
                       {isLate && student.lateTime ? (
                         <span style={{ color: 'hsl(var(--warning))' }} className="font-medium">
-                          Arrived at {student.lateTime}
+                          Tiba pada {student.lateTime}
                         </span>
                       ) : isLate ? (
                         <span style={{ color: 'hsl(var(--warning))' }} className="font-medium">
-                          Arrived Late
+                          Tiba Lewat
                         </span>
                       ) : (
                         <span className="text-muted-foreground">-</span>

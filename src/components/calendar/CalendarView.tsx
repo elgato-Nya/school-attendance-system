@@ -117,7 +117,7 @@ export function CalendarView({
         {isLoadingData && (
           <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
-            <span>Loading attendance data...</span>
+            <span>Memuatkan data kehadiran...</span>
           </div>
         )}
 
@@ -137,7 +137,7 @@ export function CalendarView({
               right: 'today',
             }}
             buttonText={{
-              today: 'Today',
+              today: 'Hari Ini',
             }}
             titleFormat={
               isMobile ? { year: 'numeric', month: 'short' } : { year: 'numeric', month: 'long' }

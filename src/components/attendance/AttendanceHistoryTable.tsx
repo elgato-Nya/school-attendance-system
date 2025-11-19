@@ -67,7 +67,7 @@ export function AttendanceHistoryTable({
                 className="-ml-3 h-8"
                 onClick={() => onSort('date')}
               >
-                Date
+                Tarikh
                 <SortIcon field="date" />
               </Button>
             </TableHead>
@@ -78,15 +78,15 @@ export function AttendanceHistoryTable({
                 className="-ml-3 h-8"
                 onClick={() => onSort('class')}
               >
-                Class
+                Kelas
                 <SortIcon field="class" />
               </Button>
             </TableHead>
-            <TableHead className="text-center">Total</TableHead>
-            <TableHead className="text-center">Present</TableHead>
-            <TableHead className="text-center">Late</TableHead>
-            <TableHead className="text-center">Absent</TableHead>
-            <TableHead className="text-center">Excused</TableHead>
+            <TableHead className="text-center">Jumlah</TableHead>
+            <TableHead className="text-center">Hadir</TableHead>
+            <TableHead className="text-center">Lewat</TableHead>
+            <TableHead className="text-center">Tidak Hadir</TableHead>
+            <TableHead className="text-center">Dimaafkan</TableHead>
             <TableHead className="text-center">
               <Button
                 variant="ghost"
@@ -94,11 +94,11 @@ export function AttendanceHistoryTable({
                 className="-ml-3 h-8"
                 onClick={() => onSort('rate')}
               >
-                Rate
+                Kadar
                 <SortIcon field="rate" />
               </Button>
             </TableHead>
-            <TableHead>Submitted By</TableHead>
+            <TableHead>Diserahkan Oleh</TableHead>
             <TableHead>
               <Button
                 variant="ghost"
@@ -129,7 +129,7 @@ export function AttendanceHistoryTable({
             >
               <TableCell className="font-medium">
                 <time dateTime={record.date}>
-                  {parseDateString(record.date).toLocaleDateString('en-US', {
+                  {parseDateString(record.date).toLocaleDateString('ms-MY', {
                     weekday: 'short',
                     year: 'numeric',
                     month: 'short',
@@ -154,7 +154,7 @@ export function AttendanceHistoryTable({
               <TableCell className="text-center">
                 <Badge
                   variant={getRateBadgeVariant(record.summary.rate)}
-                  aria-label={`Attendance rate: ${record.summary.rate}%`}
+                  aria-label={`Kadar kehadiran: ${record.summary.rate}%`}
                 >
                   {record.summary.rate}%
                 </Badge>
@@ -162,11 +162,11 @@ export function AttendanceHistoryTable({
               <TableCell className="text-muted-foreground">{record.submittedByName}</TableCell>
               <TableCell>
                 {record.editHistory.length > 0 ? (
-                  <Badge variant="warning" title={`Edited ${record.editHistory.length} time(s)`}>
-                    Edited
+                  <Badge variant="warning" title={`Disunting ${record.editHistory.length} kali`}>
+                    Disunting
                   </Badge>
                 ) : (
-                  <Badge variant="outline">Original</Badge>
+                  <Badge variant="outline">Asal</Badge>
                 )}
               </TableCell>
             </TableRow>

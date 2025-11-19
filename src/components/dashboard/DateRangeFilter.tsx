@@ -40,10 +40,10 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
   const [tempTo, setTempTo] = useState<Date | undefined>();
 
   const presets = [
-    { value: 'today' as const, label: 'Today', description: "Today's data" },
-    { value: 'week' as const, label: 'This Week', description: 'Last 7 days' },
-    { value: 'month' as const, label: 'This Month', description: 'Last 30 days' },
-    { value: 'all' as const, label: 'All Time', description: 'All available data' },
+    { value: 'today' as const, label: 'Hari Ini', description: 'Data hari ini' },
+    { value: 'week' as const, label: 'Minggu Ini', description: '7 hari lepas' },
+    { value: 'month' as const, label: 'Bulan Ini', description: '30 hari lepas' },
+    { value: 'all' as const, label: 'Sepanjang Masa', description: 'Semua data yang tersedia' },
   ];
 
   const handlePresetClick = (preset: DateRangePreset) => {
@@ -115,7 +115,7 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
         : format(customRange.from, 'MMM d, yyyy');
       return `${fromText} - ${toText}`;
     }
-    return presets.find((p) => p.value === value)?.label || 'Select Range';
+    return presets.find((p) => p.value === value)?.label || 'Pilih Julat';
   };
 
   const isActiveFilter = value !== 'all';
@@ -138,7 +138,7 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
         {!showCalendar ? (
           // Preset Selection View
           <div className="p-3">
-            <div className="text-sm font-semibold mb-3 text-foreground">Quick Select</div>
+            <div className="text-sm font-semibold mb-3 text-foreground">Pilihan Pantas</div>
             <div className="space-y-1">
               {presets.map((preset) => (
                 <button
@@ -175,10 +175,10 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
 
             <Button variant="outline" className="w-full justify-start" onClick={handleCustomClick}>
               <CalendarIcon className="mr-2 h-4 w-4" />
-              Custom Range
+              Julat Tersuai
               {value === 'custom' && (
                 <Badge variant="secondary" className="ml-auto">
-                  Active
+                  Aktif
                 </Badge>
               )}
             </Button>
@@ -187,14 +187,14 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
           // Custom Range View with Date Inputs
           <div className="p-3">
             <div className="flex items-center justify-between mb-3">
-              <div className="text-sm font-semibold text-foreground">Custom Range</div>
+              <div className="text-sm font-semibold text-foreground">Julat Tersuai</div>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleBackToPresets}
                 className="h-7 px-2 text-xs"
               >
-                Back
+                Kembali
               </Button>
             </div>
 
@@ -202,14 +202,14 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
               {/* From Date Input */}
               <div className="space-y-2">
                 <Label htmlFor="from-date" className="text-xs font-medium">
-                  From Date
+                  Tarikh Mula
                 </Label>
                 <div className="relative">
                   <Input
                     id="from-date"
                     readOnly
                     value={tempFrom ? format(tempFrom, 'MMM d, yyyy') : ''}
-                    placeholder="Select start date"
+                    placeholder="Pilih tarikh mula"
                     onClick={() => setCalendarView(calendarView === 'from' ? 'none' : 'from')}
                     className="cursor-pointer pr-8"
                   />
@@ -220,7 +220,7 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
                         handleClearFrom();
                       }}
                       className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                      aria-label="Clear from date"
+                      aria-label="Kosongkan tarikh mula"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -247,14 +247,14 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
                 <>
                   <div className="space-y-2">
                     <Label htmlFor="to-date" className="text-xs font-medium">
-                      To Date <span className="text-muted-foreground">(Optional)</span>
+                      Tarikh Akhir <span className="text-muted-foreground">(Pilihan)</span>
                     </Label>
                     <div className="relative">
                       <Input
                         id="to-date"
                         readOnly
                         value={tempTo ? format(tempTo, 'MMM d, yyyy') : ''}
-                        placeholder="Select end date"
+                        placeholder="Pilih tarikh akhir"
                         onClick={() => setCalendarView(calendarView === 'to' ? 'none' : 'to')}
                         className="cursor-pointer pr-8"
                       />
@@ -265,7 +265,7 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
                             handleClearTo();
                           }}
                           className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                          aria-label="Clear to date"
+                          aria-label="Kosongkan tarikh akhir"
                         >
                           <X className="h-4 w-4" />
                         </button>
@@ -294,7 +294,7 @@ export function DateRangeFilter({ value, customRange, onChange }: DateRangeFilte
                   <Separator />
                   <Button onClick={handleApplyCustomRange} className="w-full" size="sm">
                     <Check className="h-4 w-4 mr-2" />
-                    Apply Range
+                    Guna Julat
                   </Button>
                 </>
               )}

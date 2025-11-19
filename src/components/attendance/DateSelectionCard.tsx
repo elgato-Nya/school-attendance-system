@@ -37,25 +37,25 @@ export function DateSelectionCard({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <CalendarIcon className="h-5 w-5" aria-hidden="true" />
-          Select Date
+          Pilih Tarikh
         </CardTitle>
         <CardDescription>
-          Choose the date for attendance submission. Backdated submissions require a reason.
+          Pilih tarikh untuk penyerahan kehadiran. Penyerahan bertarikh mundur memerlukan sebab.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-4 lg:grid-cols-2">
           {/* Date Picker */}
           <div className="space-y-2">
-            <Label htmlFor="attendance-date">Attendance Date *</Label>
+            <Label htmlFor="attendance-date">Tarikh Kehadiran *</Label>
             <DatePicker
               date={selectedDate}
               onDateChange={(date) => date && onDateChange(date)}
               disabled={false}
-              aria-label="Select attendance date"
+              aria-label="Pilih tarikh kehadiran"
             />
             <p className="text-xs sm:text-sm text-muted-foreground" id="date-helper">
-              Selected: {format(selectedDate, 'EEE, dd MMM yyyy')}
+              Dipilih: {format(selectedDate, 'EEE, dd MMM yyyy')}
             </p>
           </div>
 
@@ -65,7 +65,7 @@ export function DateSelectionCard({
               <Alert variant="destructive">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                  <strong>{holidayName}</strong> - Cannot submit attendance on holidays
+                  <strong>{holidayName}</strong> - Tidak boleh hantar kehadiran pada hari cuti
                 </AlertDescription>
               </Alert>
             )}
@@ -74,7 +74,8 @@ export function DateSelectionCard({
               <Alert>
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                  Attendance already submitted for this date. Submitting again will overwrite.
+                  Kehadiran sudah diserahkan untuk tarikh ini. Menghantar semula akan menggantikan
+                  data.
                 </AlertDescription>
               </Alert>
             )}
@@ -82,7 +83,9 @@ export function DateSelectionCard({
             {showReasonField && !isHolidayDate && (
               <Alert>
                 <Clock className="h-4 w-4" />
-                <AlertDescription>Backdated submission - Reason required below</AlertDescription>
+                <AlertDescription>
+                  Penyerahan bertarikh mundur - Sebab diperlukan di bawah
+                </AlertDescription>
               </Alert>
             )}
           </div>
@@ -91,10 +94,10 @@ export function DateSelectionCard({
         {/* Late Submission Reason */}
         {showReasonField && !isHolidayDate && (
           <div className="space-y-2">
-            <Label htmlFor="late-reason">Reason for Late Submission *</Label>
+            <Label htmlFor="late-reason">Sebab Penyerahan Lewat *</Label>
             <Textarea
               id="late-reason"
-              placeholder="e.g., Internet connection issue, forgot to submit, system maintenance"
+              placeholder="cth: Masalah sambungan internet, terlupa hantar, penyelenggaraan sistem"
               value={lateReason}
               onChange={(e) => onLateReasonChange(e.target.value)}
               rows={3}
@@ -103,7 +106,7 @@ export function DateSelectionCard({
               className={!lateReason.trim() ? 'border-destructive' : ''}
             />
             <p id="late-reason-desc" className="text-sm text-muted-foreground">
-              Explain why attendance is being submitted after the date
+              Jelaskan mengapa kehadiran diserahkan selepas tarikh
             </p>
           </div>
         )}

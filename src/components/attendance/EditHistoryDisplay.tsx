@@ -36,9 +36,9 @@ export function EditHistoryDisplay({
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <History className="h-4 w-4" />
-            Edit History
+            Sejarah Suntingan
           </CardTitle>
-          <CardDescription>No edits have been made to this attendance record.</CardDescription>
+          <CardDescription>Tiada suntingan dibuat pada rekod kehadiran ini.</CardDescription>
         </CardHeader>
       </Card>
     );
@@ -49,12 +49,12 @@ export function EditHistoryDisplay({
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-base">
           <History className="h-4 w-4" />
-          Edit History
+          Sejarah Suntingan
           <Badge variant="secondary" className="ml-auto">
-            {editHistory.length} {editHistory.length === 1 ? 'Edit' : 'Edits'}
+            {editHistory.length} Suntingan
           </Badge>
         </CardTitle>
-        <CardDescription>Complete audit trail of all modifications</CardDescription>
+        <CardDescription>Jejak audit lengkap semua pengubahsuaian</CardDescription>
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-[300px] pr-4">
@@ -73,11 +73,11 @@ export function EditHistoryDisplay({
                     <div className="space-y-1 flex-1">
                       <div className="flex items-center gap-2">
                         <Badge variant="outline" className="font-mono text-xs">
-                          Edit #{editHistory.length - index}
+                          Suntingan #{editHistory.length - index}
                         </Badge>
                         {isLastEdit && (
                           <Badge variant="default" className="text-xs">
-                            Latest
+                            Terkini
                           </Badge>
                         )}
                       </div>
@@ -102,7 +102,7 @@ export function EditHistoryDisplay({
                   {/* Summary Changes */}
                   {changes && (
                     <div className="bg-muted/50 rounded-lg p-3 space-y-2">
-                      <p className="text-xs font-medium text-muted-foreground">Changes Made:</p>
+                      <p className="text-xs font-medium text-muted-foreground">Perubahan Dibuat:</p>
                       <div className="grid grid-cols-2 gap-2 text-xs">
                         {changes.present !== 0 && (
                           <div className="flex items-center gap-1">
@@ -112,7 +112,7 @@ export function EditHistoryDisplay({
                               <TrendingDown className="h-3 w-3 text-red-600" />
                             )}
                             <span>
-                              Present: {changes.present > 0 ? '+' : ''}
+                              Hadir: {changes.present > 0 ? '+' : ''}
                               {changes.present}
                             </span>
                           </div>
@@ -125,7 +125,7 @@ export function EditHistoryDisplay({
                               <TrendingDown className="h-3 w-3 text-red-600" />
                             )}
                             <span>
-                              Late: {changes.late > 0 ? '+' : ''}
+                              Lewat: {changes.late > 0 ? '+' : ''}
                               {changes.late}
                             </span>
                           </div>
@@ -138,7 +138,7 @@ export function EditHistoryDisplay({
                               <TrendingDown className="h-3 w-3 text-green-600" />
                             )}
                             <span>
-                              Absent: {changes.absent > 0 ? '+' : ''}
+                              Tidak Hadir: {changes.absent > 0 ? '+' : ''}
                               {changes.absent}
                             </span>
                           </div>
@@ -151,14 +151,14 @@ export function EditHistoryDisplay({
                               <TrendingDown className="h-3 w-3 text-red-600" />
                             )}
                             <span>
-                              Rate: {changes.rate > 0 ? '+' : ''}
+                              Kadar: {changes.rate > 0 ? '+' : ''}
                               {changes.rate.toFixed(1)}%
                             </span>
                           </div>
                         )}
                       </div>
                       <div className="text-xs text-muted-foreground pt-1 border-t border-border">
-                        Previous Rate: {edit.previousSummary.rate.toFixed(1)}%
+                        Kadar Sebelumnya: {edit.previousSummary.rate.toFixed(1)}%
                       </div>
                     </div>
                   )}

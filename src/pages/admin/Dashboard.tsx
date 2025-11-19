@@ -58,8 +58,13 @@ export function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="p-6" role="status" aria-live="polite" aria-label="Loading dashboard data">
-        <LoadingState message="Loading dashboard..." />
+      <div
+        className="p-6"
+        role="status"
+        aria-live="polite"
+        aria-label="Memuatkan data papan pemuka"
+      >
+        <LoadingState message="Memuatkan papan pemuka..." />
       </div>
     );
   }
@@ -70,10 +75,10 @@ export function AdminDashboard() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Admin Dashboard
+            Papan Pemuka Pentadbir
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            School-wide attendance overview and analytics
+            Gambaran keseluruhan dan analitik kehadiran seluruh sekolah
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -82,7 +87,7 @@ export function AdminDashboard() {
             onClick={refetch}
             variant="outline"
             size="sm"
-            aria-label="Refresh"
+            aria-label="Muat semula"
             className="h-9 w-9 p-0"
           >
             <RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
@@ -96,7 +101,7 @@ export function AdminDashboard() {
           <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/5 rounded-full -mr-10 -mt-10" />
           <div className="relative flex items-start justify-between">
             <div>
-              <p className="text-xs md:text-sm font-medium text-muted-foreground">Total Classes</p>
+              <p className="text-xs md:text-sm font-medium text-muted-foreground">Jumlah Kelas</p>
               <p className="text-2xl md:text-3xl font-bold mt-1">{stats.totalClasses}</p>
             </div>
             <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-purple-500/10 flex items-center justify-center">
@@ -109,7 +114,7 @@ export function AdminDashboard() {
           <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/5 rounded-full -mr-10 -mt-10" />
           <div className="relative flex items-start justify-between">
             <div>
-              <p className="text-xs md:text-sm font-medium text-muted-foreground">Total Students</p>
+              <p className="text-xs md:text-sm font-medium text-muted-foreground">Jumlah Murid</p>
               <p className="text-2xl md:text-3xl font-bold mt-1">{stats.totalStudents}</p>
             </div>
             <div className="h-10 w-10 md:h-12 md:w-12 rounded-lg bg-blue-500/10 flex items-center justify-center">
@@ -125,7 +130,7 @@ export function AdminDashboard() {
               ? 'from-green-50/70 via-green-50/30 dark:from-green-950/20 dark:via-green-950/10'
               : 'from-amber-50/70 via-amber-50/30 dark:from-amber-950/20 dark:via-amber-950/10'
           } to-background p-4 md:p-6 transition-all hover:shadow-lg hover:scale-[1.02] hover:border-primary cursor-pointer w-full text-left`}
-          aria-label={`View submission details. ${stats.todaySubmissions} out of ${stats.totalClasses} classes submitted today`}
+          aria-label={`Lihat butiran penyerahan. ${stats.todaySubmissions} daripada ${stats.totalClasses} kelas diserahkan hari ini`}
         >
           <div
             className={`absolute top-0 right-0 w-20 h-20 ${
@@ -136,13 +141,13 @@ export function AdminDashboard() {
           <div className="relative flex items-start justify-between">
             <div className="flex-1">
               <p className="text-xs md:text-sm font-medium text-muted-foreground flex items-center gap-2">
-                Submitted Today
+                Diserahkan Hari Ini
               </p>
               <p className="text-2xl md:text-3xl font-bold mt-1">
                 {stats.todaySubmissions}/{stats.totalClasses}
               </p>
               <p className="text-xs text-muted-foreground font-medium mt-2 flex items-center gap-1 group-hover:gap-2 transition-all">
-                <span>View details</span>
+                <span>Lihat butiran</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="14"
@@ -198,7 +203,7 @@ export function AdminDashboard() {
           />
           <div className="relative flex items-start justify-between">
             <div>
-              <p className="text-xs md:text-sm font-medium text-muted-foreground">Average Rate</p>
+              <p className="text-xs md:text-sm font-medium text-muted-foreground">Kadar Purata</p>
               <p className="text-2xl md:text-3xl font-bold mt-1">{stats.averageAttendance}%</p>
             </div>
             <div
@@ -240,7 +245,7 @@ export function AdminDashboard() {
             <div className="text-2xl md:text-3xl font-bold text-green-600 dark:text-green-400">
               {stats.presentToday}
             </div>
-            <div className="text-xs md:text-sm text-muted-foreground mt-1">Present</div>
+            <div className="text-xs md:text-sm text-muted-foreground mt-1">Hadir</div>
           </div>
         </div>
 
@@ -253,7 +258,7 @@ export function AdminDashboard() {
             <div className="text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-400">
               {stats.lateToday}
             </div>
-            <div className="text-xs md:text-sm text-muted-foreground mt-1">Late</div>
+            <div className="text-xs md:text-sm text-muted-foreground mt-1">Lewat</div>
           </div>
         </div>
 
@@ -266,7 +271,7 @@ export function AdminDashboard() {
             <div className="text-2xl md:text-3xl font-bold text-red-600 dark:text-red-400">
               {stats.absentToday}
             </div>
-            <div className="text-xs md:text-sm text-muted-foreground mt-1">Absent</div>
+            <div className="text-xs md:text-sm text-muted-foreground mt-1">Tidak Hadir</div>
           </div>
         </div>
       </div>
@@ -276,7 +281,7 @@ export function AdminDashboard() {
         <AttendanceChart
           data={chartData}
           type="area"
-          title="Attendance Trend"
+          title="Trend Kehadiran"
           description={dateRangeDescription}
         />
 

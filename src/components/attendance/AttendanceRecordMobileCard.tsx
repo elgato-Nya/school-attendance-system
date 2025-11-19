@@ -38,7 +38,7 @@ export function AttendanceRecordMobileCard({ record, onClick }: AttendanceRecord
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-0.5">
               <Calendar className="h-3 w-3" />
               <time dateTime={record.date}>
-                {parseDateString(record.date).toLocaleDateString('en-US', {
+                {parseDateString(record.date).toLocaleDateString('ms-MY', {
                   weekday: 'short',
                   month: 'short',
                   day: 'numeric',
@@ -48,7 +48,7 @@ export function AttendanceRecordMobileCard({ record, onClick }: AttendanceRecord
             <div className="flex items-center justify-between gap-2">
               <h3 className="font-semibold text-base">{record.className}</h3>
               <div className="flex items-center gap-1 text-primary">
-                <span className="text-xs">({record.records.length} students)</span>
+                <span className="text-xs">({record.records.length} murid)</span>
               </div>
             </div>
           </div>
@@ -56,14 +56,14 @@ export function AttendanceRecordMobileCard({ record, onClick }: AttendanceRecord
             <Badge
               variant="warning"
               className="flex items-center gap-1 text-xs px-2 py-0.5"
-              title={`Edited ${record.editHistory.length} time(s)`}
+              title={`Disunting ${record.editHistory.length} kali`}
             >
               <Edit className="h-3 w-3" />
-              Edited
+              Disunting
             </Badge>
           ) : (
             <Badge variant="outline" className="text-xs px-2 py-0.5">
-              Original
+              Asal
             </Badge>
           )}
         </div>
@@ -73,17 +73,17 @@ export function AttendanceRecordMobileCard({ record, onClick }: AttendanceRecord
           <div className="flex items-center gap-3 text-xs pl-2">
             <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
               <span className="font-medium">{record.summary.present}</span>
-              <span className="text-muted-foreground">Present</span>
+              <span className="text-muted-foreground">Hadir</span>
             </div>
             {record.summary.late > 0 && (
               <div className="flex items-center gap-1 text-yellow-600 dark:text-yellow-400">
                 <span className="font-medium">{record.summary.late}</span>
-                <span className="text-muted-foreground">Late</span>
+                <span className="text-muted-foreground">Lewat</span>
               </div>
             )}
             <div className="flex items-center gap-1 text-red-600 dark:text-red-400">
               <span className="font-medium">{record.summary.absent}</span>
-              <span className="text-muted-foreground">Absent</span>
+              <span className="text-muted-foreground">Tidak Hadir</span>
             </div>
           </div>
           <Badge
@@ -98,7 +98,7 @@ export function AttendanceRecordMobileCard({ record, onClick }: AttendanceRecord
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <User className="h-3 w-3" />
-            <span>Submitted by: {record.submittedByName}</span>
+            <span>Diserahkan oleh: {record.submittedByName}</span>
           </div>
         </div>
       </CardContent>

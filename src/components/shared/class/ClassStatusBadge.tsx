@@ -18,7 +18,7 @@ export function ClassStatusBadge({ submitted }: ClassStatusBadgeProps) {
       className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 flex items-center gap-1"
     >
       <CheckCircle2 className="h-3 w-3" />
-      Submitted
+      Diserahkan
     </Badge>
   );
 }

@@ -30,14 +30,14 @@ export function CalendarLegend() {
             <div className="p-1.5 rounded bg-primary/10" aria-hidden="true">
               <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
             </div>
-            <span>Color Legend</span>
+            <span>Legenda Warna</span>
           </CardTitle>
           <Collapsible open={isExpanded} onOpenChange={setIsExpanded} className="sm:hidden">
             <CollapsibleTrigger asChild>
               <Button
                 variant="ghost"
                 size="sm"
-                aria-label={isExpanded ? 'Collapse legend' : 'Expand legend'}
+                aria-label={isExpanded ? 'Kuncupkan legenda' : 'Kembangkan legenda'}
                 aria-expanded={isExpanded}
               >
                 {isExpanded ? (
@@ -52,38 +52,38 @@ export function CalendarLegend() {
       </CardHeader>
       <CardContent>
         {/* Mobile Compact View */}
-        <div className="sm:hidden" role="region" aria-label="Calendar legend">
+        <div className="sm:hidden" role="region" aria-label="Legenda kalendar">
           <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
             {/* Compact Preview - Only show when collapsed */}
             {!isExpanded && (
-              <div className="flex flex-wrap gap-2" aria-label="Quick legend preview">
+              <div className="flex flex-wrap gap-2" aria-label="Pratonton legenda pantas">
                 <div className="flex items-center gap-1.5 text-xs">
                   <div
                     className="w-4 h-4 rounded bg-[hsl(var(--success))]"
                     aria-hidden="true"
                   ></div>
-                  <span>Excellent</span>
+                  <span>Cemerlang</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs">
                   <div
                     className="w-4 h-4 rounded bg-[hsl(var(--warning))]"
                     aria-hidden="true"
                   ></div>
-                  <span>Good</span>
+                  <span>Baik</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs">
                   <div
                     className="w-4 h-4 rounded bg-[hsl(var(--poor-attendance))]"
                     aria-hidden="true"
                   ></div>
-                  <span>Poor</span>
+                  <span>Lemah</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs">
                   <div
                     className="w-4 h-4 rounded bg-[hsl(var(--holiday-public))]"
                     aria-hidden="true"
                   ></div>
-                  <span>Holiday</span>
+                  <span>Cuti</span>
                 </div>
               </div>
             )}
@@ -97,7 +97,7 @@ export function CalendarLegend() {
                     id="attendance-legend"
                     className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
                   >
-                    Attendance
+                    Kehadiran
                   </h3>
                   <ul className="space-y-2" role="list">
                     <li className="flex items-center gap-2">
@@ -107,7 +107,7 @@ export function CalendarLegend() {
                       >
                         <TrendingUp className="h-3 w-3 text-[hsl(var(--success-foreground))]" />
                       </div>
-                      <span className="text-sm">≥95% (Excellent)</span>
+                      <span className="text-sm">≥95% (Cemerlang)</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <div
@@ -116,7 +116,7 @@ export function CalendarLegend() {
                       >
                         <TrendingUp className="h-3 w-3 text-[hsl(var(--warning-foreground))]" />
                       </div>
-                      <span className="text-sm">85-95% (Good)</span>
+                      <span className="text-sm">85-95% (Baik)</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <div
@@ -125,7 +125,7 @@ export function CalendarLegend() {
                       >
                         <AlertCircle className="h-3 w-3 text-[hsl(var(--poor-attendance-foreground))]" />
                       </div>
-                      <span className="text-sm">&lt;85% (Needs Attention)</span>
+                      <span className="text-sm">&lt;85% (Perlu Perhatian)</span>
                     </li>
                   </ul>
                 </section>
@@ -136,7 +136,7 @@ export function CalendarLegend() {
                     id="holidays-legend"
                     className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
                   >
-                    Holidays
+                    Cuti
                   </h3>
                   <ul className="space-y-2" role="list">
                     <li className="flex items-center gap-2">
@@ -146,7 +146,7 @@ export function CalendarLegend() {
                       >
                         <Flag className="h-3 w-3 text-primary-foreground" />
                       </div>
-                      <span className="text-sm">Public Holiday</span>
+                      <span className="text-sm">Cuti Umum</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <div
@@ -155,7 +155,7 @@ export function CalendarLegend() {
                       >
                         <School className="h-3 w-3 text-primary-foreground" />
                       </div>
-                      <span className="text-sm">School Holiday</span>
+                      <span className="text-sm">Cuti Sekolah</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <div
@@ -164,7 +164,7 @@ export function CalendarLegend() {
                       >
                         <PartyPopper className="h-3 w-3 text-primary-foreground" />
                       </div>
-                      <span className="text-sm">School Event</span>
+                      <span className="text-sm">Acara Sekolah</span>
                     </li>
                   </ul>
                 </section>
@@ -176,7 +176,7 @@ export function CalendarLegend() {
                       id="other-legend"
                       className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
                     >
-                      Other
+                      Lain-lain
                     </h3>
                     <ul className="space-y-2" role="list">
                       <li className="flex items-center gap-2">
@@ -184,14 +184,14 @@ export function CalendarLegend() {
                           className="w-5 h-5 rounded bg-[hsl(var(--muted))]"
                           aria-hidden="true"
                         ></div>
-                        <span className="text-sm">Weekend</span>
+                        <span className="text-sm">Hujung Minggu</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <div
                           className="w-5 h-5 rounded border-2 border-[hsl(var(--border))] bg-[hsl(var(--background))]"
                           aria-hidden="true"
                         ></div>
-                        <span className="text-sm">No Data</span>
+                        <span className="text-sm">Tiada Data</span>
                       </li>
                     </ul>
                   </section>
@@ -200,11 +200,11 @@ export function CalendarLegend() {
                       id="tips-legend"
                       className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
                     >
-                      Tips
+                      Petua
                     </h3>
                     <ul className="text-xs text-muted-foreground space-y-1" role="list">
-                      <li>• Click date for details</li>
-                      <li>• Hover for quick info</li>
+                      <li>• Klik tarikh untuk butiran</li>
+                      <li>• Tunjuk untuk info pantas</li>
                     </ul>
                   </section>
                 </div>
@@ -214,7 +214,7 @@ export function CalendarLegend() {
         </div>
 
         {/* Desktop Full View */}
-        <nav className="hidden sm:block" role="region" aria-label="Calendar color legend">
+        <nav className="hidden sm:block" role="region" aria-label="Legenda warna kalendar">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 max-w-[1200px]">
             {/* Attendance Rates */}
             <section aria-labelledby="desktop-attendance-legend">
@@ -222,47 +222,47 @@ export function CalendarLegend() {
                 id="desktop-attendance-legend"
                 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
               >
-                Attendance
+                Kehadiran
               </h3>
               <ul className="space-y-2" role="list">
                 <li className="flex items-center gap-2">
                   <div
                     className="w-6 h-6 rounded flex items-center justify-center bg-[hsl(var(--success))] shadow-sm"
                     role="img"
-                    aria-label="Green indicator"
+                    aria-label="Petunjuk hijau"
                   >
                     <TrendingUp
                       className="h-3.5 w-3.5 text-[hsl(var(--success-foreground))]"
                       aria-hidden="true"
                     />
                   </div>
-                  <span className="text-sm">≥95% (Excellent)</span>
+                  <span className="text-sm">≥95% (Cemerlang)</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <div
                     className="w-6 h-6 rounded flex items-center justify-center bg-[hsl(var(--warning))] shadow-sm"
                     role="img"
-                    aria-label="Yellow indicator"
+                    aria-label="Petunjuk kuning"
                   >
                     <TrendingUp
                       className="h-3.5 w-3.5 text-[hsl(var(--warning-foreground))]"
                       aria-hidden="true"
                     />
                   </div>
-                  <span className="text-sm">85-95% (Good)</span>
+                  <span className="text-sm">85-95% (Baik)</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <div
                     className="w-6 h-6 rounded flex items-center justify-center bg-[hsl(var(--poor-attendance))] shadow-sm"
                     role="img"
-                    aria-label="Dark indicator"
+                    aria-label="Petunjuk gelap"
                   >
                     <AlertCircle
                       className="h-3.5 w-3.5 text-[hsl(var(--poor-attendance-foreground))]"
                       aria-hidden="true"
                     />
                   </div>
-                  <span className="text-sm">&lt;85% (Needs Attention)</span>
+                  <span className="text-sm">&lt;85% (Perlu Perhatian)</span>
                 </li>
               </ul>
             </section>
@@ -273,41 +273,41 @@ export function CalendarLegend() {
                 id="desktop-holidays-legend"
                 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
               >
-                Holidays
+                Cuti
               </h3>
               <ul className="space-y-2" role="list">
                 <li className="flex items-center gap-2">
                   <div
                     className="w-6 h-6 rounded flex items-center justify-center bg-[hsl(var(--holiday-public))] shadow-sm"
                     role="img"
-                    aria-label="Red indicator"
+                    aria-label="Petunjuk merah"
                   >
                     <Flag className="h-3.5 w-3.5 text-primary-foreground" aria-hidden="true" />
                   </div>
-                  <span className="text-sm">Public Holiday</span>
+                  <span className="text-sm">Cuti Umum</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <div
                     className="w-6 h-6 rounded flex items-center justify-center bg-[hsl(var(--holiday-school))] shadow-sm"
                     role="img"
-                    aria-label="Blue indicator"
+                    aria-label="Petunjuk biru"
                   >
                     <School className="h-3.5 w-3.5 text-primary-foreground" aria-hidden="true" />
                   </div>
-                  <span className="text-sm">School Holiday</span>
+                  <span className="text-sm">Cuti Sekolah</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <div
                     className="w-6 h-6 rounded flex items-center justify-center bg-[hsl(var(--holiday-event))] shadow-sm"
                     role="img"
-                    aria-label="Purple indicator"
+                    aria-label="Petunjuk ungu"
                   >
                     <PartyPopper
                       className="h-3.5 w-3.5 text-primary-foreground"
                       aria-hidden="true"
                     />
                   </div>
-                  <span className="text-sm">School Event</span>
+                  <span className="text-sm">Acara Sekolah</span>
                 </li>
               </ul>
             </section>
@@ -318,24 +318,24 @@ export function CalendarLegend() {
                 id="desktop-other-legend"
                 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
               >
-                Other
+                Lain-lain
               </h3>
               <ul className="space-y-2" role="list">
                 <li className="flex items-center gap-2">
                   <div
                     className="w-6 h-6 rounded bg-[hsl(var(--muted))] shadow-sm"
                     role="img"
-                    aria-label="Gray indicator"
+                    aria-label="Petunjuk kelabu"
                   ></div>
-                  <span className="text-sm">Weekend</span>
+                  <span className="text-sm">Hujung Minggu</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <div
                     className="w-6 h-6 rounded border-2 border-[hsl(var(--border))] bg-[hsl(var(--background))]"
                     role="img"
-                    aria-label="Empty box indicator"
+                    aria-label="Petunjuk kotak kosong"
                   ></div>
-                  <span className="text-sm">No Data</span>
+                  <span className="text-sm">Tiada Data</span>
                 </li>
               </ul>
             </section>
@@ -346,12 +346,12 @@ export function CalendarLegend() {
                 id="desktop-instructions-legend"
                 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2"
               >
-                Instructions
+                Arahan
               </h3>
               <ul className="text-sm text-muted-foreground space-y-1" role="list">
-                <li>• Click any date to view details</li>
-                <li>• Hover for quick info</li>
-                <li>• Use date range for reports</li>
+                <li>• Klik mana-mana tarikh untuk lihat butiran</li>
+                <li>• Tunjuk untuk info pantas</li>
+                <li>• Guna julat tarikh untuk laporan</li>
               </ul>
             </section>
           </div>
