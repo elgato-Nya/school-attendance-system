@@ -22,7 +22,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { format, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { Users, CheckCircle2, XCircle, Clock } from 'lucide-react';
 import type { Class } from '@/types';
 
