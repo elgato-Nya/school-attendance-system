@@ -3,7 +3,7 @@
  * Professional footer with school information and system details
  */
 
-import { Heart, MapPin, Phone, Mail, ExternalLink } from 'lucide-react';
+import { MapPin, Phone, Mail, ExternalLink } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 export function Footer() {
